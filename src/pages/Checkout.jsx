@@ -15,7 +15,7 @@ import { useTicketBuyingProcess } from "../store/TicketBuyingProcess.jsx";
 const Checkout = () => {
   const {
     tempSelectedTicket,
-    setTempSelectedTicket,
+    updateTempSelectedTicket,
     ticketBuyingStatus,
     setTicketStatus,
   } = useTicketBuyingProcess();
@@ -78,7 +78,7 @@ const Checkout = () => {
               changeTicket={
                 <button
                   onClick={() => {
-                    setTempSelectedTicket(null);
+                    updateTempSelectedTicket(null);
                     navigate("/flights");
                   }}
                   className='px-6 py-1.5 md:px-8 lg:py-2 bg-primary text-white text-nowrap cursor-pointer rounded-md transition-all text-sm'

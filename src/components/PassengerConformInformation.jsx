@@ -6,41 +6,39 @@ import { DateObject } from "react-multi-date-picker";
 const PassengerConformInformation = () => {
   const {
     passengersInformation,
-    updatePassengersInformation,
     updateTicketBuyingStatus,
     tempSelectedTicket,
     updateTempSelectedTicket,
   } = useTicketBuyingProcess();
   const navigate = useNavigate();
+  const [passengerDetails, setPassengerDetails] = useState([]);
 
-  // useEffect(() => {
-  //   if (passengersInformation.length === 0) navigate("/");
-  // }, [passengersInformation]);
+  useEffect(() => {
+    if (!tempSelectedTicket || passengersInformation.length === 0)
+      return navigate("/");
+  }, [passengersInformation, tempSelectedTicket]);
   let totalPrice =
     tempSelectedTicket.price * tempSelectedTicket.passengers.adults +
     tempSelectedTicket.childrenPrice * tempSelectedTicket.passengers.children +
     tempSelectedTicket.childrenPrice * tempSelectedTicket.passengers.baby;
-
+  // console.log(passengersInformation);
   const handlePayment = () => {
-    if (passengersInformation.length > 0) {
-      updateTicketBuyingStatus("paymentSuccess");
+    const phoneNumber =
+      passengersInformation[passengersInformation.length - 1]
+        .phoneInformation_phone;
+    const reservationNumber = Math.floor(1000000 + Math.random() * 9000000);
+    const ticketNumber = Math.floor(1000000 + Math.random() * 9000000);
+    const PaymentTime = new DateObject().format("HH : MM");
 
-      const phoneNumber =
-        passengersInformation[passengersInformation.length - 1]
-          .phoneInformation_phone;
-      const reservationNumber = Math.floor(1000000 + Math.random() * 9000000);
-      const ticketNumber = Math.floor(1000000 + Math.random() * 9000000);
-      const PaymentTime = new DateObject().format("HH : MM");
-
-      updateTempSelectedTicket((perv) => {
-        return {
-          ...perv,
-          reservationNumber,
-          ticketNumber,
-          PaymentTime,
-          phoneNumber,
-        };
+    if (phoneNumber && reservationNumber && ticketNumber && PaymentTime) {
+      updateTempSelectedTicket({
+        ...tempSelectedTicket,
+        reservationNumber,
+        ticketNumber,
+        PaymentTime,
+        phoneNumber,
       });
+      updateTicketBuyingStatus("paymentSuccess");
     }
   };
   return (
@@ -58,54 +56,57 @@ const PassengerConformInformation = () => {
         <span className='bg-gray3 h-0.5 w-full block'></span>
         {/* passengers information */}
         <div className='space-y-10'>
-          {passengersInformation.splice(-1).map((passenger, index) => (
-            <div className='space-y-4' key={index}>
-              <div className='flex gap-3 items-center'>
-                <UserIcon classes=' w-5 h-5 md:h-7 md:w-7' />
-                <div className='flex flex-col gap-1 text-sm md:text-base'>
-                  {/* <span className=''>
+          {passengersInformation.length > 0 &&
+            passengersInformation?.map((passenger, index) => (
+              <div className='space-y-4' key={index}>
+                <div className='flex gap-3 items-center'>
+                  <UserIcon classes=' w-5 h-5 md:h-7 md:w-7' />
+                  <div className='flex flex-col gap-1 text-sm md:text-base'>
+                    {/* <span className=''>
                   </span> */}
-                  <span className='text-gray7 font-IRANSansXBold text-left '>
-                    {passenger.gender === "مرد" ? "Mr." : "Miss."}{" "}
-                    {passenger.firstName}
-                  </span>
+                    <span className='text-gray7 font-IRANSansXBold text-left '>
+                      {passenger.gender === "مرد" ? "Mr." : "Miss."}{" "}
+                      {passenger.firstName}
+                    </span>
+                  </div>
+                </div>
+                <div className='flex items-center gap-3 md:gap-6 flex-wrap text-sm md:text-base'>
+                  <div className='flex items-center gap-2 '>
+                    <span className='text-xs md:text-sm'>رده سنی:</span>
+                    <span className='font-IRANSansXMedium'>
+                      {passenger.age}
+                    </span>
+                  </div>
+                  <div className='flex items-center gap-2'>
+                    <span className='text-xs md:text-sm'>تاریخ تولد:</span>
+                    <span className='font-IRANSansXMedium'>
+                      {passenger.dateOfBirth}
+                    </span>
+                  </div>
+                  <div className='flex items-center gap-2'>
+                    <span className='text-xs md:text-sm'>کدملی:</span>
+                    <span className='font-IRANSansXMedium'>
+                      {passenger.nationalCode}
+                    </span>
+                  </div>
+                  <div className='flex items-center gap-2'>
+                    <span className='text-xs md:text-sm'>شماره پاسپورت:</span>
+                    <span className='font-IRANSansXMedium'>
+                      {passenger.passPortNumber}
+                    </span>
+                  </div>
+                  <div className='flex items-center gap-2'>
+                    <span className='text-xs md:text-sm'>قیمت بلیط:</span>
+                    <span className='font-IRANSansXMedium'>
+                      {passenger.age === "بزرگسال"
+                        ? tempSelectedTicket.price.toLocaleString()
+                        : tempSelectedTicket.childrenPrice.toLocaleString()}
+                      تومان
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div className='flex items-center gap-3 md:gap-6 flex-wrap text-sm md:text-base'>
-                <div className='flex items-center gap-2 '>
-                  <span className='text-xs md:text-sm'>رده سنی:</span>
-                  <span className='font-IRANSansXMedium'>{passenger.age}</span>
-                </div>
-                <div className='flex items-center gap-2'>
-                  <span className='text-xs md:text-sm'>تاریخ تولد:</span>
-                  <span className='font-IRANSansXMedium'>
-                    {passenger.dateOfBirth}
-                  </span>
-                </div>
-                <div className='flex items-center gap-2'>
-                  <span className='text-xs md:text-sm'>کدملی:</span>
-                  <span className='font-IRANSansXMedium'>
-                    {passenger.nationalCode}
-                  </span>
-                </div>
-                <div className='flex items-center gap-2'>
-                  <span className='text-xs md:text-sm'>شماره پاسپورت:</span>
-                  <span className='font-IRANSansXMedium'>
-                    {passenger.passPortNumber}
-                  </span>
-                </div>
-                <div className='flex items-center gap-2'>
-                  <span className='text-xs md:text-sm'>قیمت بلیط:</span>
-                  <span className='font-IRANSansXMedium'>
-                    {passenger.age === "بزرگسال"
-                      ? tempSelectedTicket.price.toLocaleString()
-                      : tempSelectedTicket.childrenPrice.toLocaleString()}
-                    تومان
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
         <span className='bg-gray3 h-0.5 w-full block'></span>
         <div className='space-y-4'>
@@ -133,7 +134,6 @@ const PassengerConformInformation = () => {
             <span
               onClick={() => {
                 updateTicketBuyingStatus("information");
-                updatePassengersInformation(null);
               }}
               className='flex items-center gap-2 font-IRANSansXMedium text-primary text-sm cursor-pointer'
             >

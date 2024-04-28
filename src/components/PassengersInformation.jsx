@@ -27,7 +27,6 @@ function convertObjectToArray(inputObject) {
   if (counter > 0) {
     resultArray.push(tempObject);
   }
-  console.log(resultArray);
   return resultArray;
 }
 const PassengersInformation = () => {
@@ -35,15 +34,9 @@ const PassengersInformation = () => {
     updatePassengersInformation,
     updateTicketBuyingStatus,
     tempSelectedTicket,
+    updateContactInformation,
   } = useTicketBuyingProcess();
-  // const changeInputHandler = (event, identifier) => {
-  //   setPassengerEmailPhone((prev) => {
-  //     return {
-  //       ...prev,
-  //       [identifier]: event.target.value,
-  //     };
-  //   });
-  // };
+
   const {
     register,
     handleSubmit,
@@ -52,20 +45,18 @@ const PassengersInformation = () => {
     formState: { errors, isSubmitting, isValid },
   } = useForm();
 
-  let result;
   const handleSentFormData = (data, e) => {
-    sendData(data);
-    console.log(data, e);
-    if (isValid) {
-      // set all result objects but last one
+    let result = convertObjectToArray(data);
+    const contactInfo = result.splice(-1);
+    // console.log(result);
+    // console.log(contactInfo);
+    if (isValid && result.length > 0) {
+      updatePassengersInformation(result);
+      updateContactInformation(contactInfo);
+      updateTicketBuyingStatus("conformation");
     }
   };
-  const sendData = (data) => {
-    result = convertObjectToArray(data);
-    console.log(result);
-    updatePassengersInformation(result);
-    updateTicketBuyingStatus("conformation");
-  };
+
   return (
     <form onSubmit={handleSubmit(handleSentFormData)} className='space-y-10'>
       <div className='border border-gray3 rounded-lg p-3 xs:p-6 '>

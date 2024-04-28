@@ -1,24 +1,18 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
+import { createContext, useContext, useReducer } from "react";
 
-const TicketBuyingProcess = createContext({});
+const TicketBuyingProcess = createContext({
+  //   passengersInformation: null,
+  //   tempSelectedTicket: null,
+  //   ticketBuyingStatus: null,
+  //   updatePassengersInformation: null,
+  //   updateTempSelectedTicket: null,
+  //   updateTicketBuyingStatus: null,
+});
 
 export const useTicketBuyingProcess = () => {
   return useContext(TicketBuyingProcess);
 };
 const ticketStatusReducer = (state, action) => {
-  console.log(
-    "ticketStatusReducer called with state:",
-    state,
-    "and action:",
-    action
-  );
-
   switch (action.type) {
     case "updatePassengersInformation":
       return {
@@ -37,81 +31,25 @@ const ticketStatusReducer = (state, action) => {
         ...state,
         ticketBuyingStatus: action.data,
       };
+    case "updateContactInformation":
+      return {
+        ...state,
+        contactInformation: action.data,
+      };
+    default:
+      return state;
   }
 };
 const TicketBuyingProcessProvider = ({ children }) => {
-  //   const [passengersInformation, setPassengersInformation] = useState(null);
-  //   const [tempSelectedTicket, setTempSelectedTicket] = useState({
-  //     "id": "t1",
-  //     "price": 1200000,
-  //     "compony": "زاگرس",
-  //     "sitLeft": 16,
-  //     "takeOff": "19:30",
-  //     "isPopular": false,
-  //     "middleStop": true,
-  //     "returnable": false,
-  //     "sourceCity": "تهران",
-  //     "travelTime": "03:30",
-  //     "landingTime": "22:40",
-  //     "ticketLevel": "اکونومی",
-  //     "componyImage": "/images/companies/zakros.png",
-  //     "flightNumber": 122434,
-  //     "childrenPrice": 900000,
-  //     "sourceAirport": "Tehran Airport",
-  //     "destinationCity": "مشهد",
-  //     "destinationAirport": "Mashhad Airport",
-  //     "passengers": {
-  //       "adults": 1,
-  //       "children": 0,
-  //       "baby": 0,
-  //     },
-  //     "sitType": "اکونومی",
-  //     "date": "۹ اردیبهشت ۱۴۰۳",
-  //   });
-  //   const [ticketBuyingStatus, setTicketStatus] = useState("information");
-
   const [ticketStatus, dispatchTicketDispatch] = useReducer(
     ticketStatusReducer,
     {
       passengersInformation: [],
-      tempSelectedTicket: {
-        "id": "t1",
-        "price": 1200000,
-        "compony": "زاگرس",
-        "sitLeft": 16,
-        "takeOff": "19:30",
-        "isPopular": false,
-        "middleStop": true,
-        "returnable": false,
-        "sourceCity": "تهران",
-        "travelTime": "03:30",
-        "landingTime": "22:40",
-        "ticketLevel": "اکونومی",
-        "componyImage": "/images/companies/zakros.png",
-        "flightNumber": 122434,
-        "childrenPrice": 900000,
-        "sourceAirport": "Tehran Airport",
-        "destinationCity": "مشهد",
-        "destinationAirport": "Mashhad Airport",
-        "passengers": {
-          "adults": 1,
-          "children": 0,
-          "baby": 0,
-        },
-        "sitType": "اکونومی",
-        "date": "۹ اردیبهشت ۱۴۰۳",
-      },
+      tempSelectedTicket: {},
+      contactInformation: {},
       ticketBuyingStatus: "information",
     }
   );
-
-  useEffect(() => {
-    console.log("Rerender========");
-  }, []);
-
-  useEffect(() => {
-    console.log("passenger changed =====>", ticketStatus.passengersInformation);
-  }, [ticketStatus.passengersInformation]);
 
   const updatePassengersInformation = (data) => {
     dispatchTicketDispatch({ type: "updatePassengersInformation", data });
@@ -119,17 +57,21 @@ const TicketBuyingProcessProvider = ({ children }) => {
   const updateTempSelectedTicket = (data) => {
     dispatchTicketDispatch({ type: "updateTempSelectedTicket", data });
   };
-
   const updateTicketBuyingStatus = (data) => {
     dispatchTicketDispatch({ type: "updateTicketBuyingStatus", data });
+  };
+  const updateContactInformation = (data) => {
+    dispatchTicketDispatch({ type: "updateContactInformation", data });
   };
   const values = {
     passengersInformation: ticketStatus.passengersInformation,
     tempSelectedTicket: ticketStatus.tempSelectedTicket,
     ticketBuyingStatus: ticketStatus.ticketBuyingStatus,
+    contactInformation: ticketStatus.contactInformation,
     updatePassengersInformation,
     updateTempSelectedTicket,
     updateTicketBuyingStatus,
+    updateContactInformation,
   };
   return (
     <TicketBuyingProcess.Provider value={values}>

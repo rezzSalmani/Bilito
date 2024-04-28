@@ -9,7 +9,7 @@ const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log(event, session);
+      // console.log(event, session);
       if (event === "INITIAL_SESSION") {
         // handle initial session
       } else if (event === "SIGNED_IN") {

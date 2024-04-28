@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AirPlane,
   AirPlaneWithLines,
@@ -14,10 +14,15 @@ import {
 import { Document, Page, View, Text } from "@react-pdf/renderer";
 import { useFindTicketContext } from "../store/findTicketContext";
 import { useTicketBuyingProcess } from "../store/TicketBuyingProcess";
+import { useNavigate } from "react-router-dom";
 
 const PaymentConformation = () => {
   const [showDetails, setShowDetails] = useState(false);
   const { tempSelectedTicket } = useTicketBuyingProcess();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!tempSelectedTicket) return navigate("/");
+  }, []);
 
   const totalPrice =
     tempSelectedTicket.price * tempSelectedTicket.passengers.adults +

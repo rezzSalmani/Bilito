@@ -22,7 +22,7 @@ const TicketDetailItem = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const { sitType, date, passengers } = useFindTicketContext();
-  const { setTempSelectedTicket } = useTicketBuyingProcess();
+  const { updateTempSelectedTicket } = useTicketBuyingProcess();
   const navigate = useNavigate();
   function closeModal() {
     setIsModalOpen(false);
@@ -69,7 +69,7 @@ const TicketDetailItem = ({
     if (!currentUser) {
       return toast.error("لطفا ابتدا ثبت نام کنید.");
     }
-    setTempSelectedTicket({
+    updateTempSelectedTicket({
       ...detail,
       passengers,
       sitType,
