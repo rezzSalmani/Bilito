@@ -2,7 +2,7 @@ import React, { useState, createContext, useContext, useEffect } from "react";
 import { TICKET_DATA } from "../ticketsData";
 import { supabase } from "../supabaseClient";
 
-const findTicketContext = createContext({
+const FindTicketContext = createContext({
   ticketRegion: "",
   ticketType: "",
   from: "",
@@ -21,7 +21,7 @@ const findTicketContext = createContext({
   setFilteredTickets: () => {},
 });
 export const useFindTicketContext = () => {
-  return useContext(findTicketContext);
+  return useContext(FindTicketContext);
 };
 const FindTicketContextProvider = ({ children }) => {
   const [searchFlightParameters, setSearchFlightParameters] = useState({
@@ -39,14 +39,13 @@ const FindTicketContextProvider = ({ children }) => {
   });
   const [searchedTickets, setSearchedTickets] = useState([]);
   const [filteredTickets, setFilteredTickets] = useState([]);
-  const [tempSelectedTicket, setTempSelectedTicket] = useState();
-  const [passengersInformation, setPassengersInformation] = useState([]);
-  const [ticketBuyingStatus, setTicketStatus] = useState("information");
+
   const getTickets = async () => {
     let { data, error } = await supabase
       .from("FlightTickets")
       .select("*")
       .eq("region", searchFlightParameters.ticketRegion);
+    if (error) return error;
     return data;
   };
 
@@ -171,9 +170,6 @@ const FindTicketContextProvider = ({ children }) => {
       return true;
     }
   };
-  const updateTempSelectedTicket = (ticketData) => {
-    setTempSelectedTicket(ticketData);
-  };
 
   const sendAndValidateUserInformation = () => {};
   const value = {
@@ -195,18 +191,11 @@ const FindTicketContextProvider = ({ children }) => {
     updateSearchFlightPassengersParameters,
     filteredTickets,
     setFilteredTickets,
-    tempSelectedTicket,
-    updateTempSelectedTicket,
-    ticketBuyingStatus,
-    setTicketStatus,
-    passengersInformation,
-    setPassengersInformation,
-    setTempSelectedTicket,
   };
   return (
-    <findTicketContext.Provider value={value}>
+    <FindTicketContext.Provider value={value}>
       {children}
-    </findTicketContext.Provider>
+    </FindTicketContext.Provider>
   );
 };
 

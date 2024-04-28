@@ -8,6 +8,7 @@ import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import FindTicketContextProvider from "./store/findTicketContext";
 import AuthContextProvider from "./store/authContext";
+import TicketBuyingProcessProvider from "./store/TicketBuyingProcess";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -44,7 +45,9 @@ function App() {
   return (
     <AuthContextProvider>
       <FindTicketContextProvider>
-        <RouterProvider router={router}></RouterProvider>
+        <TicketBuyingProcessProvider>
+          <RouterProvider router={router}></RouterProvider>
+        </TicketBuyingProcessProvider>
       </FindTicketContextProvider>
     </AuthContextProvider>
   );

@@ -12,6 +12,7 @@ import { useAuthContext } from "../../store/authContext";
 import toast from "react-hot-toast";
 import { useFindTicketContext } from "../../store/findTicketContext";
 import { useNavigate } from "react-router-dom";
+import { useTicketBuyingProcess } from "../../store/TicketBuyingProcess";
 
 const TicketDetailItem = ({
   detail,
@@ -20,8 +21,8 @@ const TicketDetailItem = ({
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-  const { sitType, date, passengers, updateTempSelectedTicket } =
-    useFindTicketContext();
+  const { sitType, date, passengers } = useFindTicketContext();
+  const { setTempSelectedTicket } = useTicketBuyingProcess();
   const navigate = useNavigate();
   function closeModal() {
     setIsModalOpen(false);
@@ -68,7 +69,7 @@ const TicketDetailItem = ({
     if (!currentUser) {
       return toast.error("لطفا ابتدا ثبت نام کنید.");
     }
-    updateTempSelectedTicket({
+    setTempSelectedTicket({
       ...detail,
       passengers,
       sitType,

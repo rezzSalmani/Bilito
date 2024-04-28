@@ -3,23 +3,47 @@ import PassengerDetail from "./passengerDetail/PassengerDetail";
 import CustomInput from "./UI/CustomInput";
 import { useFindTicketContext } from "../store/findTicketContext";
 import { useForm } from "react-hook-form";
-const PassengersInformation = () => {
-  const [passengerEmailPhone, setPassengerEmailPhone] = useState({
-    email: "",
-    phone: "",
-  });
-  const [isFocused, setIsFocused] = useState(false);
-  const { tempSelectedTicket, setTicketStatus, setPassengersInformation } =
-    useFindTicketContext();
+import { useTicketBuyingProcess } from "../store/TicketBuyingProcess";
 
-  const changeInputHandler = (event, identifier) => {
-    setPassengerEmailPhone((prev) => {
-      return {
-        ...prev,
-        [identifier]: event.target.value,
-      };
-    });
-  };
+function convertObjectToArray(inputObject) {
+  const resultArray = [];
+  let tempObject = {};
+  let counter = 0;
+
+  for (const key in inputObject) {
+    // Remove the key name until the second _ and keep the rest
+    const keyParts = key.split("_");
+    const newKey = keyParts.splice(keyParts.length > 2 ? 2 : 0).join("_");
+    tempObject[newKey] = inputObject[key];
+    counter++;
+
+    if (counter === 9) {
+      resultArray.push(tempObject);
+      tempObject = {};
+      counter = 0;
+    }
+  }
+  // In case the last object has less than 8 properties
+  if (counter > 0) {
+    resultArray.push(tempObject);
+  }
+  console.log(resultArray);
+  return resultArray;
+}
+const PassengersInformation = () => {
+  const {
+    updatePassengersInformation,
+    updateTicketBuyingStatus,
+    tempSelectedTicket,
+  } = useTicketBuyingProcess();
+  // const changeInputHandler = (event, identifier) => {
+  //   setPassengerEmailPhone((prev) => {
+  //     return {
+  //       ...prev,
+  //       [identifier]: event.target.value,
+  //     };
+  //   });
+  // };
   const {
     register,
     handleSubmit,
@@ -28,49 +52,22 @@ const PassengersInformation = () => {
     formState: { errors, isSubmitting, isValid },
   } = useForm();
 
-  function convertObjectToArray(inputObject) {
-    const resultArray = [];
-    let tempObject = {};
-    let counter = 0;
-
-    for (const key in inputObject) {
-      // Remove the key name until the second _ and keep the rest
-      const keyParts = key.split("_");
-      const newKey = keyParts.splice(keyParts.length > 2 ? 2 : 0).join("_");
-      tempObject[newKey] = inputObject[key];
-      counter++;
-
-      if (counter === 9) {
-        resultArray.push(tempObject);
-        tempObject = {};
-        counter = 0;
-      }
-    }
-
-    // In case the last object has less than 8 properties
-    if (counter > 0) {
-      resultArray.push(tempObject);
-    }
-
-    return resultArray;
-  }
-  const handleSentFormData = (data) => {
-    console.log(data);
-    let result = convertObjectToArray(data);
-    console.log(result);
-
+  let result;
+  const handleSentFormData = (data, e) => {
+    sendData(data);
+    console.log(data, e);
     if (isValid) {
-      setTicketStatus("conformation");
       // set all result objects but last one
-      setPassengersInformation(result.slice(0, result.length - 1));
     }
   };
-  const onError = (errors, e) => console.log(errors, e);
+  const sendData = (data) => {
+    result = convertObjectToArray(data);
+    console.log(result);
+    updatePassengersInformation(result);
+    updateTicketBuyingStatus("conformation");
+  };
   return (
-    <form
-      onSubmit={handleSubmit(handleSentFormData, onError)}
-      className='space-y-10'
-    >
+    <form onSubmit={handleSubmit(handleSentFormData)} className='space-y-10'>
       <div className='border border-gray3 rounded-lg p-3 xs:p-6 '>
         <div className='flex items-center justify-between w-full '>
           <h6 className='text-sm xs:text-base font-IRANSansXBold'>
@@ -163,7 +160,7 @@ const PassengersInformation = () => {
         {/* continue */}
         <button
           type='submit'
-          disabled={isSubmitting}
+          // disabled={isSubmitting}
           className={`w-full xs:w-1/2  text-white md:w-1/3 rounded-lg  h-10 ${
             isValid ? "bg-primary" : "bg-tint5"
           }`}

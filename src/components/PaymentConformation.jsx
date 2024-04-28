@@ -13,9 +13,12 @@ import {
 } from "./UI/icons";
 import { Document, Page, View, Text } from "@react-pdf/renderer";
 import { useFindTicketContext } from "../store/findTicketContext";
+import { useTicketBuyingProcess } from "../store/TicketBuyingProcess";
+
 const PaymentConformation = () => {
   const [showDetails, setShowDetails] = useState(false);
-  const { tempSelectedTicket } = useFindTicketContext();
+  const { tempSelectedTicket } = useTicketBuyingProcess();
+
   const totalPrice =
     tempSelectedTicket.price * tempSelectedTicket.passengers.adults +
     tempSelectedTicket.childrenPrice * tempSelectedTicket.passengers.children +
@@ -130,12 +133,14 @@ const PaymentConformation = () => {
           <div className='flex items-center justify-center md:justify-start flex-wrap pr-4 lg:pr-14 gap-3 xs:gap-4 border-b border-gray2 h-full w-full text-center md:text-right'>
             <div className='child:block '>
               <span className='text-gray7'>شماره رزرو</span>
-              <span className='text-gray9 font-IRANSansXMedium'> 123456</span>
+              <span className='text-gray9 font-IRANSansXMedium'>
+                {tempSelectedTicket?.reservationNumber || "000000"}
+              </span>
             </div>
             <div className='child:block '>
               <span className='text-gray7'>شماره بلیط</span>
               <span className='text-gray9 font-IRANSansXMedium'>
-                123456789123
+                {tempSelectedTicket?.ticketNumber || "000000"}
               </span>
             </div>
             <div className='child:block '>

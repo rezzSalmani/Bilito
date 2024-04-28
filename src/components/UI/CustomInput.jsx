@@ -52,11 +52,13 @@ const CustomInput = ({
           type={inputType}
           className='float-field py-4 outline-none border-none w-full bg-white'
           onFocus={handleFocus}
-          // onBlur={onBlur}
-          // value={value}
           name={inputName}
           // onChange={() => onChange(event, `${identifier}`)}
-          {...register(`${inputIdentifier}_${identifier}`, validation)}
+          {...register(
+            `${inputIdentifier}_${identifier}`,
+            { value: Math.floor(Math.random() * 10000).toFixed(0) },
+            validation
+          )}
         />
         <label
           htmlFor={inputName}

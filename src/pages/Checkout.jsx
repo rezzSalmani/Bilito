@@ -6,20 +6,19 @@ import {
   UserIcon,
 } from "../components/UI/icons";
 import { Link, useNavigate } from "react-router-dom";
-import PassengerDetail from "../components/passengerDetail/PassengerDetail.jsx";
-import CustomInput from "../components/UI/CustomInput.jsx";
+
 import PassengersInformation from "../components/PassengersInformation";
 import PassengerConformInformation from "../components/PassengerConformInformation.jsx";
 import PaymentConformation from "../components/PaymentConformation.jsx";
-import { useFindTicketContext } from "../store/findTicketContext.jsx";
 import TicketDetailItem from "../components/ticket/TicketDetailItem.jsx";
+import { useTicketBuyingProcess } from "../store/TicketBuyingProcess.jsx";
 const Checkout = () => {
   const {
     tempSelectedTicket,
-    updateTempSelectedTicket,
+    setTempSelectedTicket,
     ticketBuyingStatus,
     setTicketStatus,
-  } = useFindTicketContext();
+  } = useTicketBuyingProcess();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,15 +28,15 @@ const Checkout = () => {
   return (
     <div className='container space-y-10 md:space-y-20 '>
       <div className='flex flex-col xs:flex-row gap-4 items-center  text-xs xs:text-sm text-tint3 '>
-        <Link to='/flights' className=' text-nowrap flex-all flex-col gap-2'>
+        <div className=' text-nowrap flex-all flex-col gap-2'>
           <span className='p-1 md:p-2 bg-tint1 rounded-full w-fit '>
             <CheckIcon />
           </span>
           انتخاب بلیط
-        </Link>
+        </div>
         <span className='h-0.5 bg-gray3 rounded-xl w-full'></span>
         <div
-          className={`text-nowrap flex-all flex-col gap-2 font-IRANSansXBold cursor-pointer ${
+          className={`text-nowrap flex-all flex-col gap-2 font-IRANSansXBold ${
             ticketBuyingStatus === "information" && "text-primary"
           }`}
         >
@@ -79,7 +78,7 @@ const Checkout = () => {
               changeTicket={
                 <button
                   onClick={() => {
-                    updateTempSelectedTicket(null);
+                    setTempSelectedTicket(null);
                     navigate("/flights");
                   }}
                   className='px-6 py-1.5 md:px-8 lg:py-2 bg-primary text-white text-nowrap cursor-pointer rounded-md transition-all text-sm'

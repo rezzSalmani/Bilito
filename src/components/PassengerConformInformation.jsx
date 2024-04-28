@@ -1,21 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { ChevronRightIcon, UserIcon } from "./UI/icons";
-import TicketDetailItem from "./ticket/TicketDetailItem";
-import { useFindTicketContext } from "../store/findTicketContext";
+import { useTicketBuyingProcess } from "../store/TicketBuyingProcess";
+import { useNavigate } from "react-router-dom";
+import { DateObject } from "react-multi-date-picker";
 const PassengerConformInformation = () => {
   const {
-    setTicketStatus,
     passengersInformation,
-    setPassengersInformation,
+    updatePassengersInformation,
+    updateTicketBuyingStatus,
     tempSelectedTicket,
-    setTempSelectedTicket,
-  } = useFindTicketContext();
+    updateTempSelectedTicket,
+  } = useTicketBuyingProcess();
+  const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   if (passengersInformation.length === 0) navigate("/");
+  // }, [passengersInformation]);
   let totalPrice =
     tempSelectedTicket.price * tempSelectedTicket.passengers.adults +
     tempSelectedTicket.childrenPrice * tempSelectedTicket.passengers.children +
     tempSelectedTicket.childrenPrice * tempSelectedTicket.passengers.baby;
 
+  const handlePayment = () => {
+    if (passengersInformation.length > 0) {
+      updateTicketBuyingStatus("paymentSuccess");
+
+      const phoneNumber =
+        passengersInformation[passengersInformation.length - 1]
+          .phoneInformation_phone;
+      const reservationNumber = Math.floor(1000000 + Math.random() * 9000000);
+      const ticketNumber = Math.floor(1000000 + Math.random() * 9000000);
+      const PaymentTime = new DateObject().format("HH : MM");
+
+      updateTempSelectedTicket((perv) => {
+        return {
+          ...perv,
+          reservationNumber,
+          ticketNumber,
+          PaymentTime,
+          phoneNumber,
+        };
+      });
+    }
+  };
   return (
     <div className='space-y-5 md:space-y-20'>
       <div className='border border-gray3 rounded-lg p-3 xs:p-6 space-y-6'>
@@ -31,8 +58,8 @@ const PassengerConformInformation = () => {
         <span className='bg-gray3 h-0.5 w-full block'></span>
         {/* passengers information */}
         <div className='space-y-10'>
-          {passengersInformation.map((passenger) => (
-            <div className='space-y-4'>
+          {passengersInformation.splice(-1).map((passenger, index) => (
+            <div className='space-y-4' key={index}>
               <div className='flex gap-3 items-center'>
                 <UserIcon classes=' w-5 h-5 md:h-7 md:w-7' />
                 <div className='flex flex-col gap-1 text-sm md:text-base'>
@@ -105,8 +132,8 @@ const PassengerConformInformation = () => {
           <div className='flex flex-col-reverse sm:flex-row items-center justify-between gap-4 text-nowrap'>
             <span
               onClick={() => {
-                setTicketStatus("information");
-                setPassengersInformation(null);
+                updateTicketBuyingStatus("information");
+                updatePassengersInformation(null);
               }}
               className='flex items-center gap-2 font-IRANSansXMedium text-primary text-sm cursor-pointer'
             >
@@ -122,23 +149,7 @@ const PassengerConformInformation = () => {
                 </span>
               </div>
               <button
-                onClick={() => {
-                  setTicketStatus("paymentSuccess");
-
-                  const reservationNumber = Math.floor(
-                    1000000 + Math.random() * 9000000
-                  );
-                  const ticketNumber = Math.floor(
-                    1000000 + Math.random() * 9000000
-                  );
-                  setTempSelectedTicket((perv) => {
-                    return {
-                      ...perv,
-                      reservationNumber,
-                      ticketNumber,
-                    };
-                  });
-                }}
+                onClick={handlePayment}
                 className='w-full  xs:w-auto px-12 py-2 bg-primary text-white rounded-lg text-sm'
               >
                 پرداخت
