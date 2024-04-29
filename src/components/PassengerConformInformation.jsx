@@ -3,12 +3,15 @@ import { ChevronRightIcon, UserIcon } from "./UI/icons";
 import { useTicketBuyingProcess } from "../store/TicketBuyingProcess";
 import { useNavigate } from "react-router-dom";
 import { DateObject } from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
 const PassengerConformInformation = () => {
   const {
     passengersInformation,
     updateTicketBuyingStatus,
     tempSelectedTicket,
     updateTempSelectedTicket,
+    contactInformation,
   } = useTicketBuyingProcess();
   const navigate = useNavigate();
   const [passengerDetails, setPassengerDetails] = useState([]);
@@ -23,20 +26,30 @@ const PassengerConformInformation = () => {
     tempSelectedTicket.childrenPrice * tempSelectedTicket.passengers.baby;
   // console.log(passengersInformation);
   const handlePayment = () => {
-    const phoneNumber =
-      passengersInformation[passengersInformation.length - 1]
-        .phoneInformation_phone;
+    const phoneNumber = contactInformation[0].phoneInformation_phone;
     const reservationNumber = Math.floor(1000000 + Math.random() * 9000000);
     const ticketNumber = Math.floor(1000000 + Math.random() * 9000000);
-    const PaymentTime = new DateObject().format("HH : MM");
-
-    if (phoneNumber && reservationNumber && ticketNumber && PaymentTime) {
+    const paymentTime = new DateObject().format("HH MM");
+    const buyingDate = new DateObject({
+      calendar: persian,
+      locale: persian_fa,
+    }).format("D MMMM YYYY");
+    console.log(buyingDate);
+    if (
+      phoneNumber &&
+      reservationNumber &&
+      ticketNumber &&
+      paymentTime &&
+      buyingDate
+    ) {
+      console.log("first");
       updateTempSelectedTicket({
         ...tempSelectedTicket,
         reservationNumber,
         ticketNumber,
-        PaymentTime,
+        paymentTime,
         phoneNumber,
+        buyingDate,
       });
       updateTicketBuyingStatus("paymentSuccess");
     }

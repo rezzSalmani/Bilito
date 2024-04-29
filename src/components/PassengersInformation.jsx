@@ -4,6 +4,7 @@ import CustomInput from "./UI/CustomInput";
 import { useFindTicketContext } from "../store/findTicketContext";
 import { useForm } from "react-hook-form";
 import { useTicketBuyingProcess } from "../store/TicketBuyingProcess";
+import { useNavigate } from "react-router-dom";
 
 function convertObjectToArray(inputObject) {
   const resultArray = [];
@@ -36,6 +37,11 @@ const PassengersInformation = () => {
     tempSelectedTicket,
     updateContactInformation,
   } = useTicketBuyingProcess();
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!tempSelectedTicket) return navigate("/");
+  }, [tempSelectedTicket]);
 
   const {
     register,

@@ -18,7 +18,8 @@ import { useNavigate } from "react-router-dom";
 
 const PaymentConformation = () => {
   const [showDetails, setShowDetails] = useState(false);
-  const { tempSelectedTicket } = useTicketBuyingProcess();
+  const { tempSelectedTicket, contactInformation, passengersInformation } =
+    useTicketBuyingProcess();
   const navigate = useNavigate();
   useEffect(() => {
     if (!tempSelectedTicket) return navigate("/");
@@ -151,17 +152,21 @@ const PaymentConformation = () => {
             <div className='child:block '>
               <span className='text-gray7'>تاریخ خرید</span>
               <span className='text-gray9 font-IRANSansXMedium'>
-                شنبه 27 مرداد_2023
+                {tempSelectedTicket?.buyingDate}
               </span>
             </div>
             <div className='child:block '>
               <span className='text-gray7'>ساعت خرید</span>
-              <span className='text-gray9 font-IRANSansXMedium'>15:30</span>
+              <span className='text-gray9 font-IRANSansXMedium text-center'>
+                {tempSelectedTicket?.paymentTime.substr(0, 2) +
+                  ":" +
+                  tempSelectedTicket?.paymentTime.substr(3, 2)}
+              </span>
             </div>
             <div className='child:block '>
               <span className='text-gray7'>تلفن همراه</span>
               <span className='text-gray9 font-IRANSansXMedium'>
-                091011231456
+                {contactInformation[0]?.phoneInformation_phone}
               </span>
             </div>
             <div className='flex-all flex-col items-center'>
@@ -177,44 +182,33 @@ const PaymentConformation = () => {
           <div className='flex-all w-[56px] md:w-[114px] text-gray6  border-l border-b border-gray2'>
             <UserCircleIcon classes='w-4 md:w-8 h-4 md:h-8' />
           </div>
-          <div className='space-y-6 border-b border-gray2 h-full w-full divide-y divide-gray2 child:py-6'>
+          <div className=' border-b border-gray2 h-full w-full divide-y divide-gray2 child:py-6'>
             {/* Passengers */}
-            <div className='flex items-center justify-center md:justify-start flex-wrap pr-4 lg:pr-14 gap-3 xs:gap-4 h-full w-full text-center md:text-right'>
-              <div className='child:block '>
-                <span className='text-gray7'>نام مسافر</span>
-                <span className='text-gray9'>خانم شیوا ارغوان</span>
+            {passengersInformation?.map((passenger) => (
+              <div className='flex items-center justify-center md:justify-start flex-wrap pr-4 lg:pr-14 gap-3 xs:gap-4 h-full w-full text-center md:text-right'>
+                <div className='child:block '>
+                  <span className='text-gray7'>نام مسافر</span>
+                  <span className='text-gray9'>
+                    {passenger.gender === "مرد" ? "Mr." : "Miss."}{" "}
+                    {passenger.firstName}
+                  </span>
+                </div>
+                <div className='child:block '>
+                  <span className='text-gray7'>نام خانوادگی </span>
+                  <span className='text-gray9'>{passenger.lastName}</span>
+                </div>
+                <div className='child:block '>
+                  <span className='text-gray7'>تاریخ تولد</span>
+                  <span className='text-gray9'> {passenger.dateOfBirth}</span>
+                </div>
+                <div className='child:block '>
+                  <span className='text-gray7'>کدملی/شماره گذرنامه</span>
+                  <span className='text-gray9'>
+                    {passenger.passPortNumber} / {passenger.passPortNumber}
+                  </span>
+                </div>
               </div>
-              <div className='child:block '>
-                <span className='text-gray7'>نام مسافر به لاتین</span>
-                <span className='text-gray9'>Mrs.shiva arghavan</span>
-              </div>
-              <div className='child:block '>
-                <span className='text-gray7'>تاریخ تولد</span>
-                <span className='text-gray9'>139575/04/25</span>
-              </div>
-              <div className='child:block '>
-                <span className='text-gray7'>کدملی/شماره گذرنامه</span>
-                <span className='text-gray9'>123456789987</span>
-              </div>
-            </div>
-            <div className='flex items-center justify-center md:justify-start flex-wrap pr-4 lg:pr-14 gap-3 xs:gap-4  h-full w-full text-center md:text-right'>
-              <div className='child:block '>
-                <span className='text-gray7'>نام مسافر</span>
-                <span className='text-gray9'>خانم شیوا ارغوان</span>
-              </div>
-              <div className='child:block '>
-                <span className='text-gray7'>نام مسافر به لاتین</span>
-                <span className='text-gray9'>Mrs.shiva arghavan</span>
-              </div>
-              <div className='child:block '>
-                <span className='text-gray7'>تاریخ تولد</span>
-                <span className='text-gray9'>139575/04/25</span>
-              </div>
-              <div className='child:block '>
-                <span className='text-gray7'>کدملی/شماره گذرنامه</span>
-                <span className='text-gray9'>123456789987</span>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
         <div className='flex h-full child:py-6'>
@@ -225,21 +219,23 @@ const PaymentConformation = () => {
             <div className='flex flex-col md:flex-row items-center justify-center xs:justify-start gap-4 lg:gap-6 text-center md:text-right'>
               <div className='flex-all flex-col gap-2 font-IRANSansXBold'>
                 <img
-                  src='/images/companies/mahan.png'
+                  src={tempSelectedTicket.componyImage}
                   alt='company'
                   className='w-8 rounded-full'
                 />
-                <span>ماهان</span>
+                <span>{tempSelectedTicket.compony}</span>
               </div>
               <div className='flex flex-wrap justify-center sm:justify-start items-center gap-2 xs:gap-4'>
                 <div className='flex-all flex-col gap-2'>
-                  <span className='font-IRANSansXBold'>02:50</span>
-                  <span>استانبول (SAW)</span>
+                  <span className='font-IRANSansXBold'>
+                    {tempSelectedTicket.takeOff}
+                  </span>
+                  <span>{tempSelectedTicket.sourceCity}</span>
                 </div>
                 <div className='flex-all flex-col text-gray7 gap-1 xs:gap-2 w-fit'>
                   <span className='flex items-center gap-2 text-xs md:text-base'>
                     <TimeIcon classes='w-4 h-4 md:w-5 md:h-5' />
-                    19:00
+                    {tempSelectedTicket.travelTime}
                   </span>
                   <AirPlaneWithLines classes='w-[70px] xs:w-[140px] h-[16px]' />
                   <span className='flex items-center gap-2 text-xs md:text-base'>
@@ -248,17 +244,21 @@ const PaymentConformation = () => {
                   </span>
                 </div>
                 <div className='flex-all flex-col gap-2'>
-                  <span className='font-IRANSansXBold'>21:50</span>
-                  <span>دبی (DXB)</span>
+                  <span className='font-IRANSansXBold'>
+                    {tempSelectedTicket.landingTime}
+                  </span>
+                  <span>{tempSelectedTicket.destinationCity}</span>
                 </div>
                 <div className='flex-all flex-col gap-2'>
                   <span className='text-gray7'>شماره پرواز</span>
-                  <span className='text-gray8 font-IRANSansXMedium'>165</span>
+                  <span className='text-gray8 font-IRANSansXMedium'>
+                    {tempSelectedTicket.flightNumber}
+                  </span>
                 </div>
                 <div className='flex-all flex-col gap-2'>
                   <span className='text-gray7'>کلاس پرواز</span>
                   <span className='text-gray8 font-IRANSansXMedium'>
-                    کوانومی
+                    {tempSelectedTicket.ticketLevel}
                   </span>
                 </div>
               </div>
@@ -269,25 +269,30 @@ const PaymentConformation = () => {
                 <div className='flex flex-col '>
                   <span className='text-gray7'>فرودگاه مبدا</span>
                   <span className='font-IRANSansXMedium'>
-                    استانبول، فرودگاه استانبول
+                    {tempSelectedTicket.sourceCity}&nbsp;
+                    {tempSelectedTicket.sourceAirport}
                   </span>
                 </div>
                 <div className='flex  flex-col '>
                   <span className='text-gray7'>فرودگاه مقصد</span>
-                  <span className='font-IRANSansXMedium'>دبی، فرودگاه دبی</span>
+                  <span className='font-IRANSansXMedium'>
+                    {" "}
+                    {tempSelectedTicket.destinationCity}&nbsp;
+                    {tempSelectedTicket.destinationAirport}
+                  </span>
                 </div>
               </div>
               <div className='flex  gap-3'>
                 <div className='flex  flex-col '>
                   <span className='text-gray7'>زمان سفر:</span>
                   <span className='text-gray8 font-IRANSansXMedium'>
-                    دوشنبه،6 شهریور 1402
+                    {tempSelectedTicket.date}
                   </span>
                 </div>
                 <div className='flex  flex-col '>
                   <span className='text-gray7'>زمان رسیدن:</span>
                   <span className='text-gray8 font-IRANSansXMedium'>
-                    دوشنبه،7 شهریور 1402
+                    {tempSelectedTicket.date}
                   </span>
                 </div>
               </div>
