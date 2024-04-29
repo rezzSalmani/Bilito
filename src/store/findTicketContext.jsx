@@ -56,6 +56,14 @@ const FindTicketContextProvider = ({ children }) => {
         [identifier]: value,
       };
     });
+    if (identifier !== "error") {
+      setSearchFlightParameters((prev) => {
+        return {
+          ...prev,
+          error: "",
+        };
+      });
+    }
   };
   const updateSearchFlightPassengersParameters = (identifier, type) => {
     if (type == "increment") {
@@ -96,23 +104,31 @@ const FindTicketContextProvider = ({ children }) => {
       };
     });
   };
-  const handleSearchTicket = async () => {
-    if (!searchFlightParameters.from) {
-      updateSearchFlightParameters("error", "لطفا  مبدا را وارد کنید");
-      return false;
-    } else if (!searchFlightParameters.to) {
-      updateSearchFlightParameters("error", "لطفا  مقصد را وارد کنید");
-      return false;
-    } else if (!searchFlightParameters.date) {
-      updateSearchFlightParameters("error", "لطفا تاریخ را وارد کنید");
-      return false;
-    } else if (!searchFlightParameters.sitType) {
-      updateSearchFlightParameters("error", "لطفا نوع مسافرت را وارد کنید");
-      return false;
-    } else if (searchFlightParameters.from === searchFlightParameters.to) {
-      updateSearchFlightParameters("error", " شهر مبدا با مقصد مشابه است !");
-      return false;
+  const validateSearchFlightParameters = () => {
+    switch (true) {
+      case !searchFlightParameters.from:
+        updateSearchFlightParameters("error", "لطفا  مبدا را وارد کنید");
+        return false;
+      case !searchFlightParameters.to:
+        updateSearchFlightParameters("error", "لطفا  مقصد را وارد کنید");
+        return false;
+      case !searchFlightParameters.date:
+        updateSearchFlightParameters("error", "لطفا تاریخ را وارد کنید");
+        return false;
+      case !searchFlightParameters.sitType:
+        updateSearchFlightParameters("error", "لطفا نوع مسافرت را وارد کنید");
+        return false;
+      case searchFlightParameters.from === searchFlightParameters.to:
+        updateSearchFlightParameters("error", " شهر مبدا با مقصد مشابه است!");
+        return false;
+      default:
+        // no error, continue with the rest of the code
+        return true;
     }
+  };
+
+  const handleSearchTicket = async () => {
+    // const isTrue = validateSearchFlightParameters();
     if (searchFlightParameters.from && searchFlightParameters.to) {
       setSearchedTickets([]);
       setFilteredTickets([]);
@@ -127,20 +143,17 @@ const FindTicketContextProvider = ({ children }) => {
       const getTicketsBasedRegionTicket = await getTickets().then(
         (data) => data[0].ticketTypes
       );
-      console.log(getTicketsBasedRegionTicket);
 
       const getTicketTypeBasedRegionTicket =
         await getTicketsBasedRegionTicket.find(
           (item) => item.type === searchFlightParameters.ticketType
         ).cities;
-      console.log(getTicketTypeBasedRegionTicket);
 
       let allTickets = getTicketTypeBasedRegionTicket.find(
         (ticket) =>
           ticket.from === searchFlightParameters.from &&
           ticket.to === searchFlightParameters.to
       );
-      console.log(allTickets);
       if (allTickets) {
         setSearchedTickets(allTickets.tickets);
         setFilteredTickets(allTickets.tickets);
@@ -167,7 +180,6 @@ const FindTicketContextProvider = ({ children }) => {
       //   }
       //   updateSearchFlightParameters("isLoading", false);
       // }, 500);
-      return true;
     }
   };
 
@@ -190,6 +202,7 @@ const FindTicketContextProvider = ({ children }) => {
     updateSearchFlightPassengersParameters,
     filteredTickets,
     setFilteredTickets,
+    validateSearchFlightParameters,
   };
   return (
     <FindTicketContext.Provider value={value}>

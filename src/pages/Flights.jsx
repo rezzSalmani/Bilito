@@ -41,13 +41,12 @@ const Flights = () => {
 
   useEffect(() => {
     if (!from && !to) navigate("/");
-    if (searchedTickets) {
-      tickets.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-        inline: "nearest",
-      });
-    }
+    // if (searchedTickets) {
+    //   tickets.current.scrollIntoView({
+    //     behavior: "smooth",
+    //     block: "start",
+    //   });
+    // }
   }, []);
 
   const hideEditMenu = () => {

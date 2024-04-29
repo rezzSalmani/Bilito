@@ -8,9 +8,11 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
   CloseCircleIcon,
+  HomeIcon,
   PhoneIcon,
   QuestionIcon,
   SupportIcon,
+  TicketIcon,
   UserIcon,
 } from "../UI/icons";
 import { Popover, Transition } from "@headlessui/react";
@@ -18,18 +20,14 @@ import SingUpSingInForm from "./SingUpSingInForm";
 import { useFindTicketContext } from "../../store/FindTicketContext";
 import { supabase } from "../../supabaseClient";
 import { useAuthContext } from "../../store/authContext";
+import LogOutModal from "./LogOutModal";
 const Header = () => {
   const [openMobileMenu, setMobileOpenMenu] = useState(false);
   const { currentUser } = useAuthContext();
+
   // const [userName, setUserName] = useState("");
   // useEffect(() => {}, []);
 
-  const handleLogOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.log(error);
-    }
-  };
   return (
     <section className=' sticky top-0 bg-white z-10'>
       {/* desktop menu */}
@@ -120,17 +118,7 @@ const Header = () => {
             <span>4045_021 پشتیبانی</span>
             <PhoneIcon />
           </div>
-          {currentUser !== null ? (
-            <ButtonPrimary
-              classes='py-2 px-4 rounded-lg flex-row-reverse '
-              text={currentUser.user_metadata.username}
-              icon={<UserIcon />}
-              // className='flex items-center gap-2 border border-gray-3 rounded-lg text-white bg-primary px-3 py-1.5'
-              onClick={handleLogOut}
-            ></ButtonPrimary>
-          ) : (
-            <SingUpSingInForm />
-          )}
+          {currentUser !== null ? <LogOutModal /> : <SingUpSingInForm />}
         </div>
       </div>
       {/* mobile menu */}
@@ -140,7 +128,7 @@ const Header = () => {
         </span>
         <img src='/images/mainLogo.svg' alt='Logo' className='w-[100px] ' />
         <span onClick={() => setMobileOpenMenu(false)}>
-          <SingUpSingInForm />
+          {currentUser !== null ? <LogOutModal /> : <SingUpSingInForm />}
         </span>
       </div>
       <div
@@ -156,20 +144,7 @@ const Header = () => {
               to='/'
               className={({ isActive }) => (isActive ? "text-primary " : "")}
             >
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth={1.5}
-                stroke='currentColor'
-                className='w-5 h-5'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25'
-                />
-              </svg>
+              <HomeIcon />
               صفحه اصلی
             </NavLink>
           </li>
@@ -178,20 +153,7 @@ const Header = () => {
               to='/insurance'
               className={({ isActive }) => (isActive ? "text-primary " : "")}
             >
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth={1.5}
-                stroke='currentColor'
-                className='w-5 h-5'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='m9 14.25 6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0c1.1.128 1.907 1.077 1.907 2.185ZM9.75 9h.008v.008H9.75V9Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm4.125 4.5h.008v.008h-.008V13.5Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z'
-                />
-              </svg>
+              <TicketIcon />
               بیمه مسافرتی
             </NavLink>
           </li>

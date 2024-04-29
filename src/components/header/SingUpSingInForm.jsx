@@ -15,7 +15,7 @@ import { removeIdentifierFromSingUpForm } from "../../util/util";
 import toast from "react-hot-toast";
 const SingUpSingInForm = () => {
   const [isSingIn, setIsSingIn] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSingFormModal, setIsSingModal] = useState(false);
   const [userData, setUserData] = useState({
     userName: "",
     email: "",
@@ -25,12 +25,10 @@ const SingUpSingInForm = () => {
   });
   const [isError, setIsError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
   const {
     register,
     handleSubmit,
     watch,
-    control,
     reset,
     formState: { errors, isSubmitting, isValid },
   } = useForm();
@@ -45,14 +43,14 @@ const SingUpSingInForm = () => {
   // };
 
   function closeModal() {
-    setIsModalOpen(false);
+    setIsSingModal(false);
     reset();
   }
   function openModal() {
-    setIsModalOpen(true);
+    setIsSingModal(true);
   }
   const button = (
-    <span className=''>
+    <div>
       <span className='hidden md:flex'>
         <ButtonPrimary
           classes='py-2 px-4 rounded-lg'
@@ -65,7 +63,7 @@ const SingUpSingInForm = () => {
           <UserIcon></UserIcon>
         </span>
       </span>
-    </span>
+    </div>
   );
   const handleSingUp = async (values) => {
     console.log(values);
@@ -89,11 +87,10 @@ const SingUpSingInForm = () => {
       // const { error: insertError } = await supabase
       //   .from("users")
       //   .insert({ user_id: data.user.id, username: userData.userName });
-
       if (signUpError) {
         throw new Error(signUpError.message);
       } else {
-        toast.success("شما وارد شدید.");
+        toast.success("شما  با موفقیت ثبت نام شدید.");
         closeModal();
       }
     } catch (error) {
@@ -127,7 +124,7 @@ const SingUpSingInForm = () => {
       if (error) {
         throw new Error(error.message);
       } else {
-        toast.success("شما وارد شدید.");
+        toast.success("شما  با موفقیت وارد شدید.");
         closeModal();
       }
     } catch (error) {
@@ -143,7 +140,7 @@ const SingUpSingInForm = () => {
   return (
     <Modal
       button={button}
-      isOpen={isModalOpen}
+      isOpen={isSingFormModal}
       closeModal={closeModal}
       openModal={openModal}
     >

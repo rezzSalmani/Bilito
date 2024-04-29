@@ -35,16 +35,20 @@ const TicketInputs = ({ hideMenu }) => {
     updateSearchFlightParameters,
     updateSearchFlightPassengersParameters,
     ticketRegion,
+    validateSearchFlightParameters,
   } = useFindTicketContext();
   const datePickerRef = useRef();
   const tempCities =
     ticketRegion === "international" ? internationalCities : localCities;
 
-  const handleSearch = async () => {
-    const status = await handleSearchTicket();
-    console.log(status);
-    if (hideMenu && status) hideMenu();
-    if (status) navigate("/flights");
+  const handleSearch = () => {
+    const isTrue = validateSearchFlightParameters();
+    if (isTrue) {
+      navigate("/flights");
+      handleSearchTicket();
+      console.log(status);
+      hideMenu();
+    }
   };
   return (
     <div className=' flex items-center gap-2 w-full h-full justify-center flex-wrap lg:flex-nowrap child:outline-none child:border child:h-10 child:lg:h-12 child:rounded-lg child:border-gray3 child:px-2 text-sm sm:text-sm child:md:w-[100px] child:lg:w-[200px] transition-all duration-400'>
