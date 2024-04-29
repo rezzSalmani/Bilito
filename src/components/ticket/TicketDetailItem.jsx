@@ -489,7 +489,7 @@ const TicketDetailItem = ({
                           onClick={() =>
                             setSelectedTabIndex((perv) => perv + 1)
                           }
-                          className=' text-white w-full text-sm xs:w-1/3 py-1.5 bg-primary rounded-lg'
+                          className='text-white w-full text-sm xs:w-1/3 md:min-w-[276px]  py-1.5 bg-primary rounded-lg'
                         >
                           ادامه
                         </button>
@@ -532,7 +532,7 @@ const TicketDetailItem = ({
                           onClick={() =>
                             setSelectedTabIndex((perv) => perv + 1)
                           }
-                          className=' text-white  w-full text-sm xs:w-1/3 py-1.5 bg-primary rounded-lg'
+                          className=' text-white  w-full text-sm xs:w-1/3 md:min-w-[276px] py-1.5 bg-primary rounded-lg'
                         >
                           ادامه
                         </button>
@@ -598,7 +598,7 @@ const TicketDetailItem = ({
                       <div className='flex justify-end items-end'>
                         <button
                           onClick={handleCheckout}
-                          className=' text-white  w-full text-sm xs:w-1/3 py-1.5 bg-primary rounded-lg'
+                          className=' text-white  w-full text-sm xs:w-1/3 md:min-w-[276px] py-1.5 bg-primary rounded-lg'
                         >
                           تایید و ادامه
                         </button>
