@@ -10,7 +10,7 @@ import { Tab } from "@headlessui/react";
 import Modal from "../UI/Modal";
 import { useAuthContext } from "../../store/authContext";
 import toast from "react-hot-toast";
-import { useFindTicketContext } from "../../store/findTicketContext";
+import { useFindTicketContext } from "../../store/FindTicketContext";
 import { useNavigate } from "react-router-dom";
 import { useTicketBuyingProcess } from "../../store/TicketBuyingProcess";
 

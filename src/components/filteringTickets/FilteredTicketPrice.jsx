@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Range, getTrackBackground } from "react-range";
 import { ChevronDownIcon, ChevronUpIcon } from "../UI/icons";
 import { FilteringSubMenuHeader } from "./FilteringSubMenuHeader";
-import { useFindTicketContext } from "../../store/findTicketContext";
+import { useFindTicketContext } from "../../store/FindTicketContext";
 const STEP_PRICE = 10000;
 const MIN_PRICE = 600000;
 const MAX_PRICE = 2200000;

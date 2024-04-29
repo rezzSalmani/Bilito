@@ -171,7 +171,6 @@ const FindTicketContextProvider = ({ children }) => {
     }
   };
 
-  const sendAndValidateUserInformation = () => {};
   const value = {
     ticketRegion: searchFlightParameters.ticketRegion,
     ticketType: searchFlightParameters.ticketType,

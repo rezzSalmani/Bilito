@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AirPlane, ChevronDownIcon, SearchIcon, CheckIcon } from "../UI/icons";
 import TicketInputs from "./TicketInputs";
 
-import { useFindTicketContext } from "../../store/findTicketContext";
+import { useFindTicketContext } from "../../store/FindTicketContext";
 const SearchTicketBox = () => {
   // const [ticketRegion, setTicketRegion] = useState("local");
   // const [ticketType, setTicketType] = useState("oneWay");

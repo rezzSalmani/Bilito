@@ -17,7 +17,7 @@ import persian_fa from "react-date-object/locales/persian_fa";
 
 const ticketClasses = ["اکونومی", "بیزینس", "فرست"];
 
-import { useFindTicketContext } from "../../store/findTicketContext";
+import { useFindTicketContext } from "../../store/FindTicketContext";
 
 const localCities = ["تهران", "مشهد", "شیراز", "کیش"];
 const internationalCities = ["روسیه", "ایران"];

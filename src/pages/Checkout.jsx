@@ -1,26 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   CheckIcon,
   CreditCartIcon,
   TicketIcon,
   UserIcon,
 } from "../components/UI/icons";
-import { Link, useNavigate } from "react-router-dom";
-
-import PassengersInformation from "../components/PassengersInformation";
-import PassengerConformInformation from "../components/PassengerConformInformation.jsx";
-import PaymentConformation from "../components/PaymentConformation.jsx";
+import { useNavigate } from "react-router-dom";
+import PassengersInformation from "../components/checkout/PassengersInformation.jsx";
+import PassengerConformInformation from "../components/checkout/PassengerConformInformation.jsx";
+import PaymentConformation from "../components/checkout/PaymentConformation.jsx";
 import TicketDetailItem from "../components/ticket/TicketDetailItem.jsx";
 import { useTicketBuyingProcess } from "../store/TicketBuyingProcess.jsx";
 const Checkout = () => {
-  const {
-    tempSelectedTicket,
-    updateTempSelectedTicket,
-    ticketBuyingStatus,
-    setTicketStatus,
-  } = useTicketBuyingProcess();
+  const { tempSelectedTicket, updateTempSelectedTicket, ticketBuyingStatus } =
+    useTicketBuyingProcess();
   const navigate = useNavigate();
-
   useEffect(() => {
     if (tempSelectedTicket === null) navigate("/");
     window.scrollTo(0, 0);

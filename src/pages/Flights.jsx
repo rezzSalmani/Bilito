@@ -20,7 +20,7 @@ import SortingTickets from "../components/ticket/SortingTickets";
 import TicketDetailItem from "../components/ticket/TicketDetailItem";
 import TicketInputs from "../components/ticket/TicketInputs";
 import LandingImage from "../components/LandingImage";
-import { useFindTicketContext } from "../store/findTicketContext";
+import { useFindTicketContext } from "../store/FindTicketContext";
 import { useNavigate } from "react-router-dom";
 const Flights = () => {
   const [isEdit, setIsEdit] = useState(false);

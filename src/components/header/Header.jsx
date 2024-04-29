@@ -15,7 +15,7 @@ import {
 } from "../UI/icons";
 import { Popover, Transition } from "@headlessui/react";
 import SingUpSingInForm from "./SingUpSingInForm";
-import { useFindTicketContext } from "../../store/findTicketContext";
+import { useFindTicketContext } from "../../store/FindTicketContext";
 import { supabase } from "../../supabaseClient";
 import { useAuthContext } from "../../store/authContext";
 const Header = () => {

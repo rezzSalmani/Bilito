@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Range, getTrackBackground } from "react-range";
 import { ChevronDownIcon, ChevronUpIcon } from "../UI/icons";
 import { FilteringSubMenuHeader } from "./FilteringSubMenuHeader";
-import { useFindTicketContext } from "../../store/findTicketContext";
+import { useFindTicketContext } from "../../store/FindTicketContext";
 const TRAVEL_TIME_STEP = 30;
 const TRAVEL_TIME_START = 0;
 const TRAVEL_TIME_END = 1440;

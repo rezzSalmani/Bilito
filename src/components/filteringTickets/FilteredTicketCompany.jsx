@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FilteringSubMenuHeader } from "./FilteringSubMenuHeader";
-import { useFindTicketContext } from "../../store/findTicketContext";
+import { useFindTicketContext } from "../../store/FindTicketContext";
 const flightCompanies = [
   { id: "c1", title: "ماهان", image: "/images/companies/mahan.png" },
   { id: "c2", title: "ایران ایر", image: "/images/companies/iranAir.png" },

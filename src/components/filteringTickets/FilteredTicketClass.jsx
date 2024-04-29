@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FilteringSubMenuHeader } from "./FilteringSubMenuHeader";
-import { useFindTicketContext } from "../../store/findTicketContext";
+import { useFindTicketContext } from "../../store/FindTicketContext";
 
 const ticketClasses = ["اکونومی", "بیزینس", "پرمیوم اکونومی", "فرست"];
 const FilteredTicketClass = () => {

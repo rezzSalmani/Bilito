@@ -6,7 +6,7 @@ import Checkout from "./pages/Checkout";
 import BuyingSteps from "./pages/BuyingSteps";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
-import FindTicketContextProvider from "./store/findTicketContext";
+import FindTicketContextProvider from "./store/FindTicketContext";
 import AuthContextProvider from "./store/authContext";
 import TicketBuyingProcessProvider from "./store/TicketBuyingProcess";
 const router = createBrowserRouter([

@@ -10,10 +10,8 @@ import {
   InternetIcon,
   CartIcon,
   QuestionIcon,
-  CheckIcon,
 } from "../components/UI/icons";
-import ButtonPrimary from "../components/UI/ButtonPrimary";
-import { Listbox, Transition, Disclosure } from "@headlessui/react";
+import { Transition, Disclosure } from "@headlessui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
