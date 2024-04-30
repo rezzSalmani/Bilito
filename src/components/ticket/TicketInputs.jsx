@@ -21,7 +21,7 @@ import { useFindTicketContext } from "../../store/FindTicketContext";
 
 const localCities = ["تهران", "مشهد", "شیراز", "کیش"];
 const internationalCities = ["روسیه", "ایران"];
-const TicketInputs = ({ hideMenu }) => {
+const TicketInputs = () => {
   const navigate = useNavigate();
   const {
     from,
@@ -47,7 +47,6 @@ const TicketInputs = ({ hideMenu }) => {
       navigate("/flights");
       handleSearchTicket();
       console.log(status);
-      hideMenu();
     }
   };
   return (

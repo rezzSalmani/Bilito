@@ -7,10 +7,9 @@ import { Controller } from "react-hook-form";
 import InputIcon from "react-multi-date-picker/components/input_icon";
 import AgeSelectInput from "../UI/AgeSelectInput";
 import "react-multi-date-picker/styles/layouts/mobile.css";
+import { CalendarIcon } from "../UI/icons";
 
 const CustomDateSelector = ({
-  dateValue,
-  setNewDate,
   identifier,
   inputIdentifier,
   placeHolder,
@@ -26,7 +25,7 @@ const CustomDateSelector = ({
   const handleAgeSelectorBlur = () => {
     setIsFocused(false);
   };
-
+  const datePickerRef = useRef();
   const datePickerValue = watch(`${inputIdentifier}_${identifier}`);
   return (
     <div className='relative flex flex-col items-center w-auto h-full '>
@@ -40,28 +39,39 @@ const CustomDateSelector = ({
           name={`${inputIdentifier}_${identifier}`}
           rules={{ required: "لطفا تاریخ را انتخاب کنید" }}
           render={({ field: { onChange, name, value } }) => (
-            <DatePicker
-              animations={[opacity()]}
-              value={value || ""}
-              inputClass='float-field py-4 outline-none border-none text-right bg-white z-20 absolute'
-              onChange={(date) => {
-                onChange(date?.isValid ? date.format("DD MMMM YYYY") : "");
-              }}
-              format={"DD MMMM YYYY"}
-              onOpen={handleAgeSelectorFocus}
-              onClose={handleAgeSelectorBlur}
-              calendar={persian}
-              locale={persian_fa}
-              calendarPosition='bottom-center'
-              render={<InputIcon className='h-fit w-full' />}
-            />
+            <div className='h-full w-full relative'>
+              <DatePicker
+                animations={[opacity()]}
+                value={value || ""}
+                inputClass='float-field  w-full py-4 outline-none border-none text-right bg-white z-20 cursor-pointer '
+                onChange={(date) => {
+                  onChange(date?.isValid ? date.format("DD MMMM YYYY") : "");
+                }}
+                format={"DD MMMM YYYY"}
+                onOpen={handleAgeSelectorFocus}
+                onClose={handleAgeSelectorBlur}
+                calendar={persian}
+                locale={persian_fa}
+                ref={datePickerRef}
+                calendarPosition='bottom-center'
+                // render={<InputIcon className='h-fit w-full' />}
+              />
+              <span
+                className='md:hidden lg:block absolute cursor-pointer left-2 top-0 bottom-0 my-auto w-fit h-fit'
+                onClick={() => datePickerRef.current.openCalendar()}
+              >
+                <CalendarIcon
+                  classes={`w-5 h-5 ${isFocused && "text-primary"}`}
+                />
+              </span>
+            </div>
           )}
         />
 
         <label
           htmlFor='float-field'
           className={`float-label absolute transition-all duration-200 text-sm lg:text-base ${
-            isFocused ? "move-up" : ""
+            isFocused ? "move-up text-primary" : ""
           }`}
         >
           {placeHolder}

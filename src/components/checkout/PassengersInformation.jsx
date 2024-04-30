@@ -5,6 +5,7 @@ import { useFindTicketContext } from "../../store/FindTicketContext";
 import { useForm } from "react-hook-form";
 import { useTicketBuyingProcess } from "../../store/TicketBuyingProcess";
 import { useNavigate } from "react-router-dom";
+import { EmailIcon, PhoneIcon } from "../UI/icons";
 
 function convertObjectToArray(inputObject) {
   const resultArray = [];
@@ -141,6 +142,7 @@ const PassengersInformation = () => {
             register={register}
             errors={errors}
             watch={watch}
+            icon={<EmailIcon />}
           />
           <CustomInput
             inputIdentifier='phoneInformation'
@@ -150,6 +152,7 @@ const PassengersInformation = () => {
             register={register}
             errors={errors}
             watch={watch}
+            icon={<PhoneIcon />}
           />
         </div>
       </div>

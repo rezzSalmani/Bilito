@@ -1,7 +1,8 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
-import { TICKET_DATA } from "../ticketsData";
 import { supabase } from "../supabaseClient";
-
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
+import { DateObject } from "react-multi-date-picker";
 const FindTicketContext = createContext({
   ticketRegion: "",
   ticketType: "",
@@ -39,7 +40,7 @@ const FindTicketContextProvider = ({ children }) => {
   });
   const [searchedTickets, setSearchedTickets] = useState([]);
   const [filteredTickets, setFilteredTickets] = useState([]);
-
+  const [isFindBasedHistory, setIsFindBasedHistory] = useState(false);
   const getTickets = async () => {
     let { data, error } = await supabase
       .from("FlightTickets")
@@ -48,7 +49,6 @@ const FindTicketContextProvider = ({ children }) => {
     if (error) return error;
     return data;
   };
-
   const updateSearchFlightParameters = (identifier, value) => {
     setSearchFlightParameters((prev) => {
       return {
@@ -128,61 +128,57 @@ const FindTicketContextProvider = ({ children }) => {
   };
 
   const handleSearchTicket = async () => {
-    // const isTrue = validateSearchFlightParameters();
-    if (searchFlightParameters.from && searchFlightParameters.to) {
-      setSearchedTickets([]);
-      setFilteredTickets([]);
-      updateSearchFlightParameters("error", "");
-      updateSearchFlightParameters("isLoading", true);
-      updateSearchFlightParameters(
-        "displayFromCity",
-        searchFlightParameters.from
-      );
-      updateSearchFlightParameters("displayToCity", searchFlightParameters.to);
+    setSearchedTickets([]);
+    setFilteredTickets([]);
+    updateSearchFlightParameters("error", "");
+    updateSearchFlightParameters("isLoading", true);
+    updateSearchFlightParameters(
+      "displayFromCity",
+      searchFlightParameters.from
+    );
+    updateSearchFlightParameters("displayToCity", searchFlightParameters.to);
 
-      const getTicketsBasedRegionTicket = await getTickets().then(
-        (data) => data[0].ticketTypes
-      );
+    const getTicketsBasedRegionTicket = await getTickets().then(
+      (data) => data[0].ticketTypes
+    );
 
-      const getTicketTypeBasedRegionTicket =
-        await getTicketsBasedRegionTicket.find(
-          (item) => item.type === searchFlightParameters.ticketType
-        ).cities;
+    const getTicketTypeBasedRegionTicket =
+      await getTicketsBasedRegionTicket.find(
+        (item) => item.type === searchFlightParameters.ticketType
+      ).cities;
 
-      let allTickets = getTicketTypeBasedRegionTicket.find(
-        (ticket) =>
-          ticket.from === searchFlightParameters.from &&
-          ticket.to === searchFlightParameters.to
-      );
-      if (allTickets) {
-        setSearchedTickets(allTickets.tickets);
-        setFilteredTickets(allTickets.tickets);
-      }
-      updateSearchFlightParameters("isLoading", false);
-      // setTimeout(() => {
-      //   const ticketRegion = TICKET_DATA.find(
-      //     (ticket) => ticket.region === searchFlightParameters.ticketRegion
-      //   ).ticketTypes;
-      //   const targetTicketType = ticketRegion.find(
-      //     (ticket) => ticket.type === searchFlightParameters.ticketType
-      //   ).cities;
-
-      //   // calculate tickets based on the from and to
-      //   const allTickets = targetTicketType.find(
-      //     (ticket) =>
-      //       ticket.from === searchFlightParameters.from &&
-      //       ticket.to === searchFlightParameters.to
-      //   );
-      //   console.log(targetTicketType);
-      //   if (allTickets) {
-      //     setSearchedTickets(allTickets.tickets);
-      //     setFilteredTickets(allTickets.tickets);
-      //   }
-      //   updateSearchFlightParameters("isLoading", false);
-      // }, 500);
+    let allTickets = await getTicketTypeBasedRegionTicket.find(
+      (ticket) =>
+        ticket.from === searchFlightParameters.from &&
+        ticket.to === searchFlightParameters.to
+    );
+    if (allTickets) {
+      setSearchedTickets(allTickets.tickets);
+      setFilteredTickets(allTickets.tickets);
     }
+    setIsFindBasedHistory(false);
+    updateSearchFlightParameters("isLoading", false);
   };
-
+  const findTicketBasedHistory = (sourceCity, distentionCity) => {
+    updateSearchFlightParameters("from", sourceCity);
+    updateSearchFlightParameters("to", distentionCity);
+    updateSearchFlightParameters(
+      "date",
+      new DateObject({
+        calendar: persian,
+        locale: persian_fa,
+      }).format("D MMMM YYYY")
+    );
+    updateSearchFlightParameters("sitType", "اکونومی");
+    setIsFindBasedHistory(true);
+  };
+  useEffect(() => {
+    if (isFindBasedHistory) handleSearchTicket();
+  }, [
+    searchFlightParameters.from,
+    searchFlightParameters.to,
+    isFindBasedHistory,
+  ]);
   const value = {
     ticketRegion: searchFlightParameters.ticketRegion,
     ticketType: searchFlightParameters.ticketType,
@@ -203,7 +199,9 @@ const FindTicketContextProvider = ({ children }) => {
     filteredTickets,
     setFilteredTickets,
     validateSearchFlightParameters,
+    findTicketBasedHistory,
   };
+
   return (
     <FindTicketContext.Provider value={value}>
       {children}

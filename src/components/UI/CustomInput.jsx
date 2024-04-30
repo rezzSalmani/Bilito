@@ -8,7 +8,7 @@ const CustomInput = ({
   // onChange,
   identifier,
   inputType = "text",
-  icon,
+  icon = false,
   inputName = "",
   inputIdentifier,
   min = 3,
@@ -38,6 +38,7 @@ const CustomInput = ({
     pattern: (inputType === "email" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/) || "",
     onBlur: () => {
       setIsFocused(false);
+      console.log("blur");
     },
   };
   return (
@@ -54,11 +55,7 @@ const CustomInput = ({
           onFocus={handleFocus}
           name={inputName}
           // onChange={() => onChange(event, `${identifier}`)}
-          {...register(
-            `${inputIdentifier}_${identifier}`,
-            { value: Math.floor(Math.random() * 10000).toFixed(0) },
-            validation
-          )}
+          {...register(`${inputIdentifier}_${identifier}`, validation)}
         />
         <label
           htmlFor={inputName}
@@ -70,7 +67,7 @@ const CustomInput = ({
         </label>
         {icon && (
           <span
-            className={`absolute left-2 translate-y-1/2 ${
+            className={`absolute left-2 translate-y-1/2 mt-1 ${
               isFocused ? "text-primary" : "text-gray7"
             }`}
           >

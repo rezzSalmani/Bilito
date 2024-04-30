@@ -30,3 +30,24 @@ const handleDecreasePassenger = (identifier) => {
     }
   });
 };
+// setTimeout(() => {
+//   const ticketRegion = TICKET_DATA.find(
+//     (ticket) => ticket.region === searchFlightParameters.ticketRegion
+//   ).ticketTypes;
+//   const targetTicketType = ticketRegion.find(
+//     (ticket) => ticket.type === searchFlightParameters.ticketType
+//   ).cities;
+
+//   // calculate tickets based on the from and to
+//   const allTickets = targetTicketType.find(
+//     (ticket) =>
+//       ticket.from === searchFlightParameters.from &&
+//       ticket.to === searchFlightParameters.to
+//   );
+//   console.log(targetTicketType);
+//   if (allTickets) {
+//     setSearchedTickets(allTickets.tickets);
+//     setFilteredTickets(allTickets.tickets);
+//   }
+//   updateSearchFlightParameters("isLoading", false);
+// }, 500);

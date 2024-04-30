@@ -1,9 +1,9 @@
 import React, { useEffect, useState, createContext, useContext } from "react";
 import { supabase } from "../supabaseClient";
-const authContext = createContext({ currentUser: null });
+const AuthContext = createContext({ currentUser: null });
 
 export const useAuthContext = () => {
-  return useContext(authContext);
+  return useContext(AuthContext);
 };
 const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -28,7 +28,7 @@ const AuthContextProvider = ({ children }) => {
     return () => data.subscription.unsubscribe();
   }, []);
   const values = { currentUser };
-  return <authContext.Provider value={values}>{children}</authContext.Provider>;
+  return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };
 
 export default AuthContextProvider;

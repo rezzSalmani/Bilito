@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Modal from "../UI/Modal";
 import ButtonPrimary from "../UI/ButtonPrimary";
 import { UserIcon } from "../UI/icons";
-import { useAuthContext } from "../../store/authContext";
+import { useAuthContext } from "../../store/AuthContext.jsx";
 import { set } from "react-hook-form";
 import { supabase } from "../../supabaseClient";
 import toast from "react-hot-toast";

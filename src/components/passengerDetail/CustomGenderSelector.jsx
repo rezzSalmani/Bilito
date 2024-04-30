@@ -12,6 +12,7 @@ const CustomGenderSelector = ({
   errors,
   control,
   watch,
+  icon = false,
 }) => {
   const [isGenderInputFocused, setIsGenderInputFocused] = useState(false);
   const [isOption, setIsOption] = useState(false);
@@ -59,17 +60,18 @@ const CustomGenderSelector = ({
         control={control}
         name={`${inputIdentifier}_${identifier}`}
         rules={{ required: "جنسیت را انتخاب کنید." }}
-        render={({ field: { onChange, onBlur, value } }) => (
+        render={({ field: { onChange, onBlur, value = "جنسیت" } }) => (
           <Listbox
             value={value}
             onChange={onChange}
             as={"div"}
             className='relative w-auto h-full rounded-lg px-2 text-right border shadow-md transition-all duration-200 text-gray8 border-gray4'
           >
-            <Listbox.Button className='w-full h-full text-right py-1'>
-              {value || "جنسیت"}
+            <Listbox.Button className='flex items-center justify-between w-full h-full text-right py-1'>
+              <span>{value || "جنسیت"}</span>
+              {icon && <span>{icon}</span>}
             </Listbox.Button>
-            <Listbox.Options className='absolute bg-white w-full  top-[100%] right-0 left-0 mx-auto border border-gray4 rounded-lg z-10 divide-y px-2 child:cursor-pointer child:py-2'>
+            <Listbox.Options className='absolute bg-white w-full top-[100%] right-0 left-0 mx-auto border border-gray4 rounded-lg z-10 divide-y px-2 child:cursor-pointer child:py-2'>
               <Listbox.Option value={"مرد"}>مرد</Listbox.Option>
               <Listbox.Option value={"زن"}>زن</Listbox.Option>
             </Listbox.Options>

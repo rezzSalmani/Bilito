@@ -2,6 +2,14 @@ import React, { useRef, useState } from "react";
 import CustomInput from "../UI/CustomInput";
 import CustomGenderSelector from "./CustomGenderSelector";
 import CustomDateSelector from "./CustomDateSelector";
+import {
+  UserIcon,
+  UserCircleIcon,
+  LocationIcon,
+  TagIcon,
+  InternetIcon,
+  DocumentCheckIcon,
+} from "../UI/icons";
 const PassengerDetail = ({
   age = "بزرگسال",
   inputIdentifier = "",
@@ -100,6 +108,7 @@ const PassengerDetail = ({
           register={register}
           watch={watch}
           errors={errors}
+          icon={<UserIcon />}
         />
         <CustomInput
           placeHolder='نام خونوادگی لاتین'
@@ -109,6 +118,7 @@ const PassengerDetail = ({
           register={register}
           watch={watch}
           errors={errors}
+          icon={<UserIcon />}
         />
         <CustomGenderSelector
           value={passengerDetails.gender}
@@ -120,11 +130,10 @@ const PassengerDetail = ({
           watch={watch}
           errors={errors}
           control={control}
+          icon={<UserCircleIcon />}
         />
         <CustomDateSelector
           placeHolder='تاریخ تولد'
-          // dateValue={passengerDetails.dateOfBirth}
-          // setNewDate={userAgeDateHandler}
           identifier='dateOfBirth'
           inputName={inputIdentifier + "birthDate"}
           inputIdentifier={inputIdentifier}
@@ -142,6 +151,7 @@ const PassengerDetail = ({
           register={register}
           watch={watch}
           errors={errors}
+          icon={<LocationIcon />}
         />
         <CustomInput
           placeHolder='کد ملی'
@@ -152,6 +162,7 @@ const PassengerDetail = ({
           register={register}
           watch={watch}
           errors={errors}
+          icon={<TagIcon />}
         />
         <CustomInput
           placeHolder='شماره پاسپورت'
@@ -162,11 +173,10 @@ const PassengerDetail = ({
           register={register}
           watch={watch}
           errors={errors}
+          icon={<DocumentCheckIcon />}
         />
         <CustomDateSelector
           placeHolder='تاریخ انقضا پاسپورت'
-          // dateValue={passengerDetails.passPortExpiry}
-          // setNewDate={userAgeDateHandler}
           identifier='passPortExpiry'
           inputName={inputIdentifier + "passPortExpiry"}
           inputIdentifier={inputIdentifier}

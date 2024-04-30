@@ -10,14 +10,14 @@ const Layout = () => {
   }, []);
 
   return (
-    <div>
+    <>
       <Toaster />
       <Header />
-      <body>
+      <main>
         <Outlet />
-      </body>
+      </main>
       <Footer />
-    </div>
+    </>
   );
 };
 

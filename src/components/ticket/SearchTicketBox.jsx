@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { AirPlane, ChevronDownIcon, SearchIcon, CheckIcon } from "../UI/icons";
+import { AirPlane } from "../UI/icons";
 import TicketInputs from "./TicketInputs";
 
 import { useFindTicketContext } from "../../store/FindTicketContext";

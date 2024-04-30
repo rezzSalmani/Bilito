@@ -8,7 +8,7 @@ import {
 } from "../UI/icons";
 import { Tab } from "@headlessui/react";
 import Modal from "../UI/Modal";
-import { useAuthContext } from "../../store/authContext";
+import { useAuthContext } from "../../store/AuthContext.jsx";
 import toast from "react-hot-toast";
 import { useFindTicketContext } from "../../store/FindTicketContext";
 import { useNavigate } from "react-router-dom";

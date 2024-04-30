@@ -25,15 +25,13 @@ const PassengerConformInformation = () => {
     tempSelectedTicket.childrenPrice * tempSelectedTicket.passengers.children +
     tempSelectedTicket.childrenPrice * tempSelectedTicket.passengers.baby;
   // console.log(passengersInformation);
+
   const handlePayment = () => {
     const phoneNumber = contactInformation[0].phoneInformation_phone;
     const reservationNumber = Math.floor(1000000 + Math.random() * 9000000);
     const ticketNumber = Math.floor(1000000 + Math.random() * 9000000);
     const paymentTime = new DateObject().format("HH MM");
-    const buyingDate = new DateObject({
-      calendar: persian,
-      locale: persian_fa,
-    }).format("D MMMM YYYY");
+    const buyingDate = new DateObject().format("D MMMM YYYY");
     console.log(buyingDate);
     if (
       phoneNumber &&
@@ -70,7 +68,7 @@ const PassengerConformInformation = () => {
         {/* passengers information */}
         <div className='space-y-10'>
           {passengersInformation.length > 0 &&
-            passengersInformation?.map((passenger, index) => (
+            passengersInformation.map((passenger, index) => (
               <div className='space-y-4' key={index}>
                 <div className='flex gap-3 items-center'>
                   <UserIcon classes=' w-5 h-5 md:h-7 md:w-7' />

@@ -17,8 +17,9 @@ import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import SearchTicketBox from "../components/ticket/SearchTicketBox";
-import TicketInputs from "../components/ticket/TicketInputs";
 import LandingImage from "../components/LandingImage";
+import { useFindTicketContext } from "../store/FindTicketContext";
+import { useNavigate } from "react-router-dom";
 const popularCities = ["تهران", "مشهد", "شیراز", "کیش"];
 const popularCitiesFlights = [
   {
@@ -91,29 +92,31 @@ const frequentQuestions = [
 ];
 
 const Home = () => {
-  const [sliderPosition, setSliderPosition] = useState(0);
   const [popularCitySelected, setPopularCitySelected] = useState("تهران");
   const historSwiperRef = useRef(null);
-  const prevHistoryButtonRef = useRef(null);
-  const nextHistoryButtonRef = useRef(null);
-  const [HISTORY, setHISTORY] = useState([
-    { id: 1, title: "تهران به استانبول" },
-    { id: 2, title: "تهران به لندن" },
-    { id: 3, title: " استانیول  به تهران" },
-    { id: 4, title: "امارات به تهران" },
-    { id: 5, title: "امارات به تهران" },
-    { id: 6, title: "عراق به ایران" },
-    { id: 7, title: "ایران به عراق" },
-    { id: 8, title: "اصفهان به  تهران" },
-    { id: 9, title: "تبریز به تهران" },
-    { id: 10, title: "تهران  به امارات" },
-  ]);
+  const naviagte = useNavigate();
+  const { findTicketBasedHistory } = useFindTicketContext();
 
+  const [HISTORY, setHISTORY] = useState([
+    { id: 1, sourceCity: "تهران", distentionCity: "مشهد" },
+    { id: 2, sourceCity: "مشهد", distentionCity: "تهران" },
+    { id: 3, sourceCity: "تهران", distentionCity: "شیراز" },
+    { id: 4, sourceCity: "شیراز", distentionCity: "مشهد" },
+    { id: 5, sourceCity: "مشهد", distentionCity: "شیراز" },
+    { id: 6, sourceCity: "تهران", distentionCity: "مشهد" },
+    { id: 7, sourceCity: "شیراز", distentionCity: "تهران" },
+    { id: 8, sourceCity: "روسیه", distentionCity: "ایران" },
+    { id: 9, sourceCity: "تهران", distentionCity: "کیش" },
+  ]);
   const handleRemoveItem = (itemId) => {
     const updatedItems = HISTORY.filter((item) => item.id !== itemId);
     setHISTORY(updatedItems);
   };
 
+  const handleSearchTicketByHistory = (sourceCity, distentionCity) => {
+    findTicketBasedHistory(sourceCity, distentionCity);
+    naviagte("flights");
+  };
   return (
     <main className='flex flex-col w-full '>
       {/* Landing Image */}
@@ -175,7 +178,19 @@ const Home = () => {
                     <span onClick={() => handleRemoveItem(history.id)}>
                       <CloseCircleIcon classes='w-4 h-4 md:w-5 md:h-5' />
                     </span>
-                    <span>{history.title}</span>
+                    <div
+                      className='flex items-center gap-1 cursor-pointer'
+                      onClick={() =>
+                        handleSearchTicketByHistory(
+                          history.sourceCity,
+                          history.distentionCity
+                        )
+                      }
+                    >
+                      <span>{history.sourceCity}</span>
+                      به
+                      <span>{history.distentionCity}</span>
+                    </div>
                   </div>
                 </SwiperSlide>
               ))}
