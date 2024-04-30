@@ -9,7 +9,7 @@ import { supabase } from "../../supabaseClient";
 import { getTicketTotalPrice } from "../../util/util";
 import { set } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useScrollToTop } from "../../hook/useScrollToTop";
+
 const PassengerConformInformation = () => {
   const {
     passengersInformation,
@@ -21,7 +21,7 @@ const PassengerConformInformation = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  useScrollToTop();
+
   useEffect(() => {
     if (!tempSelectedTicket || passengersInformation.length === 0)
       return navigate("/");

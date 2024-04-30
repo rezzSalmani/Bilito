@@ -7,7 +7,7 @@ import { useTicketBuyingProcess } from "../../store/TicketBuyingProcess";
 import { useNavigate } from "react-router-dom";
 import { EmailIcon, PhoneIcon } from "../UI/icons";
 import { useAuthContext } from "../../store/AuthContext";
-
+import Timer from "../UI/Timer.jsx";
 function convertObjectToArray(inputObject) {
   const resultArray = [];
   let tempObject = {};
@@ -32,6 +32,7 @@ function convertObjectToArray(inputObject) {
   }
   return resultArray;
 }
+
 const PassengersInformation = () => {
   // state for user Contact Information
   const [userEmail, setEmail] = useState("");
@@ -83,9 +84,11 @@ const PassengersInformation = () => {
           <h6 className='text-sm xs:text-base font-IRANSansXBold'>
             مشخصات مسافران
           </h6>
-          <div className='text-xs xs:text-sm'>
+          <div className=' flex items-center gap-2 text-xs xs:text-sm'>
             <span>زمان باقی مانده:</span>
-            <span className='text-errorLight'>07:23</span>
+            <span className='text-errorLight'>
+              <Timer />
+            </span>
           </div>
         </div>
         {tempSelectedTicket && (

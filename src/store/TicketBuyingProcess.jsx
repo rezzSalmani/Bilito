@@ -1,4 +1,11 @@
-import { createContext, useContext, useReducer } from "react";
+import {
+  createContext,
+  useContext,
+  useReducer,
+  useState,
+  useEffect,
+  useMemo,
+} from "react";
 
 const TicketBuyingProcess = createContext({
   //   passengersInformation: null,
@@ -36,6 +43,13 @@ const ticketStatusReducer = (state, action) => {
         ...state,
         contactInformation: action.data,
       };
+    case "restAllData":
+      return {
+        passengersInformation: [],
+        tempSelectedTicket: null,
+        contactInformation: null,
+        ticketBuyingStatus: "information",
+      };
     default:
       return state;
   }
@@ -50,6 +64,29 @@ const TicketBuyingProcessProvider = ({ children }) => {
       ticketBuyingStatus: "information",
     }
   );
+  // const [timeLeft, setTimeLeft] = useState(7 * 60 * 1000); // 7 minutes in milliseconds
+
+  // useEffect(() => {
+  //   if (timeLeft === 0) {
+  //     clearAllInformation();
+  //     console.log("times up");
+  //     return;
+  //   }
+
+  //   const timer = setTimeout(() => {
+  //     setTimeLeft(timeLeft - 1000);
+  //   }, 1000);
+
+  //   return () => clearTimeout(timer);
+  // }, [timeLeft]);
+
+  // const formattedTimeLeft = useMemo(() => {
+  //   const minutes = Math.floor(timeLeft / 1000 / 60);
+  //   const seconds = (timeLeft / 1000) % 60;
+  //   return `${minutes.toString().padStart(2, "0")}:${seconds
+  //     .toString()
+  //     .padStart(2, "0")}`;
+  // }, [timeLeft]);
 
   const updatePassengersInformation = (data) => {
     dispatchTicketDispatch({ type: "updatePassengersInformation", data });
@@ -64,6 +101,9 @@ const TicketBuyingProcessProvider = ({ children }) => {
   const updateContactInformation = (data) => {
     dispatchTicketDispatch({ type: "updateContactInformation", data });
   };
+  const clearAllInformation = () => {
+    dispatchTicketDispatch({ type: "restAllData" });
+  };
   const values = {
     passengersInformation: ticketStatus.passengersInformation,
     tempSelectedTicket: ticketStatus.tempSelectedTicket,
@@ -73,6 +113,7 @@ const TicketBuyingProcessProvider = ({ children }) => {
     updateTempSelectedTicket,
     updateTicketBuyingStatus,
     updateContactInformation,
+    clearAllInformation,
   };
   return (
     <TicketBuyingProcess.Provider value={values}>

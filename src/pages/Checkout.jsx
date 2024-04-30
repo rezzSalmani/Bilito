@@ -11,6 +11,7 @@ import PassengerConformInformation from "../components/checkout/PassengerConform
 import PaymentConformation from "../components/checkout/PaymentConformation.jsx";
 import TicketDetailItem from "../components/ticket/TicketDetailItem.jsx";
 import { useTicketBuyingProcess } from "../store/TicketBuyingProcess.jsx";
+
 const Checkout = () => {
   const { tempSelectedTicket, updateTempSelectedTicket, ticketBuyingStatus } =
     useTicketBuyingProcess();
@@ -19,6 +20,9 @@ const Checkout = () => {
     if (tempSelectedTicket === null) navigate("/");
     window.scrollTo(0, 0);
   }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [ticketBuyingStatus]);
 
   return (
     <div className='container space-y-10 md:space-y-20 '>

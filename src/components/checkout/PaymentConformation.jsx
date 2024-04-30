@@ -16,7 +16,6 @@ import { useFindTicketContext } from "../../store/FindTicketContext";
 import { useTicketBuyingProcess } from "../../store/TicketBuyingProcess";
 import { useNavigate } from "react-router-dom";
 import { getTicketTotalPrice } from "../../util/util";
-import { useScrollToTop } from "../../hook/useScrollToTop";
 
 const PaymentConformation = () => {
   const [showDetails, setShowDetails] = useState(false);
@@ -26,7 +25,7 @@ const PaymentConformation = () => {
   useEffect(() => {
     if (!tempSelectedTicket) return navigate("/");
   }, []);
-  useScrollToTop();
+
   const totalPrice = getTicketTotalPrice(tempSelectedTicket);
   return (
     <div className='space-y-10 md:space-y-20'>
