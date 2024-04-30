@@ -24,11 +24,7 @@ const Timer = () => {
       .padStart(2, "0")}`;
   }, [timeLeft]);
 
-  return (
-    <div>
-      <p>Time left: {formattedTimeLeft}</p>
-    </div>
-  );
+  return <span>{formattedTimeLeft}</span>;
 };
 
 export default Timer;
