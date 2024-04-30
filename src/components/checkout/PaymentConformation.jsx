@@ -15,6 +15,8 @@ import { Document, Page, View, Text } from "@react-pdf/renderer";
 import { useFindTicketContext } from "../../store/FindTicketContext";
 import { useTicketBuyingProcess } from "../../store/TicketBuyingProcess";
 import { useNavigate } from "react-router-dom";
+import { getTicketTotalPrice } from "../../util/util";
+import { useScrollToTop } from "../../hook/useScrollToTop";
 
 const PaymentConformation = () => {
   const [showDetails, setShowDetails] = useState(false);
@@ -24,11 +26,8 @@ const PaymentConformation = () => {
   useEffect(() => {
     if (!tempSelectedTicket) return navigate("/");
   }, []);
-
-  const totalPrice =
-    tempSelectedTicket.price * tempSelectedTicket.passengers.adults +
-    tempSelectedTicket.childrenPrice * tempSelectedTicket.passengers.children +
-    tempSelectedTicket.childrenPrice * tempSelectedTicket.passengers.baby;
+  useScrollToTop();
+  const totalPrice = getTicketTotalPrice(tempSelectedTicket);
   return (
     <div className='space-y-10 md:space-y-20'>
       <div className='flex-all gap-3 md:text-xl bg-successLight2xl text-success py-2 rounded-lg'>
@@ -40,8 +39,8 @@ const PaymentConformation = () => {
           <div className='flex items-center flex-wrap gap-2 md:gap-4 text-gray9 font-IRANSansXMedium'>
             <div className='flex-all items-center gap-2'>
               <img
-                src='/images/companies/mahan.png'
-                alt='mahan'
+                src={tempSelectedTicket?.componyImage}
+                alt={tempSelectedTicket?.compony}
                 className='w-6 rounded-full'
               />
               <span className='text-sm'>{tempSelectedTicket?.compony}</span>
@@ -185,7 +184,10 @@ const PaymentConformation = () => {
           <div className=' border-b border-gray2 h-full w-full divide-y divide-gray2 child:py-6'>
             {/* Passengers */}
             {passengersInformation?.map((passenger) => (
-              <div className='flex items-center justify-center md:justify-start flex-wrap pr-4 lg:pr-14 gap-3 xs:gap-4 h-full w-full text-center md:text-right'>
+              <div
+                className='flex items-center justify-center md:justify-start flex-wrap pr-4 lg:pr-14 gap-3 xs:gap-4 h-full w-full text-center md:text-right'
+                key={passenger.nationalCode}
+              >
                 <div className='child:block '>
                   <span className='text-gray7'>نام مسافر</span>
                   <span className='text-gray9'>

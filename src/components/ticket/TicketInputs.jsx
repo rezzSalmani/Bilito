@@ -1,7 +1,11 @@
 import React, { Fragment, useRef } from "react";
 import { Listbox, Transition, Menu } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
+import { useFindTicketContext } from "../../store/FindTicketContext";
 import ButtonPrimary from "../UI/ButtonPrimary";
+import DatePicker from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
 import {
   ChevronDownIcon,
   SearchIcon,
@@ -11,18 +15,11 @@ import {
   LocationIcon,
   CalendarIcon,
 } from "../UI/icons";
-import DatePicker from "react-multi-date-picker";
-import persian from "react-date-object/calendars/persian";
-import persian_fa from "react-date-object/locales/persian_fa";
-
 const ticketClasses = ["اکونومی", "بیزینس", "فرست"];
-
-import { useFindTicketContext } from "../../store/FindTicketContext";
-
 const localCities = ["تهران", "مشهد", "شیراز", "کیش"];
 const internationalCities = ["روسیه", "ایران"];
+
 const TicketInputs = () => {
-  const navigate = useNavigate();
   const {
     from,
     to,
@@ -40,13 +37,13 @@ const TicketInputs = () => {
   const datePickerRef = useRef();
   const tempCities =
     ticketRegion === "international" ? internationalCities : localCities;
+  const navigate = useNavigate();
 
   const handleSearch = () => {
     const isTrue = validateSearchFlightParameters();
     if (isTrue) {
       navigate("/flights");
       handleSearchTicket();
-      console.log(status);
     }
   };
   return (

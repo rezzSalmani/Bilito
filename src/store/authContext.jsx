@@ -22,6 +22,7 @@ const AuthContextProvider = ({ children }) => {
         // handle token refreshed event
       } else if (event === "USER_UPDATED") {
         // handle user updated event
+        setCurrentUser(session?.user);
       }
     });
     // call unsubscribe to remove the callback

@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const CustomInput = ({
   placeHolder = "تایپ کنید",
-  // value,
-  // onChange,
   identifier,
   inputType = "text",
   icon = false,
@@ -17,15 +15,20 @@ const CustomInput = ({
   errors,
   watch,
   validations = true,
+  setValue,
+  defaultValue = "",
 }) => {
   const handleFocus = () => {
     setIsFocused(true);
   };
   const [isFocused, setIsFocused] = useState(false);
-
   const myInputValue = watch(`${inputIdentifier}_${identifier}`);
+  useEffect(() => {
+    if (setValue) setValue(`${inputIdentifier}_${identifier}`, defaultValue);
+  }, [defaultValue]);
 
   const validation = validations && {
+    value: defaultValue,
     required: `لطفا ${placeHolder} را وارد کنید`,
     minLength: {
       value: min,
@@ -35,11 +38,13 @@ const CustomInput = ({
       value: max,
       message: `لطفا حداکثر ${max} کاراکتر وارد کنید`,
     },
-    pattern: (inputType === "email" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/) || "",
-    onBlur: () => {
-      setIsFocused(false);
-      console.log("blur");
-    },
+    valueAsNumber: inputType === "number",
+    pattern:
+      (inputType === "email" && {
+        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        message: " فرمت ایمیل اشتباه میباشد.",
+      }) ||
+      "",
   };
   return (
     <div className='flex flex-col'>
@@ -55,7 +60,12 @@ const CustomInput = ({
           onFocus={handleFocus}
           name={inputName}
           // onChange={() => onChange(event, `${identifier}`)}
-          {...register(`${inputIdentifier}_${identifier}`, validation)}
+          {...register(`${inputIdentifier}_${identifier}`, {
+            ...validation,
+            onBlur: () => {
+              setIsFocused(false);
+            },
+          })}
         />
         <label
           htmlFor={inputName}

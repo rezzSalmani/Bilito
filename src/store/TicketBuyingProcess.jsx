@@ -45,38 +45,7 @@ const TicketBuyingProcessProvider = ({ children }) => {
     ticketStatusReducer,
     {
       passengersInformation: [],
-      tempSelectedTicket: {
-        "id": "t2",
-        "price": 1100000,
-        "compony": "کارون",
-        "sitLeft": 10,
-        "takeOff": "15:30",
-        "isPopular": true,
-        "middleStop": false,
-        "returnable": false,
-        "sourceCity": "تهران",
-        "travelTime": "04:00",
-        "landingTime": "19:30",
-        "ticketLevel": "فرست",
-        "componyImage": "/images/companies/karon.png",
-        "flightNumber": 923153,
-        "childrenPrice": 850000,
-        "sourceAirport": "Tehran Airport",
-        "destinationCity": "مشهد",
-        "destinationAirport": "Mashhad Airport",
-        "passengers": {
-          "adults": 2,
-          "children": 1,
-          "baby": 0,
-        },
-        "sitType": "بیزینس",
-        "date": "۱۰ اردیبهشت ۱۴۰۳",
-        "reservationNumber": 2651813,
-        "ticketNumber": 7348058,
-        "paymentTime": "14 04",
-        "phoneNumber": "1888124124",
-        "buyingDate": "29 April 2024",
-      },
+      tempSelectedTicket: null,
       contactInformation: null,
       ticketBuyingStatus: "information",
     }
@@ -87,6 +56,7 @@ const TicketBuyingProcessProvider = ({ children }) => {
   };
   const updateTempSelectedTicket = (data) => {
     dispatchTicketDispatch({ type: "updateTempSelectedTicket", data });
+    return ticketStatus.tempSelectedTicket;
   };
   const updateTicketBuyingStatus = (data) => {
     dispatchTicketDispatch({ type: "updateTicketBuyingStatus", data });

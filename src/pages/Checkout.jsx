@@ -19,6 +19,7 @@ const Checkout = () => {
     if (tempSelectedTicket === null) navigate("/");
     window.scrollTo(0, 0);
   }, []);
+
   return (
     <div className='container space-y-10 md:space-y-20 '>
       <div className='flex flex-col xs:flex-row gap-4 items-center  text-xs xs:text-sm text-tint3 '>
@@ -83,7 +84,6 @@ const Checkout = () => {
             />
           </div>
         )}
-
       {ticketBuyingStatus === "information" && <PassengersInformation />}
       {ticketBuyingStatus === "conformation" && <PassengerConformInformation />}
       {ticketBuyingStatus === "paymentSuccess" && <PaymentConformation />}

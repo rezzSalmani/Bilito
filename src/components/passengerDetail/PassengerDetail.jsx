@@ -30,38 +30,7 @@ const PassengerDetail = ({
   });
 
   // const [isError, setIsError] = useState("");
-  const errorRef = useRef();
 
-  const handleFormValidation = () => {
-    switch (true) {
-      case !passengerDetails.firstName:
-        setIsError("لطفا نام خود را وارد کنید");
-        return;
-      case !passengerDetails.lastName:
-        setIsError("لطفا نام خانوادگی خود را وارد کنید");
-        return;
-      case !passengerDetails.gender:
-        setIsError("لطفا جنسیت خود را انتخاب کنید");
-        return;
-      case !passengerDetails.nationality:
-        setIsError("لطفا ملیت خود را وارد کنید");
-        return;
-      case !passengerDetails.nationalCode:
-        setIsError("لطفا کد ملی خود را وارد کنید");
-        return;
-      case !passengerDetails.passPortNumber:
-        setIsError("لطفا شماره پاسپورت خود را وارد کنید");
-        return;
-      case !passengerDetails.dateOfBirth:
-        setIsError("لطفا تاریخ تولد خود را انتخاب کنید");
-        return;
-      case !passengerDetails.passPortExpiry:
-        setIsError("لطفا تاریخ انقضا پاسپورت خود را انتخاب کنید");
-        return;
-      default:
-        return true;
-    }
-  };
   const changeInputHandler = (event, identifier) => {
     setIsError("");
     setPassengerDetails((prev) => {
@@ -121,8 +90,6 @@ const PassengerDetail = ({
           icon={<UserIcon />}
         />
         <CustomGenderSelector
-          value={passengerDetails.gender}
-          onChange={changeGenderHandler}
           identifier='gender'
           inputName={inputIdentifier + "gender"}
           inputIdentifier={inputIdentifier}

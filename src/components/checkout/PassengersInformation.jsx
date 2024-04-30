@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useTicketBuyingProcess } from "../../store/TicketBuyingProcess";
 import { useNavigate } from "react-router-dom";
 import { EmailIcon, PhoneIcon } from "../UI/icons";
+import { useAuthContext } from "../../store/AuthContext";
 
 function convertObjectToArray(inputObject) {
   const resultArray = [];
@@ -32,6 +33,19 @@ function convertObjectToArray(inputObject) {
   return resultArray;
 }
 const PassengersInformation = () => {
+  // state for user Contact Information
+  const [userEmail, setEmail] = useState("");
+  const [userPhone, setPhoneNumber] = useState("");
+  const { currentUser } = useAuthContext();
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+    setValue,
+    formState: { errors, isSubmitting, isValid },
+  } = useForm();
   const {
     updatePassengersInformation,
     updateTicketBuyingStatus,
@@ -39,24 +53,22 @@ const PassengersInformation = () => {
     updateContactInformation,
   } = useTicketBuyingProcess();
 
-  const navigate = useNavigate();
+  // setDefault value for user Contact Information
+  useEffect(() => {
+    if (currentUser) {
+      setEmail(currentUser.email);
+      setPhoneNumber(currentUser.user_metadata.phone || "");
+    }
+  }, [currentUser]);
+
   useEffect(() => {
     if (!tempSelectedTicket) return navigate("/");
   }, [tempSelectedTicket]);
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    control,
-    formState: { errors, isSubmitting, isValid },
-  } = useForm();
-
   const handleSentFormData = (data, e) => {
     let result = convertObjectToArray(data);
     const contactInfo = result.splice(-1);
-    // console.log(result);
-    // console.log(contactInfo);
+
     if (isValid && result.length > 0) {
       updatePassengersInformation(result);
       updateContactInformation(contactInfo);
@@ -143,6 +155,8 @@ const PassengersInformation = () => {
             errors={errors}
             watch={watch}
             icon={<EmailIcon />}
+            defaultValue={userEmail}
+            setValue={setValue}
           />
           <CustomInput
             inputIdentifier='phoneInformation'
@@ -153,6 +167,8 @@ const PassengersInformation = () => {
             errors={errors}
             watch={watch}
             icon={<PhoneIcon />}
+            defaultValue={userPhone}
+            setValue={setValue}
           />
         </div>
       </div>

@@ -5,6 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { DateObject } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
+import { supabase } from "../../supabaseClient";
+import { getTicketTotalPrice } from "../../util/util";
+import { set } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useScrollToTop } from "../../hook/useScrollToTop";
 const PassengerConformInformation = () => {
   const {
     passengersInformation,
@@ -13,26 +18,25 @@ const PassengerConformInformation = () => {
     updateTempSelectedTicket,
     contactInformation,
   } = useTicketBuyingProcess();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const [passengerDetails, setPassengerDetails] = useState([]);
-
+  useScrollToTop();
   useEffect(() => {
     if (!tempSelectedTicket || passengersInformation.length === 0)
       return navigate("/");
   }, [passengersInformation, tempSelectedTicket]);
-  let totalPrice =
-    tempSelectedTicket.price * tempSelectedTicket.passengers.adults +
-    tempSelectedTicket.childrenPrice * tempSelectedTicket.passengers.children +
-    tempSelectedTicket.childrenPrice * tempSelectedTicket.passengers.baby;
-  // console.log(passengersInformation);
 
-  const handlePayment = () => {
+  const totalPrice = getTicketTotalPrice(tempSelectedTicket);
+
+  const handlePayment = async () => {
+    setIsLoading(true);
     const phoneNumber = contactInformation[0].phoneInformation_phone;
     const reservationNumber = Math.floor(1000000 + Math.random() * 9000000);
     const ticketNumber = Math.floor(1000000 + Math.random() * 9000000);
     const paymentTime = new DateObject().format("HH MM");
     const buyingDate = new DateObject().format("D MMMM YYYY");
-    console.log(buyingDate);
+
     if (
       phoneNumber &&
       reservationNumber &&
@@ -40,8 +44,7 @@ const PassengerConformInformation = () => {
       paymentTime &&
       buyingDate
     ) {
-      console.log("first");
-      updateTempSelectedTicket({
+      const updatedData = await updateTempSelectedTicket({
         ...tempSelectedTicket,
         reservationNumber,
         ticketNumber,
@@ -49,8 +52,38 @@ const PassengerConformInformation = () => {
         phoneNumber,
         buyingDate,
       });
-      updateTicketBuyingStatus("paymentSuccess");
+
+      const userResponse = await supabase.auth.getUser();
+      if (userResponse.data) {
+        const currentTickets =
+          userResponse.data.user.user_metadata.tickets || [];
+
+        const boughtTicket = {
+          ticketInformation: tempSelectedTicket,
+          passengersInformation: passengersInformation,
+          contactInformation: contactInformation[0],
+        };
+        console.log(boughtTicket);
+        const updatedTickets = [...currentTickets, boughtTicket];
+        // const isAvailable = () =>
+        //   currentTickets.find(
+        //     (ticket) => ticket.reservationNumber === reservationNumber
+        //   );
+
+        const { data, error } = await supabase.auth.updateUser({
+          data: { tickets: updatedTickets },
+        });
+        if (error) {
+          setError(error.message);
+        } else {
+          updateTicketBuyingStatus("paymentSuccess");
+          toast.success("پرداخت با موفقیت انجام شد.");
+        }
+      } else {
+        setError("لطفا ابتدا وارد شوید");
+      }
     }
+    setIsLoading(false);
   };
   return (
     <div className='space-y-5 md:space-y-20'>
@@ -73,8 +106,6 @@ const PassengerConformInformation = () => {
                 <div className='flex gap-3 items-center'>
                   <UserIcon classes=' w-5 h-5 md:h-7 md:w-7' />
                   <div className='flex flex-col gap-1 text-sm md:text-base'>
-                    {/* <span className=''>
-                  </span> */}
                     <span className='text-gray7 font-IRANSansXBold text-left '>
                       {passenger.gender === "مرد" ? "Mr." : "Miss."}{" "}
                       {passenger.firstName}
@@ -151,7 +182,7 @@ const PassengerConformInformation = () => {
               <ChevronRightIcon />
               بازگشت به مرحله قبل
             </span>
-            <div className='flex items-center gap-2 w-full xs:w-auto'>
+            <div className='flex items-center  flex-col md:flex-row gap-2 w-full xs:w-auto'>
               <div className='hidden xs:flex items-center gap-2 text-primary w-full text-sm sm:text-base'>
                 <span>مجموع پرداختی شما</span>
                 <span>
@@ -159,15 +190,23 @@ const PassengerConformInformation = () => {
                   تومان
                 </span>
               </div>
-              <button
-                onClick={handlePayment}
-                className='w-full  xs:w-auto px-12 py-2 bg-primary text-white rounded-lg text-sm'
-              >
-                پرداخت
-                <span className='inline-flex xs:hidden'>
-                  {totalPrice?.toLocaleString()} تومان
-                </span>
-              </button>
+              <div className='flex flex-col items-center w-full justify-center relative'>
+                <button
+                  onClick={handlePayment}
+                  disabled={isLoading}
+                  className='w-full xs:w-full px-12 py-2 bg-primary text-white rounded-lg text-sm'
+                >
+                  {isLoading ? "درحال پرداخت ..." : "پرداخت"}
+                  <span className='inline-flex xs:hidden px-2'>
+                    {totalPrice?.toLocaleString()} تومان
+                  </span>
+                </button>
+                {error && (
+                  <span className='absolute right-0 left-0 mx-auto -bottom-[50%] text-xs text-errorLight'>
+                    {error}
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         </div>

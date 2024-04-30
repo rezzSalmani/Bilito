@@ -22,7 +22,12 @@ const TicketDetailItem = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const { sitType, date, passengers } = useFindTicketContext();
-  const { updateTempSelectedTicket } = useTicketBuyingProcess();
+  const { currentUser } = useAuthContext();
+  const {
+    updateTempSelectedTicket,
+    updateTicketBuyingStatus,
+    updatePassengersInformation,
+  } = useTicketBuyingProcess();
   const navigate = useNavigate();
   function closeModal() {
     setIsModalOpen(false);
@@ -30,7 +35,6 @@ const TicketDetailItem = ({
   function openModal() {
     setIsModalOpen(true);
   }
-  const { currentUser } = useAuthContext();
 
   const button = (
     <button
@@ -65,7 +69,6 @@ const TicketDetailItem = ({
   } = detail;
 
   const handleCheckout = () => {
-    // create a 6 diget random number
     if (!currentUser) {
       return toast.error("لطفا ابتدا ثبت نام کنید.");
     }
@@ -75,6 +78,8 @@ const TicketDetailItem = ({
       sitType,
       date,
     });
+    updateTicketBuyingStatus("information");
+    updatePassengersInformation(null);
     navigate("/checkout");
   };
   return (

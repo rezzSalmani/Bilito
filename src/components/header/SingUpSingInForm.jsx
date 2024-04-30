@@ -80,6 +80,7 @@ const SingUpSingInForm = () => {
           data: {
             username: pureValues.userName,
             phone: pureValues.phone,
+            tickets: [],
           },
         },
       });

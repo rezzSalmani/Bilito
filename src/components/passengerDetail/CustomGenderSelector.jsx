@@ -2,13 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Listbox } from "@headlessui/react";
 const CustomGenderSelector = ({
-  onChange,
   identifier,
-  value,
   inputIdentifier,
-  inputName,
   onBlurInput = "",
-  register,
   errors,
   control,
   watch,

@@ -11,3 +11,11 @@ export function removeIdentifierFromSingUpForm(inputObject) {
   }
   return resultObject;
 }
+
+export function getTicketTotalPrice(TicketData) {
+  return (
+    TicketData.price * TicketData.passengers.adults +
+    TicketData.childrenPrice * TicketData.passengers.children +
+    TicketData.childrenPrice * TicketData.passengers.baby
+  );
+}
