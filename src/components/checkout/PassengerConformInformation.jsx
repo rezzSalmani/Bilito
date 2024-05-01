@@ -3,13 +3,9 @@ import { ChevronRightIcon, UserIcon } from "../UI/icons";
 import { useTicketBuyingProcess } from "../../store/TicketBuyingProcess";
 import { useNavigate } from "react-router-dom";
 import { DateObject } from "react-multi-date-picker";
-import persian from "react-date-object/calendars/persian";
-import persian_fa from "react-date-object/locales/persian_fa";
 import { supabase } from "../../supabaseClient";
 import { getTicketTotalPrice } from "../../util/util";
-import { set } from "react-hook-form";
 import toast from "react-hot-toast";
-import Timer from "../UI/Timer.jsx";
 import HeaderTable from "./HeaderTable.jsx";
 const PassengerConformInformation = () => {
   const {

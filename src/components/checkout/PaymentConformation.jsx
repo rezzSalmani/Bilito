@@ -7,6 +7,7 @@ import {
   CheckIcon,
   ChevronDownIcon,
   ChevronUpIcon,
+  HomeIcon,
   TicketIcon,
   TimeIcon,
   UserCircleIcon,
@@ -14,7 +15,7 @@ import {
 import { Document, Page, View, Text } from "@react-pdf/renderer";
 import { useFindTicketContext } from "../../store/FindTicketContext";
 import { useTicketBuyingProcess } from "../../store/TicketBuyingProcess";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getTicketTotalPrice } from "../../util/util";
 
 const PaymentConformation = () => {
@@ -310,10 +311,13 @@ const PaymentConformation = () => {
           <TicketIcon />
           دانلود بلیط
         </button>
-        <button className='flex-all gap-2 text-primary border border-primary bg-white rounded-lg'>
-          <TicketIcon />
-          دانلود بلیط
-        </button>
+        <Link
+          to='/'
+          className='flex-all gap-2 text-primary border border-primary bg-white rounded-lg'
+        >
+          <HomeIcon />
+          بازگشت به صفحه اصلی
+        </Link>
       </div>
     </div>
   );
