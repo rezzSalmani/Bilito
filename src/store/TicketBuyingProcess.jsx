@@ -6,7 +6,7 @@ import {
   useEffect,
   useMemo,
 } from "react";
-
+export const LIMIT_TIME = 7 * 60 * 1000;
 const TicketBuyingProcess = createContext({
   //   passengersInformation: null,
   //   tempSelectedTicket: null,
@@ -50,6 +50,7 @@ const ticketStatusReducer = (state, action) => {
         contactInformation: null,
         ticketBuyingStatus: "information",
       };
+
     default:
       return state;
   }
@@ -59,34 +60,57 @@ const TicketBuyingProcessProvider = ({ children }) => {
     ticketStatusReducer,
     {
       passengersInformation: [],
-      tempSelectedTicket: null,
+      tempSelectedTicket: {
+        "id": "t1",
+        "price": 1200000,
+        "compony": "زاگرس",
+        "sitLeft": 16,
+        "takeOff": "19:30",
+        "isPopular": false,
+        "middleStop": true,
+        "returnable": false,
+        "sourceCity": "تهران",
+        "travelTime": "03:30",
+        "landingTime": "22:40",
+        "ticketLevel": "اکونومی",
+        "componyImage": "/images/companies/zakros.png",
+        "flightNumber": 122434,
+        "childrenPrice": 900000,
+        "sourceAirport": "Tehran Airport",
+        "destinationCity": "مشهد",
+        "destinationAirport": "Mashhad Airport",
+        "passengers": {
+          "adults": 1,
+          "children": 0,
+          "baby": 0,
+        },
+        "sitType": "اکونومی",
+        "date": "۱۲ اردیبهشت ۱۴۰۳",
+      },
       contactInformation: null,
       ticketBuyingStatus: "information",
     }
   );
-  // const [timeLeft, setTimeLeft] = useState(7 * 60 * 1000); // 7 minutes in milliseconds
+  const [timeLeft, setTimeLeft] = useState(LIMIT_TIME);
+  const [timerRunning, setTimerRunning] = useState(false);
 
-  // useEffect(() => {
-  //   if (timeLeft === 0) {
-  //     clearAllInformation();
-  //     console.log("times up");
-  //     return;
-  //   }
-
-  //   const timer = setTimeout(() => {
-  //     setTimeLeft(timeLeft - 1000);
-  //   }, 1000);
-
-  //   return () => clearTimeout(timer);
-  // }, [timeLeft]);
-
-  // const formattedTimeLeft = useMemo(() => {
-  //   const minutes = Math.floor(timeLeft / 1000 / 60);
-  //   const seconds = (timeLeft / 1000) % 60;
-  //   return `${minutes.toString().padStart(2, "0")}:${seconds
-  //     .toString()
-  //     .padStart(2, "0")}`;
-  // }, [timeLeft]);
+  useEffect(() => {
+    let timer;
+    if (timeLeft <= 0) {
+      dispatchTicketDispatch({ type: "restAllData" });
+      setTimerRunning(false); // Stop the timer when timeLeft is 0
+    } else if (timerRunning) {
+      timer = setTimeout(() => {
+        setTimeLeft(timeLeft - 1000);
+      }, 1000);
+    }
+    // Clear timeout if the component is unmounted or timerRunning is set to false
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [timeLeft, timerRunning]); // Include timerRunning in the dependency array
 
   const updatePassengersInformation = (data) => {
     dispatchTicketDispatch({ type: "updatePassengersInformation", data });
@@ -104,6 +128,10 @@ const TicketBuyingProcessProvider = ({ children }) => {
   const clearAllInformation = () => {
     dispatchTicketDispatch({ type: "restAllData" });
   };
+  const clearTimer = () => {
+    setTimerRunning(false);
+    setTimeLeft(LIMIT_TIME);
+  };
   const values = {
     passengersInformation: ticketStatus.passengersInformation,
     tempSelectedTicket: ticketStatus.tempSelectedTicket,
@@ -114,6 +142,9 @@ const TicketBuyingProcessProvider = ({ children }) => {
     updateTicketBuyingStatus,
     updateContactInformation,
     clearAllInformation,
+    timeLeft,
+    setTimerRunning,
+    clearTimer,
   };
   return (
     <TicketBuyingProcess.Provider value={values}>

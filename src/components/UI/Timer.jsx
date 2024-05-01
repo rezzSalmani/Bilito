@@ -1,20 +1,8 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, memo } from "react";
 import { useTicketBuyingProcess } from "../../store/TicketBuyingProcess";
 
-const Timer = () => {
-  const [timeLeft, setTimeLeft] = useState(7 * 60 * 1000); // 7 minutes in milliseconds
-  const { clearAllInformation } = useTicketBuyingProcess();
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setTimeLeft(timeLeft - 1000);
-    }, 1000);
-
-    if (timeLeft === 0) {
-      clearAllInformation();
-    }
-
-    return () => clearTimeout(timer);
-  }, [timeLeft]);
+const Timer = memo(() => {
+  const { timeLeft } = useTicketBuyingProcess();
 
   const formattedTimeLeft = useMemo(() => {
     const minutes = Math.floor(timeLeft / 1000 / 60);
@@ -25,6 +13,6 @@ const Timer = () => {
   }, [timeLeft]);
 
   return <span>{formattedTimeLeft}</span>;
-};
+});
 
 export default Timer;

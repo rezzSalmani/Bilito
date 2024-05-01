@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import PassengerDetail from "../passengerDetail/PassengerDetail";
 import CustomInput from "../UI/CustomInput";
-import { useFindTicketContext } from "../../store/FindTicketContext";
 import { useForm } from "react-hook-form";
 import { useTicketBuyingProcess } from "../../store/TicketBuyingProcess";
 import { useNavigate } from "react-router-dom";
 import { EmailIcon, PhoneIcon } from "../UI/icons";
 import { useAuthContext } from "../../store/AuthContext";
-import Timer from "../UI/Timer.jsx";
+import HeaderTable from "./HeaderTable.jsx";
 function convertObjectToArray(inputObject) {
   const resultArray = [];
   let tempObject = {};
@@ -39,6 +38,7 @@ const PassengersInformation = () => {
   const [userPhone, setPhoneNumber] = useState("");
   const { currentUser } = useAuthContext();
   const navigate = useNavigate();
+  //  react hook form funcs
   const {
     register,
     handleSubmit,
@@ -47,11 +47,13 @@ const PassengersInformation = () => {
     setValue,
     formState: { errors, isSubmitting, isValid },
   } = useForm();
+  // funcs to update buying state
   const {
     updatePassengersInformation,
     updateTicketBuyingStatus,
     tempSelectedTicket,
     updateContactInformation,
+    setTimerRunning,
   } = useTicketBuyingProcess();
 
   // setDefault value for user Contact Information
@@ -64,6 +66,7 @@ const PassengersInformation = () => {
 
   useEffect(() => {
     if (!tempSelectedTicket) return navigate("/");
+    setTimerRunning(true);
   }, [tempSelectedTicket]);
 
   const handleSentFormData = (data, e) => {
@@ -80,17 +83,11 @@ const PassengersInformation = () => {
   return (
     <form onSubmit={handleSubmit(handleSentFormData)} className='space-y-10'>
       <div className='border border-gray3 rounded-lg p-3 xs:p-6 '>
-        <div className='flex items-center justify-between w-full '>
+        <HeaderTable>
           <h6 className='text-sm xs:text-base font-IRANSansXBold'>
             مشخصات مسافران
           </h6>
-          <div className=' flex items-center gap-2 text-xs xs:text-sm'>
-            <span>زمان باقی مانده:</span>
-            <span className='text-errorLight'>
-              <Timer />
-            </span>
-          </div>
-        </div>
+        </HeaderTable>
         {tempSelectedTicket && (
           <div className='w-full divide-y'>
             {Array.from(

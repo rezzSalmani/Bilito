@@ -9,7 +9,8 @@ import { supabase } from "../../supabaseClient";
 import { getTicketTotalPrice } from "../../util/util";
 import { set } from "react-hook-form";
 import toast from "react-hot-toast";
-
+import Timer from "../UI/Timer.jsx";
+import HeaderTable from "./HeaderTable.jsx";
 const PassengerConformInformation = () => {
   const {
     passengersInformation,
@@ -17,6 +18,8 @@ const PassengerConformInformation = () => {
     tempSelectedTicket,
     updateTempSelectedTicket,
     contactInformation,
+    clearTimer,
+    setTimerRunning,
   } = useTicketBuyingProcess();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -25,6 +28,7 @@ const PassengerConformInformation = () => {
   useEffect(() => {
     if (!tempSelectedTicket || passengersInformation.length === 0)
       return navigate("/");
+    setTimerRunning(true);
   }, [passengersInformation, tempSelectedTicket]);
 
   const totalPrice = getTicketTotalPrice(tempSelectedTicket);
@@ -78,6 +82,7 @@ const PassengerConformInformation = () => {
         } else {
           updateTicketBuyingStatus("paymentSuccess");
           toast.success("پرداخت با موفقیت انجام شد.");
+          clearTimer();
         }
       } else {
         setError("لطفا ابتدا وارد شوید");
@@ -88,15 +93,11 @@ const PassengerConformInformation = () => {
   return (
     <div className='space-y-5 md:space-y-20'>
       <div className='border border-gray3 rounded-lg p-3 xs:p-6 space-y-6'>
-        <div className='flex items-center justify-between w-full '>
+        <HeaderTable>
           <h6 className='text-sm xs:text-base font-IRANSansXBold'>
             تایید اطلاعات
           </h6>
-          <div className='text-xs xs:text-sm'>
-            <span>زمان باقی مانده:</span>
-            <span className='text-errorLight'>07:23</span>
-          </div>
-        </div>
+        </HeaderTable>
         <span className='bg-gray3 h-0.5 w-full block'></span>
         {/* passengers information */}
         <div className='space-y-10'>

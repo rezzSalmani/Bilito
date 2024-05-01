@@ -13,13 +13,21 @@ import TicketDetailItem from "../components/ticket/TicketDetailItem.jsx";
 import { useTicketBuyingProcess } from "../store/TicketBuyingProcess.jsx";
 
 const Checkout = () => {
-  const { tempSelectedTicket, updateTempSelectedTicket, ticketBuyingStatus } =
-    useTicketBuyingProcess();
+  const {
+    tempSelectedTicket,
+    updateTempSelectedTicket,
+    ticketBuyingStatus,
+    clearTimer,
+  } = useTicketBuyingProcess();
   const navigate = useNavigate();
   useEffect(() => {
     if (tempSelectedTicket === null) navigate("/");
-    window.scrollTo(0, 0);
+
+    return () => {
+      clearTimer();
+    };
   }, []);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [ticketBuyingStatus]);
