@@ -12,12 +12,12 @@ import {
   TimeIcon,
   UserCircleIcon,
 } from "../UI/icons";
-import { Document, Page, View, Text } from "@react-pdf/renderer";
-import { useFindTicketContext } from "../../store/FindTicketContext";
+
 import { useTicketBuyingProcess } from "../../store/TicketBuyingProcess";
 import { Link, useNavigate } from "react-router-dom";
 import { getTicketTotalPrice } from "../../util/util";
-
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 const PaymentConformation = () => {
   const [showDetails, setShowDetails] = useState(false);
   const { tempSelectedTicket, contactInformation, passengersInformation } =
@@ -28,6 +28,45 @@ const PaymentConformation = () => {
   }, []);
 
   const totalPrice = getTicketTotalPrice(tempSelectedTicket);
+
+  const downloadPdf = async () => {
+    const input = document.getElementById("ticketDetails");
+    const canvas = await html2canvas(input, {
+      scale: window.devicePixelRatio, // Use device pixel ratio for better resolution
+      logging: true, // Enable logging for debugging
+      useCORS: true, // May be needed if you have images from other domains
+    });
+    const imgData = canvas.toDataURL("image/png");
+
+    const pdf = new jsPDF({
+      orientation: "p",
+      unit: "px",
+      format: "a4",
+    });
+
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    const imgWidth = canvas.width;
+    const imgHeight = canvas.height;
+    const scaleX = pageWidth / imgWidth;
+    const scaleY = pageHeight / imgHeight;
+    const scale = Math.min(scaleX, scaleY);
+
+    // Ensure dimensions are positive
+    const scaledWidth = imgWidth * scale;
+    const scaledHeight = imgHeight * scale;
+    const x = (pageWidth - scaledWidth) / 2;
+    const y = (pageHeight - scaledHeight) / 2;
+
+    // Add checks for valid coordinates and dimensions
+    if (scaledWidth > 0 && scaledHeight > 0 && x >= 0 && y >= 0) {
+      pdf.addImage(imgData, "PNG", x, y, scaledWidth, scaledHeight);
+      pdf.save("ticket-details.pdf");
+    } else {
+      console.error("Invalid coordinates or dimensions for PDF generation");
+    }
+  };
   return (
     <div className='space-y-10 md:space-y-20'>
       <div className='flex-all gap-3 md:text-xl bg-successLight2xl text-success py-2 rounded-lg'>
@@ -125,6 +164,7 @@ const PaymentConformation = () => {
       </div>
       {/* ticket Details */}
       <div
+        id='ticketDetails'
         className={`border border-gray4 rounded-lg text-sm transition-all duration-200 ${
           showDetails
             ? "visible opacity-100 h-full translate-y-4"
@@ -306,7 +346,7 @@ const PaymentConformation = () => {
         {/* download ticket */}
         <button
           className='flex-all gap-2 text-white bg-primary rounded-lg'
-          onClick={() => {}}
+          onClick={downloadPdf}
         >
           <TicketIcon />
           دانلود بلیط
