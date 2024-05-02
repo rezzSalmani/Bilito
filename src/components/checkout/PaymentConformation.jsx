@@ -37,18 +37,19 @@ const PaymentConformation = () => {
     navigate("/");
   };
   const downloadPdf = async () => {
+    setShowDetails(true);
     const input = document.getElementById("ticketDetails");
     const canvas = await html2canvas(input, {
-      scale: window.devicePixelRatio, // Use device pixel ratio for better resolution
-      logging: true, // Enable logging for debugging
-      useCORS: true, // May be needed if you have images from other domains
+      scale: window.devicePixelRatio,
+      logging: true,
+      useCORS: true,
     });
     const imgData = canvas.toDataURL("image/png");
 
     const pdf = new jsPDF({
       orientation: "p",
       unit: "px",
-      format: "a4",
+      format: "a3",
     });
 
     const pageWidth = pdf.internal.pageSize.getWidth();
@@ -56,24 +57,30 @@ const PaymentConformation = () => {
 
     const imgWidth = canvas.width;
     const imgHeight = canvas.height;
-    const scaleX = pageWidth / imgWidth;
-    const scaleY = pageHeight / imgHeight;
-    const scale = Math.min(scaleX, scaleY);
 
-    // Ensure dimensions are positive
-    const scaledWidth = imgWidth * scale;
-    const scaledHeight = imgHeight * scale;
-    const x = (pageWidth - scaledWidth) / 2;
-    const y = (pageHeight - scaledHeight) / 2;
+    // Calculate the scale to fit the content height on the A4 page
+    const scale = pageHeight / imgHeight;
+    let scaledWidth = imgWidth * scale;
+    let scaledHeight = pageHeight; // The scaled height is now the page height
 
-    // Add checks for valid coordinates and dimensions
-    if (scaledWidth > 0 && scaledHeight > 0 && x >= 0 && y >= 0) {
-      pdf.addImage(imgData, "PNG", x, y, scaledWidth, scaledHeight);
-      pdf.save("ticket-details.pdf");
-    } else {
-      console.error("Invalid coordinates or dimensions for PDF generation");
+    // If the width after scaling exceeds page width, then we need to fit it by width instead
+    if (scaledWidth > pageWidth) {
+      const fittingScale = pageWidth / imgWidth;
+      scaledWidth = pageWidth;
+      scaledHeight = imgHeight * fittingScale;
     }
+
+    // Center the image horizontally after scaling
+    const x = (pageWidth - scaledWidth) / 2;
+    const y = 0; // Starts at the top of the page
+
+    // Add the image to the PDF at the calculated position and scale
+    pdf.addImage(imgData, "PNG", x, y, scaledWidth, scaledHeight);
+
+    // Save the PDF
+    pdf.save("ticket-details.pdf");
   };
+
   return (
     <div className='space-y-10 md:space-y-20'>
       <div className='flex-all gap-3 md:text-xl bg-successLight2xl text-success py-2 rounded-lg'>

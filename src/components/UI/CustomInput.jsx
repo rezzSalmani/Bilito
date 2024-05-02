@@ -86,7 +86,7 @@ const CustomInput = ({
         )}
       </div>
       <span
-        className={`flex text-sm text-error transition-all h-4  ${
+        className={`flex text-sm text-error transition-all h-4 mt-1  ${
           errors[`${inputIdentifier}_${identifier}`]
             ? "opacity-100 visible w-full"
             : "opacity-0 invisible w-0"
