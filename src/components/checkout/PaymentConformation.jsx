@@ -20,15 +20,22 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 const PaymentConformation = () => {
   const [showDetails, setShowDetails] = useState(false);
-  const { tempSelectedTicket, contactInformation, passengersInformation } =
-    useTicketBuyingProcess();
+  const {
+    tempSelectedTicket,
+    contactInformation,
+    passengersInformation,
+    clearAllInformation,
+  } = useTicketBuyingProcess();
   const navigate = useNavigate();
   useEffect(() => {
     if (!tempSelectedTicket) return navigate("/");
   }, []);
 
   const totalPrice = getTicketTotalPrice(tempSelectedTicket);
-
+  const handleGotoHome = () => {
+    clearAllInformation();
+    navigate("/");
+  };
   const downloadPdf = async () => {
     const input = document.getElementById("ticketDetails");
     const canvas = await html2canvas(input, {
@@ -351,13 +358,13 @@ const PaymentConformation = () => {
           <TicketIcon />
           دانلود بلیط
         </button>
-        <Link
-          to='/'
+        <button
+          onClick={handleGotoHome}
           className='flex-all gap-2 text-primary border border-primary bg-white rounded-lg'
         >
           <HomeIcon />
           بازگشت به صفحه اصلی
-        </Link>
+        </button>
       </div>
     </div>
   );
