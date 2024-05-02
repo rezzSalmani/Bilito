@@ -37,7 +37,7 @@ const ContactUs = () => {
   };
   return (
     <div>
-      <LandingImage bgClass='contactUsBg' mainTitle='' secondTitle={false} />
+      <LandingImage bgClass='contactUsBg' />
       <div className='container py-7 md:py-14 space-y-6 md:space-y-10  md:text-xl text-justify text-gray7 overflow-hidden'>
         <h6 className='text-xl xs:text-2xl md:text-3xl py-4 text-primary border-b-2 border-primary w-fit'>
           تماس با بیلیتو

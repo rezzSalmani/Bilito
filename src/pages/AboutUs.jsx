@@ -7,7 +7,6 @@ const AboutUs = () => {
       <LandingImage
         bgClass='aboutUsBgGradient'
         mainTitle='همراه با ما به مسیری از راحتی ، سرعت و خدمات بی نظیر پرواز کنید'
-        secondTitle={false}
       />
       <div className='container py-7 md:py-14 space-y-6 md:space-y-10  md:text-xl text-justify'>
         <h6 className='text-xl xs:text-2xl md:text-3xl py-4 text-primary border-b-2 border-primary w-fit'>

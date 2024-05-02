@@ -7,7 +7,6 @@ import {
   UserCircleIcon,
   LocationIcon,
   TagIcon,
-  InternetIcon,
   DocumentCheckIcon,
 } from "../UI/icons";
 const PassengerDetail = ({
@@ -30,7 +29,6 @@ const PassengerDetail = ({
   });
 
   // const [isError, setIsError] = useState("");
-
   const changeInputHandler = (event, identifier) => {
     setIsError("");
     setPassengerDetails((prev) => {

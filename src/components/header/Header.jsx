@@ -51,7 +51,7 @@ const Header = () => {
             </li>
             <li>
               <NavLink
-                to='/travel-insurance'
+                to='/insurance'
                 className={({ isActive }) =>
                   isActive ? "text-primary border-b border-primary" : ""
                 }

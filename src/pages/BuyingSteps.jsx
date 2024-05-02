@@ -53,7 +53,6 @@ const BuyingSteps = () => {
       <LandingImage
         bgClass='guildBgGradient'
         mainTitle='خرید مطمعین را با بیلیتو تجربه کنید'
-        secondTitle={false}
       />
       <div className='container py-10 space-y-7 md:space-y-14'>
         <h4 className='text-xl xs:text-2xl md:text-3xl font-IRANSansXBold text-right'>

@@ -120,7 +120,7 @@ const Home = () => {
   return (
     <main className='flex flex-col w-full '>
       {/* Landing Image */}
-      <LandingImage />
+      <LandingImage secondTitle={true} mainTitle='راحتی و سرعت در' />
       {/* ticket search  */}
       <div className='flex relative'>
         <SearchTicketBox />

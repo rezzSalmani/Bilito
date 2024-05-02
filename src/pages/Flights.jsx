@@ -55,7 +55,7 @@ const Flights = () => {
   return (
     <div>
       {/* Landing Image */}
-      <LandingImage />
+      <LandingImage secondTitle={true} mainTitle='راحتی و سرعت در' />
       {/* Search and Edit Flight */}
       <div className='relative border-b border-gray3 '>
         <div className='container md:absolute w-fit h-fit rounded-lg font-IRANSansXBold bg-white text-gray8 left-0 right-0 mx-auto p-3 sm:px-6 sm:py-4 md:-bottom-10 md:shadow-md mt-5 md:my-0'>

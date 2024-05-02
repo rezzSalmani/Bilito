@@ -9,6 +9,7 @@ import ContactUs from "./pages/ContactUs";
 import FindTicketContextProvider from "./store/FindTicketContext";
 import AuthContextProvider from "./store/AuthContext.jsx";
 import TicketBuyingProcessProvider from "./store/TicketBuyingProcess";
+import Insurance from "./pages/Insurance.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "/flights",
         element: <Flights />,
+      },
+      {
+        path: "/insurance",
+        element: <Insurance />,
       },
       {
         path: "/checkout",
