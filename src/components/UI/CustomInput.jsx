@@ -47,7 +47,7 @@ const CustomInput = ({
       "",
   };
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col '>
       <div
         className={`float-container w-auto relative flex rounded-lg px-2 text-right border shadow-md transition-all duration-200 text-gray8 ${
           isFocused || myInputValue ? "active " : ""
@@ -86,7 +86,7 @@ const CustomInput = ({
         )}
       </div>
       <span
-        className={`flex text-sm text-error transition-all h-4 mt-1  ${
+        className={`flex text-sm text-errorLight transition-all h-4 mt-1  ${
           errors[`${inputIdentifier}_${identifier}`]
             ? "opacity-100 visible w-full"
             : "opacity-0 invisible w-0"

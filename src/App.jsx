@@ -10,6 +10,7 @@ import FindTicketContextProvider from "./store/FindTicketContext";
 import AuthContextProvider from "./store/AuthContext.jsx";
 import TicketBuyingProcessProvider from "./store/TicketBuyingProcess";
 import Insurance from "./pages/Insurance.jsx";
+import FindInsuranceContextProvider from "./store/FindInsuranceContext.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -50,9 +51,11 @@ function App() {
   return (
     <AuthContextProvider>
       <FindTicketContextProvider>
-        <TicketBuyingProcessProvider>
-          <RouterProvider router={router}></RouterProvider>
-        </TicketBuyingProcessProvider>
+        <FindInsuranceContextProvider>
+          <TicketBuyingProcessProvider>
+            <RouterProvider router={router}></RouterProvider>
+          </TicketBuyingProcessProvider>
+        </FindInsuranceContextProvider>
       </FindTicketContextProvider>
     </AuthContextProvider>
   );
