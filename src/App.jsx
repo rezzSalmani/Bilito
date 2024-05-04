@@ -11,6 +11,7 @@ import AuthContextProvider from "./store/AuthContext.jsx";
 import TicketBuyingProcessProvider from "./store/TicketBuyingProcess";
 import Insurance from "./pages/Insurance.jsx";
 import FindInsuranceContextProvider from "./store/FindInsuranceContext.jsx";
+import UserDashBoard from "./pages/UserDashBoard.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "/insurance",
         element: <Insurance />,
+      },
+      {
+        path: "/dashBoard",
+        element: <UserDashBoard />,
       },
       {
         path: "/checkout",

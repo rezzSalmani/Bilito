@@ -61,7 +61,7 @@ const Header = () => {
             </li>
             <li>
               <NavLink
-                to='/my-travels'
+                to='/dashBoard'
                 className={({ isActive }) =>
                   isActive ? "text-primary border-b border-primary" : ""
                 }
@@ -159,7 +159,7 @@ const Header = () => {
           </li>
           <li>
             <NavLink
-              to='/my-trips'
+              to='/dashBoard'
               className={({ isActive }) => (isActive ? "text-primary " : "")}
             >
               <AirPlane></AirPlane>
