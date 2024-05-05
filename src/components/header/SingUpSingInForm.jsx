@@ -113,9 +113,7 @@ const SingUpSingInForm = () => {
     }
   };
   const handleSingIn = async (values) => {
-    console.log(values);
     const pureValues = removeIdentifierFromSingUpForm(values);
-    console.log(pureValues);
     setIsLoading(true);
     try {
       const { error } = await supabase.auth.signInWithPassword({

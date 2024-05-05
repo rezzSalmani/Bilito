@@ -42,16 +42,7 @@ const CustomGenderSelector = ({
   const genderPickerValue = watch(`${inputIdentifier}_${identifier}`);
 
   return (
-    <div className='flex flex-col' ref={subMenuRef}>
-      {/* <select
-        {...register(`${inputIdentifier}_${identifier}`, {
-          required: "جنسیت را انتخاب کنید.",
-        })}
-      >
-        <option value='-1'>{genderPickerValue || "جنسیت"}</option>
-        <option value='مرد'>مرد</option>
-        <option value='زن'>زن</option>
-      </select> */}
+    <div className='flex flex-col h-full ' ref={subMenuRef}>
       <Controller
         control={control}
         name={`${inputIdentifier}_${identifier}`}
@@ -61,21 +52,29 @@ const CustomGenderSelector = ({
             value={value}
             onChange={onChange}
             as={"div"}
-            className='relative w-auto h-full rounded-lg px-2 text-right border shadow-md transition-all duration-200 text-gray8 border-gray4'
+            className='relative w-auto  h-full text-right transition-all duration-200 text-gray8 '
           >
-            <Listbox.Button className='flex items-center justify-between w-full h-full text-right py-1'>
-              <span>{value || "جنسیت"}</span>
-              {icon && <span>{icon}</span>}
-            </Listbox.Button>
-            <Listbox.Options className='absolute bg-white w-full top-[100%] right-0 left-0 mx-auto border border-gray4 rounded-lg z-10 divide-y px-2 child:cursor-pointer child:py-2'>
-              <Listbox.Option value={"مرد"}>مرد</Listbox.Option>
-              <Listbox.Option value={"زن"}>زن</Listbox.Option>
-            </Listbox.Options>
+            {({ open }) => (
+              <>
+                <Listbox.Button
+                  className={`flex items-center h-[56px] justify-between w-full text-right border transition-all duration-200 shadow-md rounded-lg px-2 ${
+                    open ? "border-primary text-primary" : "border-gray4"
+                  }`}
+                >
+                  <span>{value || "جنسیت"}</span>
+                  {icon && <span>{icon}</span>}
+                </Listbox.Button>
+                <Listbox.Options className='absolute bg-white w-full top-[100%] right-0 left-0 mx-auto border border-gray4 rounded-lg z-10 divide-y child:px-2 child:cursor-pointer child:py-2 child-hover:bg-tint1 child:transition-all '>
+                  <Listbox.Option value={"مرد"}>مرد</Listbox.Option>
+                  <Listbox.Option value={"زن"}>زن</Listbox.Option>
+                </Listbox.Options>
+              </>
+            )}
           </Listbox>
         )}
       />
       <span
-        className={`flex text-sm text-error transition-all h-4  ${
+        className={`flex text-sm text-errorLight transition-all h-4  ${
           errors[`${inputIdentifier}_${identifier}`]
             ? "opacity-100 visible w-full"
             : "opacity-0 invisible w-0"

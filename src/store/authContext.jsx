@@ -12,6 +12,7 @@ const AuthContextProvider = ({ children }) => {
       // console.log(event, session);
       if (event === "INITIAL_SESSION") {
         // handle initial session
+        setCurrentUser(session.user);
       } else if (event === "SIGNED_IN") {
         setCurrentUser(session?.user);
       } else if (event === "SIGNED_OUT") {

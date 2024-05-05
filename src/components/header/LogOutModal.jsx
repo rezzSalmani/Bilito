@@ -3,7 +3,6 @@ import Modal from "../UI/Modal";
 import ButtonPrimary from "../UI/ButtonPrimary";
 import { UserIcon } from "../UI/icons";
 import { useAuthContext } from "../../store/AuthContext.jsx";
-import { set } from "react-hook-form";
 import { supabase } from "../../supabaseClient";
 import toast from "react-hot-toast";
 const LogOutModal = () => {
@@ -24,7 +23,7 @@ const LogOutModal = () => {
     <div>
       <ButtonPrimary
         classes='hidden md:flex flex-row-reverse py-2 px-4 rounded-lg items-center'
-        text={currentUser.user_metadata.username}
+        text={currentUser?.user_metadata.username || "_"}
         icon={<UserIcon />}
         // className='flex items-center gap-2 border border-gray-3 rounded-lg text-white bg-primary px-3 py-1.5'
       />

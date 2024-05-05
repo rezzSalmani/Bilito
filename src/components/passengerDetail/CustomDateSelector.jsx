@@ -28,9 +28,9 @@ const CustomDateSelector = ({
   const datePickerRef = useRef();
   const datePickerValue = watch(`${inputIdentifier}_${identifier}`);
   return (
-    <div className='relative flex flex-col items-center w-auto h-full '>
+    <div className='relative flex flex-col items-center w-auto'>
       <div
-        className={`float-container h-fit w-full relative flex flex-col rounded-lg px-2 text-right border shadow-md transition-all duration-200 ${
+        className={`float-container h-[56px]  w-full relative flex flex-col rounded-lg px-2 text-right border shadow-md transition-all duration-200 ${
           isFocused || datePickerValue ? "active " : ""
         } ${isFocused && "border-primary"}`}
       >
@@ -43,7 +43,7 @@ const CustomDateSelector = ({
               <DatePicker
                 animations={[opacity()]}
                 value={value || ""}
-                inputClass='float-field  w-full py-4 outline-none border-none text-right bg-white z-20 cursor-pointer '
+                inputClass='float-field text-sm md:text-base w-full py-4 outline-none border-none text-right bg-white z-20 cursor-pointer'
                 onChange={(date) => {
                   onChange(date?.isValid ? date.format("DD MMMM YYYY") : "");
                 }}
@@ -78,7 +78,7 @@ const CustomDateSelector = ({
         </label>
       </div>
       <span
-        className={`flex text-sm text-error transition-all h-4  ${
+        className={`flex text-sm text-errorLight transition-all h-4  ${
           errors[`${inputIdentifier}_${identifier}`]
             ? "opacity-100 visible w-full"
             : "opacity-0 invisible w-0"

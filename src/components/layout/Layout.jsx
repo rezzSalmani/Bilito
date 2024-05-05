@@ -11,7 +11,7 @@ const Layout = () => {
 
   return (
     <>
-      <Toaster />
+      <Toaster position='top-left' reverseOrder={true} />
       <Header />
       <main>
         <Outlet />

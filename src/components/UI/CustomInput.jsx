@@ -10,7 +10,7 @@ const CustomInput = ({
   inputName = "",
   inputIdentifier,
   min = 3,
-  max = 30,
+  max = 40,
   register,
   errors,
   watch,
@@ -38,7 +38,7 @@ const CustomInput = ({
       value: max,
       message: `لطفا حداکثر ${max} کاراکتر وارد کنید`,
     },
-    valueAsNumber: inputType === "number",
+    // valueAsNumber: inputType === "number",
     pattern:
       (inputType === "email" && {
         value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,

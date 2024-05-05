@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import ButtonPrimary from "../UI/ButtonPrimary";
 import {
   AboutUsIcon,
@@ -21,10 +21,11 @@ import { useFindTicketContext } from "../../store/FindTicketContext";
 import { supabase } from "../../supabaseClient";
 import { useAuthContext } from "../../store/AuthContext.jsx";
 import LogOutModal from "./LogOutModal";
+import toast from "react-hot-toast";
 const Header = () => {
   const [openMobileMenu, setMobileOpenMenu] = useState(false);
   const { currentUser } = useAuthContext();
-
+  const navigate = useNavigate();
   // const [userName, setUserName] = useState("");
   // useEffect(() => {}, []);
 
@@ -62,6 +63,13 @@ const Header = () => {
             <li>
               <NavLink
                 to='/dashBoard'
+                onClick={(event) => {
+                  if (!currentUser) {
+                    event.preventDefault();
+                    navigate("/");
+                    toast.error("لطفا ابتدا وارد سایت شوید!");
+                  }
+                }}
                 className={({ isActive }) =>
                   isActive ? "text-primary border-b border-primary" : ""
                 }
