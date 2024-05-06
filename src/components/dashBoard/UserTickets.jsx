@@ -3,33 +3,147 @@ import {
   AirPlane,
   AirPlaneIconPopularServices,
   BagIcon,
+  ChatBubbleIcon,
   CheckCircleIcon,
-  CheckIcon,
   ChevronDownIcon,
-  ChevronUpDownIcon,
   ChevronUpIcon,
+  CloseCircleIcon,
   SearchIcon,
+  CheckIcon,
   TimeIcon,
+  TrashIcon,
 } from "../UI/icons";
-feat: user - dashBoard - information - ticket - completed;
+import { Listbox } from "@headlessui/react";
+import Modal from "../UI/Modal";
+const sorts = [
+  { id: "s1", title: "جدید ترین", value: "newest" },
+  { id: "s2", title: "قدیمی ترین", value: "oldest" },
+  { id: "s3", title: "کنسلی ها", value: "cancels" },
+  { id: "s4", title: "تاخیر ها", value: "lateness" },
+];
 const UserTickets = () => {
   const [isTicketOpen, setIsTicketOpen] = useState(false);
+  const [sort, setSort] = useState("");
+  const [isMessageOpen, setIsMessageOpen] = useState(false);
+  const Button = (
+    <span className='cursor-pointer relative'>
+      <span className='absolute -top-2 right-0 w-fit h-fit p-0.5 text-xs text-errorLight font-IRANSansXBold bg-white '>
+        2
+      </span>
+      <span>
+        <ChatBubbleIcon classes='w-5 md:w-7 h-5 md:h-7' />
+      </span>
+    </span>
+  );
   return (
-    <div className='w-full text-gray8 space-y-4'>
+    <div className='w-full text-gray8 space-y-4 md:space-y-6 lg:space-y-8 '>
       <div className='relative flex items-center justify-between gap-4 w-full'>
         <h4 className='font-IRANSansXBold text-xl text-gray8 text-nowrap'>
           سفر های من
         </h4>
-        <input
-          type='text'
-          className='w-full md:w-[400px] h-10 px-2 border border-gray4 rounded-lg shadow-sm outline-none group focus:border-tint3 placeholder:text-sm'
-          name=''
-          id=''
-          placeholder='جستوجو'
-        />
-        <span className='absolute left-2 bottom-0 top-0 my-auto w-fit h-fit '>
-          <SearchIcon />
-        </span>
+        <div className='flex items-center gap-2'>
+          <div className='relative'>
+            <input
+              type='text'
+              className='w-full xs:w-48 lg:w-[350px] py-1.5 px-2 border border-gray4 rounded-lg shadow-sm outline-none group focus:border-tint3 placeholder:text-sm'
+              name=''
+              id=''
+              placeholder='جستوجو'
+            />
+            <span className='absolute left-2 bottom-0 top-0 my-auto w-fit h-fit '>
+              <SearchIcon />
+            </span>
+          </div>
+          <Listbox
+            value={sort}
+            onChange={setSort}
+            as={"div"}
+            className='relative text-sm md:text-base'
+          >
+            <Listbox.Button className='flex items-center gap-1 border border-gray4 px-2 lg:px-6 py-1.5 rounded-lg '>
+              <span>مرتب سازی</span>
+              <span>
+                <ChevronDownIcon classes='w-4 h-4' />
+              </span>
+            </Listbox.Button>
+            <Listbox.Options className='absolute bg-white left-0 right-0 mx-auto top-10 border rounded-lg child:py-1 child:px-1 divide-y'>
+              {sorts.map((sortItem) => (
+                <Listbox.Option
+                  key={sortItem.id}
+                  value={sortItem.value}
+                  className={({ active }) =>
+                    ` ${active ? "bg-tint1" : "bg-white"}`
+                  }
+                >
+                  {({ selected }) => (
+                    <div
+                      className={`flex items-center justify-between cursor-pointer ${
+                        selected && "text-successLight"
+                      }`}
+                    >
+                      <span>{sortItem.title}</span>
+                      {selected && (
+                        <span>
+                          <CheckIcon />
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </Listbox.Option>
+              ))}
+            </Listbox.Options>
+          </Listbox>
+          <span>
+            <Modal
+              button={Button}
+              isOpen={isMessageOpen}
+              closeModal={() => setIsMessageOpen(false)}
+              openModal={() => setIsMessageOpen(true)}
+            >
+              <div className=' p-4 md:p-6 space-y-4 w-[400px] md:w-[550px] lg:w-[650px]'>
+                <div className='space-y-4 border border-tint5 rounded-lg p-4 md:p-6 text-sm'>
+                  <div className='flex items-center justify-between'>
+                    <div className='flex items-center gap-2 text-warning '>
+                      <span>1402/06/25</span>
+                      <span>23:40</span>
+                    </div>
+                    <span className='text-error cursor-pointer'>
+                      <TrashIcon />
+                    </span>
+                  </div>
+                  <h6 className='text-right'>
+                    پرواز شماره 165 از استانبول به دبی در تاریخ 6شهریور 1402 در
+                    ساعت 21:50، به مدت 2 ساعت تاخیر دارد.
+                  </h6>
+                </div>
+                <div className='space-y-4 border border-tint5 rounded-lg p-4 md:p-6 text-sm'>
+                  <div className='flex items-center justify-between'>
+                    <div className='flex items-center gap-2 text-warning '>
+                      <span>1402/06/25</span>
+                      <span>23:40</span>
+                    </div>
+                    <span className='text-error cursor-pointer'>
+                      <TrashIcon />
+                    </span>
+                  </div>
+                  <h6 className='text-right'>
+                    پرواز شماره 165 از استانبول به دبی در تاریخ 6شهریور 1402 در
+                    ساعت 21:50، به مدت 2 ساعت تاخیر دارد.
+                  </h6>
+                </div>
+                <div className='flex flex-col items-center justify-center gap-2'>
+                  <h6>پیامی وجود ندارد.</h6>
+                  <span
+                    className='text-error cursor-pointer'
+                    onClick={() => setIsMessageOpen(false)}
+                  >
+                    <CloseCircleIcon />
+                  </span>
+                </div>
+              </div>
+            </Modal>
+          </span>
+        </div>
       </div>
       {/* tickets */}
       <div>
@@ -161,32 +275,40 @@ const UserTickets = () => {
             {/* third row */}
             <div>
               <table className='hidden md:block space-y-2 w-full text-right '>
-                <tr className='flex child:w-full child:lg:w-28 gap-6 text-gray6 text-base '>
-                  <th>نام مسافر</th>
-                  <th>ملیت</th>
-                  <th>تاریخ تولد</th>
-                  <th className='text-sm'>کدملی/شماره گذرنامه</th>
-                </tr>
-                <tr className='flex child:w-full child:lg:w-28 gap-6 text-gray9 text-sm '>
-                  <td>خانم شیوا ارغوان</td>
-                  <td>ایرانی</td>
-                  <td>1375/04/25</td>
-                  <td>123456789987</td>
-                </tr>
+                <thead>
+                  <tr className='flex child:w-full child:lg:w-28 gap-6 text-gray6 text-base '>
+                    <th>نام مسافر</th>
+                    <th>ملیت</th>
+                    <th>تاریخ تولد</th>
+                    <th className='text-sm'>کدملی/شماره گذرنامه</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className='flex child:w-full child:lg:w-28 gap-6 text-gray9 text-sm '>
+                    <td>خانم شیوا ارغوان</td>
+                    <td>ایرانی</td>
+                    <td>1375/04/25</td>
+                    <td>123456789987</td>
+                  </tr>
+                </tbody>
               </table>
               <table className='flex md:hidden items-center gap-4  space-y-2 w-full text-right '>
-                <tr className='flex items-center justify-center w-full flex-col child:w-full  gap-2 text-gray6 text-sm  '>
-                  <th>نام مسافر</th>
-                  <th>ملیت</th>
-                  <th>تاریخ تولد</th>
-                  <th className='text-sm'>کدملی/شماره گذرنامه</th>
-                </tr>
-                <tr className='flex items-center justify-center w-full flex-col child:w-full  gap-2 text-gray9 text-sm '>
-                  <td>خانم شیوا ارغوان</td>
-                  <td>ایرانی</td>
-                  <td>1375/04/25</td>
-                  <td>123456789987</td>
-                </tr>
+                <thead>
+                  <tr className='flex items-center justify-center w-full flex-col child:w-full  gap-2 text-gray6 text-sm  '>
+                    <th>نام مسافر</th>
+                    <th>ملیت</th>
+                    <th>تاریخ تولد</th>
+                    <th className='text-sm'>کدملی/شماره گذرنامه</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className='flex items-center justify-center w-full flex-col child:w-full  gap-2 text-gray9 text-sm '>
+                    <td>خانم شیوا ارغوان</td>
+                    <td>ایرانی</td>
+                    <td>1375/04/25</td>
+                    <td>123456789987</td>
+                  </tr>
+                </tbody>
               </table>
             </div>
             {/* close btn */}

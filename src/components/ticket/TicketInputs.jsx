@@ -13,7 +13,7 @@ import {
   PlusCircle,
   MinusCircle,
   LocationIcon,
-  CalendarIcon,
+  CalenderIcon,
 } from "../UI/icons";
 const ticketClasses = ["اکونومی", "بیزینس", "فرست"];
 const localCities = ["تهران", "مشهد", "شیراز", "کیش"];
@@ -209,7 +209,7 @@ const TicketInputs = () => {
           className='md:hidden lg:block absolute left-2 top-0 bottom-0 my-auto w-fit h-fit'
           onClick={() => datePickerRef.current.openCalendar()}
         >
-          <CalendarIcon />
+          <CalenderIcon />
         </span>
       </div>
       {/* passengers */}

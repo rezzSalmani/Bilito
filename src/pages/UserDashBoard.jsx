@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
   AirPlane,
+  CartIcon,
+  CreditCartIcon,
   EditIcon,
   LogOutIcon,
   TicketIcon,
@@ -13,6 +15,8 @@ import LogOutModal from "../components/header/LogOutModal";
 import toast from "react-hot-toast";
 import { supabase } from "../supabaseClient";
 import UserTickets from "../components/dashBoard/UserTickets";
+import UserSupport from "../components/dashBoard/UserSupport";
+import UserWallet from "../components/dashBoard/UserWallet";
 const sections = [
   {
     title: "اطلاعات حساب کاربری",
@@ -20,7 +24,8 @@ const sections = [
     identifier: "user_information",
   },
   { title: " سفر های من", icon: <AirPlane />, identifier: "user_tickets" },
-  { title: " تیکت های من", icon: <TicketIcon />, identifier: "user_message" },
+  { title: " تیکت های من", icon: <TicketIcon />, identifier: "user_support" },
+  { title: " کیف پول", icon: <CreditCartIcon />, identifier: "user_wallet" },
   { title: " خروج از حساب کاربری", icon: <LogOutIcon />, identifier: "logOut" },
 ];
 const UserDashBoard = () => {
@@ -63,11 +68,14 @@ const UserDashBoard = () => {
   };
   const handleChangeSection = (identifier) => {
     if (identifier !== "logOut") setActiveSection(identifier);
-    if (identifier === "logOut") handleLogOut();
+    if (identifier === "logOut") {
+      setActiveSection(identifier);
+      handleLogOut();
+    }
   };
   return (
     <section className='flex flex-col md:flex-row gap-6 container py-8'>
-      <div className='min-w-[30%] lg:min-w-[23%] border border-gray4 rounded-lg p-2 lg:p-4 py-6 space-y-4 shadow-md'>
+      <div className='min-w-[30%] lg:min-w-[23%] h-fit border border-gray4 rounded-lg p-2 lg:p-4 py-6 space-y-4 shadow-md'>
         <div className='flex items-center flex-col gap-4'>
           <div className='relative w-fit h-fit'>
             <img
@@ -120,6 +128,8 @@ const UserDashBoard = () => {
         />
       )}
       {activeSection === "user_tickets" && <UserTickets />}
+      {activeSection === "user_support" && <UserSupport />}
+      {activeSection === "user_wallet" && <UserWallet />}
     </section>
   );
 };

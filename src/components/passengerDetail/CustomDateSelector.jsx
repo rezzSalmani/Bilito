@@ -7,7 +7,7 @@ import { Controller } from "react-hook-form";
 import InputIcon from "react-multi-date-picker/components/input_icon";
 import AgeSelectInput from "../UI/AgeSelectInput";
 import "react-multi-date-picker/styles/layouts/mobile.css";
-import { CalendarIcon } from "../UI/icons";
+import { CalenderIcon } from "../UI/icons";
 
 const CustomDateSelector = ({
   identifier,
@@ -60,7 +60,7 @@ const CustomDateSelector = ({
                 className='md:hidden lg:block absolute cursor-pointer left-2 top-0 bottom-0 my-auto w-fit h-fit'
                 onClick={() => datePickerRef.current.openCalendar()}
               >
-                <CalendarIcon
+                <CalenderIcon
                   classes={`w-5 h-5 ${isFocused && "text-primary"}`}
                 />
               </span>
