@@ -86,36 +86,61 @@ const Header = () => {
                     {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
                   </Popover.Button>
                   <Popover.Panel>
-                    <Transition
-                      enter='transition duration-100 ease-out'
-                      enterFrom='transform scale-95 opacity-0'
-                      enterTo='transform scale-100 opacity-100'
-                      leave='transition duration-75 ease-out'
-                      leaveFrom='transform scale-100 opacity-100'
-                      leaveTo='transform scale-95 opacity-0'
-                    >
-                      <div className='absolute top-10 z-10 w-full'>
-                        <ul className='relative w-48 flex bg-white flex-col shadow-md rounded-lg transition-all duration-200 h-full child:px-2 py-2 whitespace-nowrap text-base child:py-2 child:flex child:items-center child:gap-2 child-hover:pr-4 child:transition-all child:duration-200 child-hover:bg-tint1'>
-                          <li>
-                            <QuestionIcon />
-                            <Link to='/'>سوالات متداول</Link>
-                          </li>
-                          <li>
-                            <SupportIcon />
-
-                            <Link to='/guide'>راهنمای خرید</Link>
-                          </li>
-                          <li>
-                            <AboutUsIcon />
-                            <Link to='/about-us'>درباره ما</Link>
-                          </li>
-                          <li>
-                            <PhoneIcon />
-                            <Link to='/contact-us'>تماس با ما</Link>
-                          </li>
-                        </ul>
-                      </div>
-                    </Transition>
+                    {({ close }) => (
+                      <Transition
+                        enter='transition duration-100 ease-out'
+                        enterFrom='transform scale-95 opacity-0'
+                        enterTo='transform scale-100 opacity-100'
+                        leave='transition duration-75 ease-out'
+                        leaveFrom='transform scale-100 opacity-100'
+                        leaveTo='transform scale-95 opacity-0'
+                      >
+                        <div className='absolute top-10 z-10 w-full'>
+                          <ul className='relative w-48 flex bg-white flex-col shadow-md rounded-lg transition-all duration-200 h-full child:px-2 py-2 whitespace-nowrap text-base child:py-2 child:flex child:items-center child:gap-2 child-hover:pr-4 child:transition-all child:duration-200 child-hover:bg-tint1'>
+                            <li>
+                              <QuestionIcon />
+                              <button
+                                onClick={() => {
+                                  navigate("/"), close();
+                                }}
+                              >
+                                سوالات متداول
+                              </button>
+                            </li>
+                            <li>
+                              <SupportIcon />
+                              <button
+                                onClick={() => {
+                                  navigate("/guide"), close();
+                                }}
+                              >
+                                راهنمای خرید
+                              </button>
+                            </li>
+                            <li>
+                              <AboutUsIcon />
+                              <button
+                                onClick={() => {
+                                  navigate("/about-us"), close();
+                                }}
+                              >
+                                درباره ما
+                              </button>
+                            </li>
+                            <li>
+                              <PhoneIcon />
+                              <button
+                                onClick={() => {
+                                  navigate("contact-us"), close();
+                                }}
+                              >
+                                تماس با ما
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
+                      </Transition>
+                    )}
                   </Popover.Panel>
                 </>
               )}
