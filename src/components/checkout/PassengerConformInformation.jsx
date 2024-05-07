@@ -7,6 +7,8 @@ import { supabase } from "../../supabaseClient";
 import { getTicketTotalPrice } from "../../util/util";
 import toast from "react-hot-toast";
 import HeaderTable from "./HeaderTable.jsx";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
 const PassengerConformInformation = () => {
   const {
     passengersInformation,
@@ -35,7 +37,10 @@ const PassengerConformInformation = () => {
     const reservationNumber = Math.floor(1000000 + Math.random() * 9000000);
     const ticketNumber = Math.floor(1000000 + Math.random() * 9000000);
     const paymentTime = new DateObject().format("HH MM");
-    const buyingDate = new DateObject().format("D MMMM YYYY");
+    const buyingDate = new DateObject({
+      calendar: persian,
+      locale: persian_fa,
+    }).format("D MMMM YYYY");
 
     if (
       phoneNumber &&
@@ -44,7 +49,7 @@ const PassengerConformInformation = () => {
       paymentTime &&
       buyingDate
     ) {
-      const updatedData = await updateTempSelectedTicket({
+      const updatedData = updateTempSelectedTicket({
         ...tempSelectedTicket,
         reservationNumber,
         ticketNumber,
@@ -53,13 +58,21 @@ const PassengerConformInformation = () => {
         buyingDate,
       });
 
+      console.log(tempSelectedTicket);
       const userResponse = await supabase.auth.getUser();
       if (userResponse.data) {
         const currentTickets =
           userResponse.data.user.user_metadata.tickets || [];
 
         const boughtTicket = {
-          ticketInformation: tempSelectedTicket,
+          ticketInformation: {
+            ...tempSelectedTicket,
+            reservationNumber,
+            ticketNumber,
+            paymentTime,
+            phoneNumber,
+            buyingDate,
+          },
           passengersInformation: passengersInformation,
           contactInformation: contactInformation[0],
         };
@@ -69,7 +82,6 @@ const PassengerConformInformation = () => {
         //   currentTickets.find(
         //     (ticket) => ticket.reservationNumber === reservationNumber
         //   );
-
         const { data, error } = await supabase.auth.updateUser({
           data: { tickets: updatedTickets },
         });

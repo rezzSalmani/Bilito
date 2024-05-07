@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { NavLink, Link, useNavigate } from "react-router-dom";
-import ButtonPrimary from "../UI/ButtonPrimary";
+import React, { useEffect, useState } from "react";
+import { NavLink, Link, useNavigate, useLocation } from "react-router-dom";
 import {
   AboutUsIcon,
   AirPlane,
@@ -17,8 +16,6 @@ import {
 } from "../UI/icons";
 import { Popover, Transition } from "@headlessui/react";
 import SingUpSingInForm from "./SingUpSingInForm";
-import { useFindTicketContext } from "../../store/FindTicketContext";
-import { supabase } from "../../supabaseClient";
 import { useAuthContext } from "../../store/AuthContext.jsx";
 import LogOutModal from "./LogOutModal";
 import toast from "react-hot-toast";
@@ -27,7 +24,11 @@ const Header = () => {
   const { currentUser } = useAuthContext();
   const navigate = useNavigate();
   // const [userName, setUserName] = useState("");
-  // useEffect(() => {}, []);
+  const location = useLocation();
+  const currentRoute = location.pathname;
+  useEffect(() => {
+    setMobileOpenMenu(false);
+  }, [currentRoute]);
 
   return (
     <header className=' sticky top-0 bg-white z-10'>
@@ -39,7 +40,7 @@ const Header = () => {
             alt='Logo'
             className='w-[100px] xl:w-[148px]'
           />
-          <ul className='flex items-center gap-4 xl:gap-8 child:py-2 w-full font-IRANSansXDemiBold xl:text-xl text-right child:min-h-full'>
+          <ul className='flex items-center gap-4 xl:gap-8 child:py-2 w-full font-IRANSansXDemiBold lg:text-xl text-right child:min-h-full'>
             <li>
               <NavLink
                 to='/'

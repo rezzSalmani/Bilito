@@ -40,6 +40,13 @@ const UserDashBoard = () => {
     user_phoneNumber: currentUser?.user_metadata?.phone || "_",
   });
   const [activeSection, setActiveSection] = useState("user_information");
+
+  useEffect(() => {
+    // get bilitio-user form local storage
+
+    const user = localStorage.getItem("Bilito-user");
+    if (!user) navigate("/");
+  }, []);
   useEffect(() => {
     if (currentUser) {
       setUserInformation((prev) => {
@@ -49,8 +56,6 @@ const UserDashBoard = () => {
           "user_phoneNumber": currentUser.user_metadata.phone || "_",
         };
       });
-    } else {
-      navigate("/");
     }
   }, [currentUser]);
   const [isLoading, setIsLoading] = useState(false);
@@ -74,7 +79,7 @@ const UserDashBoard = () => {
     }
   };
   return (
-    <section className='flex flex-col md:flex-row gap-6 container py-8'>
+    <section className='flex flex-col md:flex-row gap-4 lg:gap-6 container py-8'>
       <div className='min-w-[30%] lg:min-w-[23%] h-fit border border-gray4 rounded-lg p-2 lg:p-4 py-6 space-y-4 shadow-md'>
         <div className='flex items-center flex-col gap-4'>
           <div className='relative w-fit h-fit'>

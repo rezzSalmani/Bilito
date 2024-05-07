@@ -60,33 +60,7 @@ const TicketBuyingProcessProvider = ({ children }) => {
     ticketStatusReducer,
     {
       passengersInformation: [],
-      tempSelectedTicket: {
-        "id": "t1",
-        "price": 1200000,
-        "compony": "زاگرس",
-        "sitLeft": 16,
-        "takeOff": "19:30",
-        "isPopular": false,
-        "middleStop": true,
-        "returnable": false,
-        "sourceCity": "تهران",
-        "travelTime": "03:30",
-        "landingTime": "22:40",
-        "ticketLevel": "اکونومی",
-        "componyImage": "/images/companies/zakros.png",
-        "flightNumber": 122434,
-        "childrenPrice": 900000,
-        "sourceAirport": "Tehran Airport",
-        "destinationCity": "مشهد",
-        "destinationAirport": "Mashhad Airport",
-        "passengers": {
-          "adults": 1,
-          "children": 0,
-          "baby": 0,
-        },
-        "sitType": "اکونومی",
-        "date": "۱۲ اردیبهشت ۱۴۰۳",
-      },
+      tempSelectedTicket: null,
       contactInformation: null,
       ticketBuyingStatus: "information",
     }
@@ -117,7 +91,6 @@ const TicketBuyingProcessProvider = ({ children }) => {
   };
   const updateTempSelectedTicket = (data) => {
     dispatchTicketDispatch({ type: "updateTempSelectedTicket", data });
-    return ticketStatus.tempSelectedTicket;
   };
   const updateTicketBuyingStatus = (data) => {
     dispatchTicketDispatch({ type: "updateTicketBuyingStatus", data });

@@ -7,16 +7,20 @@ export const useAuthContext = () => {
 };
 const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
       // console.log(event, session);
       if (event === "INITIAL_SESSION") {
         // handle initial session
-        setCurrentUser(session.user);
+        if (session) setCurrentUser(session.user);
       } else if (event === "SIGNED_IN") {
         setCurrentUser(session?.user);
+        //  set user email in local storage
+        localStorage.setItem("Bilito-user", session?.user.id);
       } else if (event === "SIGNED_OUT") {
         setCurrentUser(null);
+        localStorage.removeItem("Bilito-user");
       } else if (event === "PASSWORD_RECOVERY") {
         // handle password recovery event
       } else if (event === "TOKEN_REFRESHED") {
