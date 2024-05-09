@@ -10,7 +10,7 @@ export default function Modal({
 }) {
   return (
     <>
-      <div className='flex items-center justify-center' onClick={openModal}>
+      <div className='flex items-center justify-center ' onClick={openModal}>
         {button}
       </div>
       <Transition appear show={isOpen} as={Fragment}>

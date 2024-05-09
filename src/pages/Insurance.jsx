@@ -12,9 +12,49 @@ import {
   PlusCircle,
   SearchIcon,
   TimeIcon,
+  DocumentPlusIcon,
+  ArrowPathIcon,
+  SupportIcon,
+  AirPlane,
+  CreditCartIcon,
+  CloseCircleIcon,
 } from "../components/UI/icons.jsx";
 import ButtonPrimary from "../components/UI/ButtonPrimary.jsx";
 import { useFindInsuranceContext } from "../store/FindInsuranceContext.jsx";
+
+import Modal from "../components/UI/Modal.jsx";
+const servicesDetails = [
+  {
+    id: 1,
+    title: "هزینه های پزشکی",
+    icon: <DocumentPlusIcon classes='w-4 h-4 md:w-5 md:h-5' />,
+    des: "هزینه مراقبت پزشکی و بستری در بیمارستان برای درمان بیماری‌ها یا حوادث و صدمات مختلف.",
+  },
+  {
+    id: 2,
+    title: "هزینه های دندانپزشکی",
+    icon: <ArrowPathIcon classes='w-4 h-4 md:w-5 md:h-5' />,
+    des: "درمان ضروری برای درمان عفونت شدید، دندان درد، کشیدن دندان و...",
+  },
+  {
+    id: 3,
+    title: "جبران هزینه دارو",
+    icon: <SupportIcon classes='w-4 h-4 md:w-5 md:h-5' />,
+    des: "در صورت مفقود شدن داروهای همراه مسافر (به شرط ضروری بودن مصرف آن‌ها) و ارسال مجدد داروهای مورد نیاز بیمه‌شده.",
+  },
+  {
+    id: 4,
+    title: "هزینه‌های بازگشت",
+    icon: <AirPlane classes='w-4 h-4 md:w-5 md:h-5' />,
+    des: "در صورت ابتلا به بیماری یا وقوع حادثه‌ای که بیش از 10 روز نیاز به بستری شدن در بیمارستان داشته باشد.",
+  },
+  {
+    id: 5,
+    title: "جبران خسارت اموال",
+    icon: <CreditCartIcon classes='w-4 h-4 md:w-5 md:h-5' />,
+    des: "بیمهه مسافرتی می‌تواند در صورت خسارت، سرقت یا از دست رفتن وسایل شخصی و اموال شما در سفر تأمین کند",
+  },
+];
 const internationalCities = [
   "روسیه",
   "ترکیه",
@@ -51,6 +91,7 @@ const Insurance = () => {
     updateInsuranceOptions,
     updateInsuranceOptionsPassengers,
   } = useFindInsuranceContext();
+  const [isModal, setIsModal] = useState(false);
   // const {
   //   register,
   //   handleSubmit,
@@ -87,13 +128,21 @@ const Insurance = () => {
   //     //
   //   }
   // };
+  const button = (
+    <ButtonPrimary
+      text='جستجو'
+      type='submit'
+      classes='h-full w-full md:w-fit px-4 md:px-8 lg:px-12 rounded-lg py-1.5 md:py-3 mb-auto'
+      icon={<SearchIcon />}
+    />
+  );
   return (
-    <section>
+    <section className='h-full w-full'>
       <LandingImage bgClass='insuranceBg' />
       {/* insurance search box */}
-      <div className='container '>
-        <div className='flex items-center flex-col md:flex-row justify-between gap-2 md:gap-6 lg:gap-10 xl:gap-20 p-6 shadow-md h-full'>
-          <div className='flex w-full flex-col md:flex-row items-center md:gap-3 lg:gap-6 bg-white rounded-lg child:w-full'>
+      <div className='container relative '>
+        <div className='h-auto w-full md:absolute -top-40 left-0 right-0 mx-auto flex items-center flex-col md:flex-row justify-between gap-2 mt-4 md:gap-6 lg:gap-10 xl:gap-20 p-4 md:p-6 bg-white rounded-lg shadow-md z-10'>
+          <div className='flex w-full flex-col md:flex-row items-center gap-3 lg:gap-6 child:w-full'>
             <Listbox
               value={insuranceOptions.city}
               onChange={(value) => {
@@ -317,12 +366,144 @@ const Insurance = () => {
               )}
             </Menu>
           </div>
-          <ButtonPrimary
-            text='حستجو'
-            type='submit'
-            classes='h-full w-full md:w-fit md:px-8 lg:px-12 rounded-lg py-3 mb-auto'
-            icon={<SearchIcon />}
-          />
+          <Modal
+            button={button}
+            closeModal={() => setIsModal(false)}
+            openModal={() => setIsModal(true)}
+            isOpen={isModal}
+          >
+            <div className='flex flex-col items-center justify-center gap-2 text-center w-72 h-40 bg-white rounded-lg border-gray-400 p-2'>
+              <h6 className='text-errorLight'>
+                متاسفانه بیمه ای در حال حاضر وجود ندارد, لطفا بعدا تلاش کنید .
+              </h6>
+              <button
+                className='flex items-center gap-2 border bg-warningLight2xl rounded-lg px-3 py-1'
+                onClick={() => setIsModal(false)}
+              >
+                <span>
+                  <CloseCircleIcon />
+                </span>
+                <span>بستن</span>{" "}
+              </button>
+            </div>
+          </Modal>
+        </div>
+        {/* description */}
+        <div className='my-10 md:my-20 space-y-6 md:space-y-10'>
+          <h2 className='text-gray9 text-lg xs:text-2x font-IRANSansXBold'>
+            بیمه مسافرتی چیست؟
+          </h2>
+          <div className='text-gray7 text-sm xs:text-sm md:text-lg space-y-2'>
+            <p>
+              بیمه مسافرتی (Travel Insurance) یک نوع بیمه است که برای پوشش
+              هزینه‌ها و خسارات مرتبط با سفرهای بین‌المللی یا داخلی ارائه
+              می‌شود. این بیمه معمولاً توسط شرکت‌های بیمه عرضه می‌شود و شامل
+              تعدادی پوشش است که می‌تواند شامل پوشش هزینه‌های پزشکی اضطراری،
+              پوشش لغو سفر، پوشش بیمه مسافرتی برای خسارت اموال، مسئولیت مدنی و
+              پوشش تأخیرات و لغو پرواز باشد.
+            </p>
+            <p>
+              یکی از اصلی‌ترین پوشش‌های بیمه مسافرتی پوشش هزینه‌های پزشکی است.
+              اگر در سفر به بیماری یا حادثه‌ای برخورد کنید و نیاز به درمان داشته
+              باشید، بیمه مسافرتی ممکن است هزینه‌های مرتبط با ویزیت پزشک، بستری
+              در بیمارستان، داروها و معالجه‌های دیگر را پوشش دهد
+            </p>
+          </div>
+        </div>
+        {/* services */}
+        <div className='my-10 md:my-20 space-y-6 md:space-y-10'>
+          <h2 className='text-gray9 text-lg xs:text-2xl md:text-3xl font-IRANSansXBold'>
+            خدمات بیمه مسافرتی
+          </h2>
+          <div className='space-y-4'>
+            <p className='text-gray7 text-sm md:text-lg space-y-1'>
+              خدمات بیمه مسافرتی شامل مجموعه‌ای از خدماتی هستند که توسط شرکت‌های
+              بیمه به بیمه‌گزاران ارائه می‌شوند. این خدمات در ارتباط با موارد
+              مختلفی از جمله پوشش‌ها، مشاوره‌ها و خدمات اضافی مرتبط با سفرها
+              ارائه می‌شود. به طور کلی، خدمات بیمه مسافرتی عبارتند از:
+            </p>
+            {servicesDetails.map((item) => (
+              <div
+                className='flex items-center gap-1 text-xs xs:text-sm'
+                key={item.id}
+              >
+                <span>{item.icon}</span>
+                <span className=' md:text-xl font-IRANSansXMedium text-gray8 '>
+                  {item.title}:
+                </span>
+                <p className=' md:text-lg line-clamp-2 text-gray7'>
+                  {item.des}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* Prices */}
+        <div className='my-10 md:my-20 space-y-6 md:space-y-10 '>
+          <h2 className='text-gray9 text-lg xs:text-2xl md:text-3xl font-IRANSansXBold'>
+            خدمات بیمه مسافرتی
+          </h2>
+          <div className='text-xs xs:text-sm md:text-xl space-y-2 child:text-gray7'>
+            <p>
+              <span className='text-gray9 font-IRANSansXMedium'>
+                مقصد سفر:{" "}
+              </span>
+              مقصد سفر یکی از عوامل اصلی در تعیین قیمت بیمه مسافرتی است. برخی
+              مقاصد سفر به دلیل خطرات بیشتر، هزینه درمان بالاتر یا موارد دیگر،
+              قیمت بیمه بیشتری دارند.
+            </p>
+            <p>
+              <span className='text-gray9 font-IRANSansXMedium'>
+                مدت زمان سفر:
+              </span>
+              مدت زمان سفر نیز تأثیر قابل توجهی در قیمت بیمه دارد. معمولاً هرچه
+              مدت زمان سفر بیشتر باشد، قیمت بیمه مسافرتی نیز بالاتر خواهد بود
+            </p>
+            <p>
+              <span className='text-gray9 font-IRANSansXMedium'>
+                {" "}
+                سن و تعداد مسافران:
+              </span>
+              سن و تعداد مسافران ممکن است نیز تأثیرگذار باشند. برخی بیمه‌گزاران
+              در سنین بالا ممکن است قیمت بیمه بیشتری داشته باشند. همچنین، در
+              صورتی که تعداد مسافران بیشتر باشد، قیمت بیمه ممکن است بیشتر شود.
+            </p>
+          </div>
+          <div className='flex flex-col md:flex-row items-center justify-between bg-tint1 rounded-lg p-2 md:p-4'>
+            <table className='border border-tint3 text-center w-full'>
+              <thead className='bg-tint2 child:child:border child:child:border-tint3 child:child:p-2 text-sm  md:text-xl'>
+                <tr className=' child:border child:border-tint3 '>
+                  <th className=''>عوامل موثر در تعیین قیمت</th>
+                  <th>نحوه محاسبه در فرمول تعیین حق بیمه</th>
+                </tr>
+              </thead>
+              <tbody className=' child:child:border child:child:border-tint3 child:child:p-2 text-xs xs:text-sm md:text-base'>
+                <tr className='text-gray9 md:text-lg'>
+                  <td>سن مسافر</td>
+                  <td>
+                    تا ۱۲ سال/ ۱۳ تا ۶۵ سال/ 66 تا 70 سال/ ۷۱ تا ۷۵ سال/ ۷۶ تا
+                    ۸۰ سال{" "}
+                  </td>
+                </tr>
+                <tr className='text-gray9 md:text-lg'>
+                  <td>مدت سفر</td>
+                  <td>
+                    ۱ تا ۷ روز/ ۸ تا ۱۵ روز/ ۱۶ تا ۲۳ روز/ ۲۴ تا ۳۱ روز/ ۳۲ تا
+                    ۴۵ روز/ ۶۳ تا ۹۲ روز/ ۶ ماهه/ ۱ ساله
+                  </td>
+                </tr>
+                <tr className='text-gray9 md:text-lg'>
+                  <td>مقصد سفر</td>
+                  <td>بر اساس مناطق جغرافیایی مختلف</td>
+                </tr>
+              </tbody>
+            </table>
+            <img
+              src='images/airplane-passpoart.png'
+              alt='airplane-passpoart'
+              className='max-w-[180px] h-full'
+            />
+          </div>
         </div>
       </div>
     </section>

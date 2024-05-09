@@ -160,7 +160,7 @@ const UserTickets = () => {
               ticket.ticketInformation?.reservationNumber;
             return (
               <div
-                key={ticket.id}
+                key={ticket.ticketInformation?.reservationNumber}
                 className={`border border-gray3 rounded-lg shadow-md p-4 md:p-6 ${
                   isTicketOpen === ticketReservationNumber && "space-y-6"
                 }`}
@@ -179,7 +179,7 @@ const UserTickets = () => {
                     </span>
                   </h6>
                 )}
-                <div className='flex flex-col md:flex-row md:flex-wrap items-center justify-between gap-4 child:flex child:gap-2 child:items-center '>
+                <div className='flex flex-col md:flex-row md:flex-wrap items-center justify-between gap-5 child:flex child:gap-2 child:items-center'>
                   {isTicketOpen === ticketReservationNumber && (
                     <h6 className='lg:text-lg transition-all duration-200'>
                       <span>
@@ -222,7 +222,7 @@ const UserTickets = () => {
                   </div>
                   {isTicketOpen !== ticketReservationNumber && (
                     <button
-                      className='flex items-center justify-end gap-1 text-sm  text-primary cursor-pointer text-nowrap'
+                      className='flex items-center flex-1 justify-end gap-1 text-sm  text-primary cursor-pointer text-nowrap'
                       onClick={() => setIsTicketOpen(ticketReservationNumber)}
                     >
                       جزئیات سفر
@@ -316,21 +316,29 @@ const UserTickets = () => {
                       </thead>
                       <tbody>
                         {ticket.passengersInformation &&
-                          ticket.passengersInformation.map((passenger) => (
-                            <tr className='flex child:w-24  child:lg:w-28 gap-6 text-gray9 text-sm '>
-                              <td>
-                                {passenger.firstName} {passenger.lastName}
-                              </td>
-                              <td>{passenger.nationality}</td>
-                              <td>{passenger.dateOfBirth}</td>
-                              <td>{passenger.passPortNumber}</td>
-                            </tr>
-                          ))}
+                          ticket.passengersInformation.map(
+                            (passenger, index) => (
+                              <tr
+                                className='flex child:w-24 child:lg:w-28 gap-6 text-gray9 text-sm '
+                                key={index}
+                              >
+                                <td>
+                                  {passenger.firstName} {passenger.lastName}
+                                </td>
+                                <td>{passenger.nationality}</td>
+                                <td>{passenger.dateOfBirth}</td>
+                                <td>{passenger.passPortNumber}</td>
+                              </tr>
+                            )
+                          )}
                       </tbody>
                     </table>
                     {ticket.passengersInformation &&
-                      ticket.passengersInformation.map((passenger) => (
-                        <table className='flex md:hidden items-center justify-center gap-4  space-y-2 w-full text-right '>
+                      ticket.passengersInformation.map((passenger, index) => (
+                        <table
+                          className='flex md:hidden items-center justify-center gap-4  space-y-2 w-full text-right'
+                          key={index}
+                        >
                           <thead>
                             <tr className='flex items-center justify-center w-full flex-col child:w-full  gap-2 text-gray6 text-sm  '>
                               <th>نام مسافر</th>
@@ -342,7 +350,8 @@ const UserTickets = () => {
                           <tbody>
                             <tr className='flex items-center justify-center w-full flex-col child:w-full  gap-2 text-gray9 text-sm '>
                               <td>
-                                {passenger.firstName} {passenger.lastName}
+                                {passenger.firstName}
+                                {passenger.lastName}
                               </td>
                               <td>{passenger.nationality}</td>
                               <td>{passenger.dateOfBirth}</td>

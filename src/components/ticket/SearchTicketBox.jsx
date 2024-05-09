@@ -11,7 +11,7 @@ const SearchTicketBox = () => {
     useFindTicketContext();
 
   return (
-    <div className='container  md:absolute left-0 right-0 mx-auto p-4 md:p-6 -bottom-40 my-6 rounded-lg space-y-4 sm:space-y-6 shadow-lg w-full bg-white h-fit'>
+    <div className='container md:absolute left-0 right-0 mx-auto p-4 md:p-6 -bottom-40 my-6 rounded-lg space-y-4 sm:space-y-6 shadow-lg w-full bg-white h-fit'>
       <div className='flex items-center justify-center lg:justify-start gap-10 border-b border-gray5 text-sm sm:text-base md:text-lg child:flex child:items-center child:gap-2 text-gray5 child:cursor-pointer child:transition-all'>
         {/* ticket region */}
         <div

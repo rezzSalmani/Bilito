@@ -96,8 +96,7 @@ const Home = () => {
   const historSwiperRef = useRef(null);
   const naviagte = useNavigate();
   const { findTicketBasedHistory } = useFindTicketContext();
-
-  const [HISTORY, setHISTORY] = useState([
+  const [searchTicketHistory, setSearchTicketHistory] = useState([
     { id: 1, sourceCity: "تهران", distentionCity: "مشهد" },
     { id: 2, sourceCity: "مشهد", distentionCity: "تهران" },
     { id: 3, sourceCity: "تهران", distentionCity: "شیراز" },
@@ -109,8 +108,10 @@ const Home = () => {
     { id: 9, sourceCity: "تهران", distentionCity: "کیش" },
   ]);
   const handleRemoveItem = (itemId) => {
-    const updatedItems = HISTORY.filter((item) => item.id !== itemId);
-    setHISTORY(updatedItems);
+    const updatedItems = searchTicketHistory.filter(
+      (item) => item.id !== itemId
+    );
+    setSearchTicketHistory(updatedItems);
   };
 
   const handleSearchTicketByHistory = (sourceCity, distentionCity) => {
@@ -167,7 +168,7 @@ const Home = () => {
               modules={[Navigation]}
               centeredSlides={false}
             >
-              {HISTORY.map((history, index) => (
+              {searchTicketHistory.map((history, index) => (
                 <SwiperSlide
                   dir='rtl'
                   key={history.id}
