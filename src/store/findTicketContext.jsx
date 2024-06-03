@@ -41,12 +41,13 @@ const FindTicketContextProvider = ({ children }) => {
   const [searchedTickets, setSearchedTickets] = useState([]);
   const [filteredTickets, setFilteredTickets] = useState([]);
   const [isFindBasedHistory, setIsFindBasedHistory] = useState(false);
+
   const getTickets = async () => {
     let { data, error } = await supabase
       .from("FlightTickets")
       .select("*")
       .eq("region", searchFlightParameters.ticketRegion);
-    if (error) return error;
+    if (error) throw error;
     return data;
   };
   const updateSearchFlightParameters = (identifier, value) => {
@@ -122,7 +123,6 @@ const FindTicketContextProvider = ({ children }) => {
         updateSearchFlightParameters("error", " شهر مبدا با مقصد مشابه است!");
         return false;
       default:
-        // no error, continue with the rest of the code
         return true;
     }
   };

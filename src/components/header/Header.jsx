@@ -31,7 +31,7 @@ const Header = () => {
   }, [currentRoute]);
 
   return (
-    <header className=' sticky top-0 bg-white z-10'>
+    <header className='sticky top-0 bg-white z-10'>
       {/* desktop menu */}
       <div className=' container hidden md:flex items-center justify-between bg-white h-[104px] '>
         <div className='flex items-center gap-8 xl:gap-14'>

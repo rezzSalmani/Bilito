@@ -78,10 +78,7 @@ const PassengerConformInformation = () => {
         };
         console.log(boughtTicket);
         const updatedTickets = [...currentTickets, boughtTicket];
-        // const isAvailable = () =>
-        //   currentTickets.find(
-        //     (ticket) => ticket.reservationNumber === reservationNumber
-        //   );
+
         const { data, error } = await supabase.auth.updateUser({
           data: { tickets: updatedTickets },
         });
