@@ -8,8 +8,12 @@ const MIN_PRICE = 600000;
 const MAX_PRICE = 2200000;
 const FilteredTicketPrice = () => {
   // const [showPriceFilter, setShowPriceFilter] = useState(false);
-  const { searchedTickets, setFilteredTickets } = useFindTicketContext();
-  const [priceFiltered, setPriceFiltered] = useState([600000, 2200000]);
+  const {
+    searchedTickets,
+    setFilteredTickets,
+    priceFiltered,
+    setPriceFiltered,
+  } = useFindTicketContext();
   return (
     <FilteringSubMenuHeader title='قیمت'>
       <>
@@ -26,11 +30,6 @@ const FilteredTicketPrice = () => {
             rtl={true}
             onChange={(values) => {
               setPriceFiltered(values);
-              const filteredTickets = searchedTickets.filter((ticket) => {
-                const ticketPrice = ticket.price;
-                return ticketPrice >= values[0] && ticketPrice <= values[1];
-              });
-              setFilteredTickets(filteredTickets);
             }}
             renderTrack={({ props, children }) => (
               <div

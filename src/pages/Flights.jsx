@@ -16,7 +16,9 @@ import FilteredTicketCompany from "../components/filteringTickets/FilteredTicket
 import FilteredStopCount from "../components/filteringTickets/FilteredStopCount";
 import FilteredTicketClass from "../components/filteringTickets/FilteredTicketClass";
 import PriceCalender from "../components/ticket/PriceCalender";
-import SortingTickets from "../components/ticket/SortingTickets";
+import SortingTickets, {
+  sortingOptions,
+} from "../components/ticket/SortingTickets";
 import TicketDetailItem from "../components/ticket/TicketDetailItem";
 import TicketInputs from "../components/ticket/TicketInputs";
 import LandingImage from "../components/LandingImage";
@@ -34,8 +36,11 @@ const Flights = () => {
     isLoading,
     displayFromCity,
     displayToCity,
+    date,
     filteredTickets,
+    handleFilter,
   } = useFindTicketContext();
+
   const navigate = useNavigate();
   const tickets = useRef();
 
@@ -72,7 +77,7 @@ const Flights = () => {
               </span>
               <span>
                 <CalenderIcon classes=' w-4 md:w-5 h-4 md:h-5' />
-                دوشنبه 6 شهریور
+                {date}
               </span>
               <span>
                 <UserIcon classes=' w-4 md:w-5 h-4 md:h-5' />
@@ -126,9 +131,12 @@ const Flights = () => {
               <FilteredTicketClass />
             </div>
           </div>
-          {/* <button className='bg-primary p-2 rounded-lg text-white mt-auto text-sm'>
+          <button
+            onClick={handleFilter}
+            className='bg-primary p-2 rounded-lg text-white mt-auto text-sm'
+          >
             اعمال فیلتر‌ها
-          </button> */}
+          </button>
         </div>
         {/* Flights tickets */}
         <div className='container w-full space-y-6' ref={tickets}>
@@ -148,7 +156,7 @@ const Flights = () => {
           </div>
           {/* ticket items or no tickets */}
           {isLoading && (
-            <div className='flex-all w-full h-full py-5 md:py-10'>
+            <div className='flex-all w-full h-full py-10'>
               <AirPlaneSpinnerIcon />
             </div>
           )}

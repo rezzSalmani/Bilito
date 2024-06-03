@@ -3,6 +3,7 @@ import { supabase } from "../supabaseClient";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import { DateObject } from "react-multi-date-picker";
+import { getTravelTimeInMinutes } from "../util/util";
 const FindTicketContext = createContext({
   ticketRegion: "",
   ticketType: "",
@@ -39,8 +40,93 @@ const FindTicketContextProvider = ({ children }) => {
     displayToCity: "",
   });
   const [searchedTickets, setSearchedTickets] = useState([]);
-  const [filteredTickets, setFilteredTickets] = useState([]);
+  const [filteredTickets, setFilteredTickets] = useState([
+    {
+      "id": "t4",
+      "price": 2200000,
+      "compony": "چابهار",
+      "sitLeft": 7,
+      "takeOff": "14:30",
+      "isPopular": false,
+      "middleStop": false,
+      "returnable": false,
+      "sourceCity": "تهران",
+      "travelTime": "04:30",
+      "landingTime": "18:40",
+      "ticketLevel": "بیزینس",
+      "componyImage": "/images/companies/chabahar.png",
+      "flightNumber": 235562,
+      "childrenPrice": 1900000,
+      "sourceAirport": "Tehran Airport",
+      "destinationCity": "مشهد",
+      "destinationAirport": "Mashhad Airport",
+    },
+    {
+      "id": "t1",
+      "price": 1200000,
+      "compony": "زاگرس",
+      "sitLeft": 16,
+      "takeOff": "19:30",
+      "isPopular": false,
+      "middleStop": false,
+      "returnable": false,
+      "sourceCity": "تهران",
+      "travelTime": "03:30",
+      "landingTime": "22:40",
+      "ticketLevel": "اکونومی",
+      "componyImage": "/images/companies/zakros.png",
+      "flightNumber": 122434,
+      "childrenPrice": 900000,
+      "sourceAirport": "Tehran Airport",
+      "destinationCity": "مشهد",
+      "destinationAirport": "Mashhad Airport",
+    },
+    {
+      "id": "t3",
+      "price": 1150000,
+      "compony": "ایران ایر",
+      "sitLeft": 3,
+      "takeOff": "18:30",
+      "isPopular": false,
+      "middleStop": false,
+      "returnable": false,
+      "sourceCity": "تهران",
+      "travelTime": "04:30",
+      "landingTime": "21:40",
+      "ticketLevel": "بیزینس",
+      "componyImage": "/images/companies/iranAir.png",
+      "flightNumber": 535215,
+      "childrenPrice": 890000,
+      "sourceAirport": "Tehran Airport",
+      "destinationCity": "مشهد",
+      "destinationAirport": "Mashhad Airport",
+    },
+    {
+      "id": "t2",
+      "price": 1100000,
+      "compony": "کارون",
+      "sitLeft": 10,
+      "takeOff": "15:30",
+      "isPopular": true,
+      "middleStop": false,
+      "returnable": false,
+      "sourceCity": "تهران",
+      "travelTime": "04:00",
+      "landingTime": "19:30",
+      "ticketLevel": "فرست",
+      "componyImage": "/images/companies/karon.png",
+      "flightNumber": 923153,
+      "childrenPrice": 850000,
+      "sourceAirport": "Tehran Airport",
+      "destinationCity": "مشهد",
+      "destinationAirport": "Mashhad Airport",
+    },
+  ]);
   const [isFindBasedHistory, setIsFindBasedHistory] = useState(false);
+  const [companiesChecked, setCompaniesChecked] = useState([]);
+  const [timeFiltered, setTimeFiltered] = useState([0, 1440]);
+  const [classChecked, setClassChecked] = useState([]);
+  const [priceFiltered, setPriceFiltered] = useState([600000, 2200000]);
 
   const getTickets = async () => {
     let { data, error } = await supabase
@@ -128,37 +214,43 @@ const FindTicketContextProvider = ({ children }) => {
   };
 
   const handleSearchTicket = async () => {
+    const { ticketType, from, to } = searchFlightParameters;
     setSearchedTickets([]);
     setFilteredTickets([]);
     updateSearchFlightParameters("error", "");
     updateSearchFlightParameters("isLoading", true);
-    updateSearchFlightParameters(
-      "displayFromCity",
-      searchFlightParameters.from
-    );
-    updateSearchFlightParameters("displayToCity", searchFlightParameters.to);
+    updateSearchFlightParameters("displayFromCity", from);
+    updateSearchFlightParameters("displayToCity", to);
 
-    const getTicketsBasedRegionTicket = await getTickets().then(
-      (data) => data[0].ticketTypes
-    );
+    try {
+      const getTicketsBasedRegionTicket = await getTickets().then(
+        (data) => data[0].ticketTypes
+      );
 
-    const getTicketTypeBasedRegionTicket =
-      await getTicketsBasedRegionTicket.find(
-        (item) => item.type === searchFlightParameters.ticketType
-      ).cities;
+      const getTicketTypeBasedRegionTicket =
+        await getTicketsBasedRegionTicket.find(
+          (item) => item.type === ticketType
+        ).cities;
 
-    let allTickets = await getTicketTypeBasedRegionTicket.find(
-      (ticket) =>
-        ticket.from === searchFlightParameters.from &&
-        ticket.to === searchFlightParameters.to
-    );
-    if (allTickets) {
-      setSearchedTickets(allTickets.tickets);
-      setFilteredTickets(allTickets.tickets);
+      let allTickets = await getTicketTypeBasedRegionTicket.find(
+        (ticket) => ticket.from === from && ticket.to === to
+      );
+      if (allTickets) {
+        setSearchedTickets(allTickets.tickets);
+        setFilteredTickets(allTickets.tickets);
+      }
+    } catch (err) {
+      console.log(err);
+      updateSearchFlightParameters(
+        "error",
+        "there was a problem fetching data"
+      );
+    } finally {
+      setIsFindBasedHistory(false);
+      updateSearchFlightParameters("isLoading", false);
     }
-    setIsFindBasedHistory(false);
-    updateSearchFlightParameters("isLoading", false);
   };
+
   const findTicketBasedHistory = (sourceCity, distentionCity) => {
     updateSearchFlightParameters("from", sourceCity);
     updateSearchFlightParameters("to", distentionCity);
@@ -172,6 +264,7 @@ const FindTicketContextProvider = ({ children }) => {
     updateSearchFlightParameters("sitType", "اکونومی");
     setIsFindBasedHistory(true);
   };
+
   useEffect(() => {
     if (isFindBasedHistory) handleSearchTicket();
   }, [
@@ -179,6 +272,53 @@ const FindTicketContextProvider = ({ children }) => {
     searchFlightParameters.to,
     isFindBasedHistory,
   ]);
+
+  const filterByCompony = (ticket) => {
+    if (!companiesChecked.length) return true;
+    return companiesChecked.includes(ticket.compony);
+  };
+  const filterByClass = (ticket) => {
+    if (!classChecked.length) return true;
+    return classChecked.includes(ticket.ticketLevel);
+  };
+
+  const filterByTime = (ticket) => {
+    const takeOffTime = ticket.takeOff.split(":");
+    const landingTime = ticket.landingTime.split(":");
+    const takeOffMinutes =
+      parseInt(takeOffTime[0]) * 60 + parseInt(takeOffTime[1]);
+    const landingMinutes =
+      parseInt(landingTime[0]) * 60 + parseInt(landingTime[1]);
+    return (
+      takeOffMinutes >= timeFiltered[0] && landingMinutes <= timeFiltered[1]
+    );
+  };
+  const filterByPrice = (ticket) => {
+    console.log(ticket);
+    let ticketPrice = ticket.price;
+    return ticketPrice >= priceFiltered[0] && ticketPrice <= priceFiltered[1];
+  };
+
+  function combinedFilters(ticket) {
+    return (
+      filterByTime(ticket) &&
+      filterByClass(ticket) &&
+      filterByCompony(ticket) &&
+      filterByPrice(ticket)
+      // filterByPrice(ticket)
+    );
+  }
+  // useEffect(() => {
+
+  // }, [searchedTickets, companiesChecked, timeFiltered]);
+  const handleFilter = () => {
+    if (searchedTickets.length > 0) {
+      const filtered = searchedTickets.filter((ticket) =>
+        combinedFilters(ticket)
+      );
+      setFilteredTickets(filtered);
+    }
+  };
   const value = {
     ticketRegion: searchFlightParameters.ticketRegion,
     ticketType: searchFlightParameters.ticketType,
@@ -192,14 +332,23 @@ const FindTicketContextProvider = ({ children }) => {
     displayFromCity: searchFlightParameters.displayFromCity,
     displayToCity: searchFlightParameters.displayToCity,
     searchedTickets,
+    filteredTickets,
     revereCity,
     handleSearchTicket,
     updateSearchFlightParameters,
     updateSearchFlightPassengersParameters,
-    filteredTickets,
     setFilteredTickets,
     validateSearchFlightParameters,
     findTicketBasedHistory,
+    companiesChecked,
+    setCompaniesChecked,
+    timeFiltered,
+    setTimeFiltered,
+    classChecked,
+    setClassChecked,
+    priceFiltered,
+    setPriceFiltered,
+    handleFilter,
   };
 
   return (

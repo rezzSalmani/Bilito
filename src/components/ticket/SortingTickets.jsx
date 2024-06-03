@@ -1,14 +1,51 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { ChevronUpDownIcon, CheckIcon } from "../UI/icons";
-const sortingOptions = [
+import { useFindTicketContext } from "../../store/FindTicketContext";
+import { getTravelTimeInMinutes } from "../../util/util";
+export const sortingOptions = [
   { name: "پیشنهاد بیلیتو" },
   { name: "ارزان‌ترین" },
   { name: "گران‌ترین" },
   { name: "سریع‌ترین" },
 ];
 const SortingTickets = () => {
-  const [sortingSelected, setSortingSelected] = useState(sortingOptions[1]);
+  const [sortingSelected, setSortingSelected] = useState(
+    sortingOptions[0].name
+  );
+  const { searchedTickets, setFilteredTickets } = useFindTicketContext();
+
+  useEffect(() => {
+    console.log("effect run");
+    switch (sortingSelected) {
+      case sortingOptions[0].name:
+        setFilteredTickets(searchedTickets);
+        break;
+      case "ارزان‌ترین":
+        setFilteredTickets((prev) =>
+          [...prev].sort((a, b) => a.price - b.price)
+        );
+        break;
+      case sortingOptions[2].name:
+        setFilteredTickets((prev) =>
+          [...prev].sort((a, b) => b.price - a.price)
+        );
+
+        break;
+      case sortingOptions[3].name:
+        setFilteredTickets((prev) => {
+          return [...prev].sort((a, b) => {
+            const aTimeInMinutes = getTravelTimeInMinutes(a.travelTime);
+            const bTimeInMinutes = getTravelTimeInMinutes(b.travelTime);
+            return aTimeInMinutes - bTimeInMinutes;
+          });
+        });
+        break;
+      default:
+        setFilteredTickets(searchedTickets);
+    }
+  }, [sortingSelected]);
+
   return (
     <Listbox
       value={sortingSelected}
@@ -39,7 +76,7 @@ const SortingTickets = () => {
                     active ? "bg-tint1 text-gary7" : "text-gray-900"
                   }`
                 }
-                value={sort}
+                value={sort.name}
               >
                 {({ selected }) => (
                   <>

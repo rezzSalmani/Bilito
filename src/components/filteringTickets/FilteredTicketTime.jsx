@@ -15,26 +15,26 @@ const formatTime = (decimalHours) => {
 };
 const FilteredTicketTime = () => {
   // original data and set filtered Ticket form use context
-  const { searchedTickets, setFilteredTickets } = useFindTicketContext();
+  const { searchedTickets, setFilteredTickets, timeFiltered, setTimeFiltered } =
+    useFindTicketContext();
   // based filter value
-  const [timeFiltered, setTimeFiltered] = useState([0, 1440]);
   // filtering
-  useEffect(() => {
-    const filteredTickets = searchedTickets.filter((ticket) => {
-      const takeOffTime = ticket.takeOff.split(":");
-      const landingTime = ticket.landingTime.split(":");
-      const takeOffMinutes =
-        parseInt(takeOffTime[0]) * 60 + parseInt(takeOffTime[1]);
-      const landingMinutes =
-        parseInt(landingTime[0]) * 60 + parseInt(landingTime[1]);
-      return (
-        takeOffMinutes >= timeFiltered[0] && landingMinutes <= timeFiltered[1]
-      );
-    });
+  // useEffect(() => {
+  //   const filteredTickets = searchedTickets.filter((ticket) => {
+  //     const takeOffTime = ticket.takeOff.split(":");
+  //     const landingTime = ticket.landingTime.split(":");
+  //     const takeOffMinutes =
+  //       parseInt(takeOffTime[0]) * 60 + parseInt(takeOffTime[1]);
+  //     const landingMinutes =
+  //       parseInt(landingTime[0]) * 60 + parseInt(landingTime[1]);
+  //     return (
+  //       takeOffMinutes >= timeFiltered[0] && landingMinutes <= timeFiltered[1]
+  //     );
+  //   });
 
-    // Update the filtered tickets
-    setFilteredTickets(filteredTickets);
-  }, [searchedTickets, timeFiltered, setFilteredTickets]);
+  //   // Update the filtered tickets
+  //   setFilteredTickets(filteredTickets);
+  // }, [searchedTickets, timeFiltered, setFilteredTickets]);
 
   return (
     <FilteringSubMenuHeader title='زمان حرکت'>

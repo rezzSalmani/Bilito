@@ -11,10 +11,10 @@ export const FilteringSubMenuHeader = ({ title, children }) => {
         </span>
       </div>
       <div
-        className={`transition-all duration-75 ease-in flex flex-col ${
+        className={`flex flex-col transition-all ease-in-out duration-200 ${
           subMenu
-            ? "h-fit visible opacity-100 translate-y-2 pb-2"
-            : "h-0 invisible opacity-0"
+            ? "opacity-100 visible h-fit translate-y-2 pb-2"
+            : "opacity-0 invisible h-0"
         }`}
       >
         {children}

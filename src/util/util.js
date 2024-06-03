@@ -19,3 +19,7 @@ export function getTicketTotalPrice(TicketData) {
     TicketData.childrenPrice * TicketData.passengers.baby
   );
 }
+export function getTravelTimeInMinutes(travelTimeString) {
+  const [hours, minutes] = travelTimeString.split(":");
+  return parseInt(hours, 10) * 60 + parseInt(minutes, 10);
+}

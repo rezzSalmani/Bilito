@@ -10,8 +10,12 @@ const flightCompanies = [
   { id: "c6", title: "زاگرس", image: "/images/companies/zakros.png" },
 ];
 const FilteredTicketCompany = () => {
-  const { searchedTickets, setFilteredTickets } = useFindTicketContext();
-  const [companiesChecked, setCompaniesChecked] = useState([]);
+  const {
+    searchedTickets,
+    setFilteredTickets,
+    companiesChecked,
+    setCompaniesChecked,
+  } = useFindTicketContext();
 
   const handleCompanySelection = (title) => {
     if (companiesChecked.includes(title)) {
@@ -20,16 +24,16 @@ const FilteredTicketCompany = () => {
       setCompaniesChecked([...companiesChecked, title]);
     }
   };
-  useEffect(() => {
-    if (companiesChecked.length > 0) {
-      const filteredTickets = searchedTickets.filter((item) =>
-        companiesChecked.includes(item.compony)
-      );
-      setFilteredTickets(filteredTickets);
-    } else {
-      setFilteredTickets(searchedTickets);
-    }
-  }, [companiesChecked, searchedTickets]);
+  // useEffect(() => {
+  //   if (companiesChecked.length > 0) {
+  //     const filteredTickets = searchedTickets.filter((item) =>
+  //       companiesChecked.includes(item.compony)
+  //     );
+  //     setFilteredTickets(filteredTickets);
+  //   } else {
+  //     setFilteredTickets(searchedTickets);
+  //   }
+  // }, [companiesChecked, searchedTickets]);
 
   return (
     <FilteringSubMenuHeader title='شرکت هواپیمایی'>

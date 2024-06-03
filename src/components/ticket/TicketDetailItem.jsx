@@ -17,7 +17,7 @@ import { useTicketBuyingProcess } from "../../store/TicketBuyingProcess";
 const TicketDetailItem = ({
   detail,
   isMoreDetail = true,
-  changeTicket = "",
+  changeTicket = null,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
@@ -39,10 +39,10 @@ const TicketDetailItem = ({
   const button = (
     <button
       type='button'
-      className='flex-all items-center gap-2 px-3 py-2 lg:px-5 lg:py-3 bg-primary text-white text-nowrap cursor-pointer rounded-md transition-all text-sm font-medium hover:bg-primary/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 active:scale-95'
+      className='flex items-center justify-center gap-2 px-2 sm:px-3 py-1.5 sm:py-2 bg-primary text-white text-nowrap cursor-pointer rounded-md transition-all text-sm md:text-base font-medium hover:bg-primary/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 active:scale-95'
     >
       جزئیات بلیط
-      <span className='hidden xs:block'>
+      <span className='hidden sm:block'>
         <TicketIcon />
       </span>
     </button>
@@ -126,7 +126,7 @@ const TicketDetailItem = ({
               20 Kg
             </span>
           </div>
-          <div className='flex-all flex-col gap-3 '>
+          <div className='flex-all flex-col gap-3'>
             <span className='font-IRANSansXBold text-gray8 text-base'>
               {landingTime}
             </span>
@@ -135,7 +135,7 @@ const TicketDetailItem = ({
             </span>
           </div>
         </div>
-        <div className='flex flex-row flex-wrap text-center items-center justify-end sm:justify-end gap-1 lg:gap-4 text-sm md:text-base w-full sm:w-fit text-nowrap '>
+        <div className='flex flex-row flex-wrap text-center items-center justify-between sm:justify-end gap-1 lg:gap-4 text-sm md:text-base w-fit text-nowrap '>
           <div>
             <span className='flex-all font-IRANSansXMedium text-primary'>
               {price.toLocaleString()}تومان
@@ -150,13 +150,14 @@ const TicketDetailItem = ({
               closeModal={closeModal}
               openModal={openModal}
             >
-              <div className='flex flex-col gap-3 justify-start items-start p-3 xs:p-6 w-screen  h-screen xs:h-[520px] xs:w-[500px] md:w-[600px] lg:w-[800px] transition-all text-right'>
+              <div className='flex flex-col gap-3 justify-start items-start p-4 xs:p-6 w-screen h-screen xs:h-[560px] md:h-[490px] xs:w-[500px] md:w-[600px] lg:w-[800px] transition-all text-right bg-white rounded-xl'>
                 <Tab.Group
                   selectedIndex={selectedTabIndex}
                   onChange={setSelectedTabIndex}
                 >
-                  <Tab.List className='flex items-center justify-between w-full gap-3'>
-                    <div className='flex items-center text-sm gap-4 md:gap-4 h-fit border-b border-gray3 child:py-4 w-full '>
+                  <Tab.List className='flex items-center justify-between w-full gap-2 xs:gap-3'>
+                    {/* tabs */}
+                    <div className='flex items-center text-sm gap-3 md:gap-4 h-fit border-b border-gray3 child:py-4 w-full'>
                       <Tab as={Fragment}>
                         {({ selected }) => (
                           <button
@@ -232,16 +233,17 @@ const TicketDetailItem = ({
                         )}
                       </Tab>
                     </div>
+                    {/* close button */}
                     <span onClick={closeModal}>
                       <CloseCircleIcon classes='w-6 h-6 text-gray7' />
                     </span>
                   </Tab.List>
                   <Tab.Panels className='w-full h-full'>
                     {/* tab-1 */}
-                    <Tab.Panel className='flex flex-col space-y-4 h-full'>
+                    <Tab.Panel className='flex flex-col space-y-8 md:space-y-4 h-full'>
                       {/* compony, class , sits */}
                       <div className='flex gap-6'>
-                        <div className='flex items-center gap-2'>
+                        <div className='flex items-center gap-2 w-fit'>
                           <img
                             src={componyImage}
                             alt={compony}
@@ -272,21 +274,23 @@ const TicketDetailItem = ({
                       </div>
                       <div className='flex flex-col md:flex-row gap-2 md:gap-6 h-full'>
                         {/* ticket details */}
-                        <div className='flex flex-col gap-2 md:gap-4 w-full lg:min-w-[60%] sm:text-nowrap'>
-                          <div className='flex items-center justify-between md:items-start md:flex-col gap-2 text-center text-xs sm:text-sm lg:text-base'>
-                            <h6 className='flex flex-col md:flex-row gap-1 '>
+                        <div className='flex flex-col gap-6 md:gap-4 w-full lg:min-w-[60%] sm:text-nowrap'>
+                          <div className='flex flex-col flex-wrap xs:flex-row md:flex-col items-center justify-center md:items-start gap-3 xs:gap- text-center text-xs md:text-sm lg:text-base'>
+                            <h6 className='flex xs:flex-col flex-wrap md:flex-row gap-1 '>
                               <span>{takeOff}</span>
-                              <span>
+                              <span className='text-tint5'>
                                 {sourceCity} فرودگاه {sourceAirport}
                               </span>
                               <span>{date}</span>
                             </h6>
-                            {middleStop && (
-                              <div className='flex-all gap-4 border-dashed border-b md:border-b-transparent md:border-r w-24 md:w-fit md:h-20 border-gray3 relative md:pr-4 md:mr-5'>
-                                <span className='flex-all absolute bottom-0 right-0 left-0 mx-auto md:mx-0 md:-right-5 my-auto w-full h-full md:w-10 text-primary md:-rotate-90'>
-                                  <AirPlaneIconPopularServices />
-                                </span>
-                                <span className='md:hidden absolute bottom-2 text-[10px]'>
+                            {false && (
+                              <div className='flex-all relative w-20 md:w-fit'>
+                                <div className='flex items-center gap-4 w-fit rotate-0 xs:rotate-90 md:rotate-0 border-dashed border-r h-20 border-gray3 relative pr-4 mr-5'>
+                                  <span className='flex-all absolute top-0 bottom-0 -right-5 my-auto h-full left-0 w-10 text-primary -rotate-90'>
+                                    <AirPlaneIconPopularServices />
+                                  </span>
+                                </div>
+                                <span className='md:hidden absolute left-14 xs:left-0 xs:inset-0 xs:bottom-2 text-[10px]'>
                                   توقف در امان
                                 </span>
                                 <div className='hidden md:flex items-center gap-2 text-sm text-warning bg-warningLight2xl p-1 rounded-lg'>
@@ -295,21 +299,23 @@ const TicketDetailItem = ({
                                 </div>
                               </div>
                             )}
-                            {middleStop && (
-                              <h6 className='hidden md:flex flex-col md:flex-row gap-1 '>
+                            {false && (
+                              <h6 className='flex xs:flex-col flex-wrap md:flex-row gap-1'>
                                 <span>17:00</span>
-                                <span>امان، فرودگاه Queen Alia</span>
+                                <span className='text-tint5'>
+                                  امان، فرودگاه Queen Alia
+                                </span>
                                 <span>{date}</span>
                               </h6>
                             )}
-                            <div className='hidden md:flex items-center gap-4 w-fit border-dashed border-r h-20 border-gray3 relative pr-4 mr-5'>
+                            <div className='flex xs:hidden md:flex items-center gap-4 w-fit rotate-0 xs:rotate-90 md:rotate-0 border-dashed border-r h-20 border-gray3 relative pr-4 mr-5'>
                               <span className='flex-all absolute top-0 bottom-0 -right-5 my-auto h-full left-0 w-10 text-primary -rotate-90'>
                                 <AirPlaneIconPopularServices />
                               </span>
                             </div>
-                            <h6 className='flex flex-col md:flex-row gap-1 text-nowrap '>
+                            <h6 className='flex xs:flex-col flex-wrap md:flex-row gap-1 text-nowrap '>
                               <span>{landingTime}</span>
-                              <span>
+                              <span className='text-tint5'>
                                 {destinationCity} ، فرودگاه {destinationAirport}{" "}
                               </span>
                               <span>{date}</span>
