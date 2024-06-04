@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FilteringSubMenuHeader } from "./FilteringSubMenuHeader";
 import { useFindTicketContext } from "../../store/FindTicketContext";
-
 const ticketClasses = ["اکونومی", "بیزینس", "پرمیوم اکونومی", "فرست"];
 const FilteredTicketClass = () => {
-  const { searchedTickets, setFilteredTickets, classChecked, setClassChecked } =
-    useFindTicketContext();
-
+  const { classChecked, setClassChecked } = useFindTicketContext();
   const handleClassSelection = (title) => {
     if (classChecked.includes(title)) {
       setClassChecked(classChecked.filter((item) => item !== title));
@@ -14,19 +11,6 @@ const FilteredTicketClass = () => {
       setClassChecked([...classChecked, title]);
     }
   };
-
-  // useEffect(() => {
-  //   if (classChecked.length > 0) {
-  //     const filteredTickets = searchedTickets.filter((item) =>
-  //       classChecked.includes(item.ticketLevel)
-  //     );
-  //     setFilteredTickets(filteredTickets);
-  //   } else {
-  //     // If no class is selected, setFilteredTickets can be set to the original searchedTickets
-  //     setFilteredTickets(searchedTickets);
-  //   }
-  // }, [classChecked, searchedTickets]);
-
   return (
     <FilteringSubMenuHeader title='کلاس پروازی'>
       {ticketClasses.map((classType, index) => (

@@ -5,27 +5,37 @@ import { UserIcon } from "../UI/icons";
 import { useAuthContext } from "../../store/AuthContext.jsx";
 import { supabase } from "../../supabaseClient";
 import toast from "react-hot-toast";
-const LogOutModal = () => {
+import { useNavigate } from "react-router-dom";
+
+const LogOutModal = ({ customButton = null }) => {
   const [isExistModal, setIsExistModal] = useState(false);
   const { currentUser } = useAuthContext();
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
   const handleLogOut = async () => {
     setIsLoading(true);
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.log(error);
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw new Error(error.message);
+      toast.success("شما با موفقیت خارج شدید.");
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+      toast.error("خروج موفقیت آمیز نبود!");
+    } finally {
+      setIsLoading(false);
+      setIsExistModal(false);
     }
-    toast.success("شما با موفقیت خارج شدید.");
-    setIsLoading(false);
-    setIsExistModal(false);
   };
-  const Button = (
+  const Button = customButton ? (
+    customButton
+  ) : (
     <div>
       <ButtonPrimary
         classes='hidden md:flex flex-row-reverse py-2 px-4 rounded-lg items-center'
         text={currentUser?.user_metadata.username || "_"}
         icon={<UserIcon />}
-        // className='flex items-center gap-2 border border-gray-3 rounded-lg text-white bg-primary px-3 py-1.5'
       />
       <span className='flex md:hidden '>
         <span className='p-2 bg-tint1 rounded-md'>

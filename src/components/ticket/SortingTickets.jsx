@@ -16,12 +16,11 @@ const SortingTickets = () => {
   const { searchedTickets, setFilteredTickets } = useFindTicketContext();
 
   useEffect(() => {
-    console.log("effect run");
     switch (sortingSelected) {
       case sortingOptions[0].name:
         setFilteredTickets(searchedTickets);
         break;
-      case "ارزان‌ترین":
+      case sortingOptions[1].name:
         setFilteredTickets((prev) =>
           [...prev].sort((a, b) => a.price - b.price)
         );
@@ -30,7 +29,6 @@ const SortingTickets = () => {
         setFilteredTickets((prev) =>
           [...prev].sort((a, b) => b.price - a.price)
         );
-
         break;
       case sortingOptions[3].name:
         setFilteredTickets((prev) => {

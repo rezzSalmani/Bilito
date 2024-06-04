@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { FilteringSubMenuHeader } from "./FilteringSubMenuHeader";
 import { useFindTicketContext } from "../../store/FindTicketContext";
 const flightCompanies = [
@@ -10,12 +10,7 @@ const flightCompanies = [
   { id: "c6", title: "زاگرس", image: "/images/companies/zakros.png" },
 ];
 const FilteredTicketCompany = () => {
-  const {
-    searchedTickets,
-    setFilteredTickets,
-    companiesChecked,
-    setCompaniesChecked,
-  } = useFindTicketContext();
+  const { companiesChecked, setCompaniesChecked } = useFindTicketContext();
 
   const handleCompanySelection = (title) => {
     if (companiesChecked.includes(title)) {
@@ -24,17 +19,6 @@ const FilteredTicketCompany = () => {
       setCompaniesChecked([...companiesChecked, title]);
     }
   };
-  // useEffect(() => {
-  //   if (companiesChecked.length > 0) {
-  //     const filteredTickets = searchedTickets.filter((item) =>
-  //       companiesChecked.includes(item.compony)
-  //     );
-  //     setFilteredTickets(filteredTickets);
-  //   } else {
-  //     setFilteredTickets(searchedTickets);
-  //   }
-  // }, [companiesChecked, searchedTickets]);
-
   return (
     <FilteringSubMenuHeader title='شرکت هواپیمایی'>
       <div className='flex flex-col w-full'>

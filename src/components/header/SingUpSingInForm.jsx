@@ -16,13 +16,6 @@ import toast from "react-hot-toast";
 const SingUpSingInForm = () => {
   const [isSingIn, setIsSingIn] = useState(false);
   const [isSingFormModal, setIsSingModal] = useState(false);
-  const [userData, setUserData] = useState({
-    userName: "",
-    email: "",
-    password: "",
-    phone: "",
-    policy: false,
-  });
   const [isError, setIsError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -32,43 +25,18 @@ const SingUpSingInForm = () => {
     reset,
     formState: { errors, isSubmitting, isValid },
   } = useForm();
-  // const handleChangeUserData = (event, identifier) => {
-  //   setIsError("");
-  //   return setUserData((prev) => {
-  //     return {
-  //       ...prev,
-  //       [identifier]: event.target.value,
-  //     };
-  //   });
-  // };
 
   function closeModal() {
     setIsSingModal(false);
     reset();
   }
+
   function openModal() {
     setIsSingModal(true);
   }
-  const button = (
-    <div>
-      <span className='hidden md:flex'>
-        <ButtonPrimary
-          classes='py-2 px-4 rounded-lg'
-          text='ورود / ثبت نام'
-          icon={<UserIcon></UserIcon>}
-        />
-      </span>
-      <span className='flex md:hidden '>
-        <span className='p-2 bg-tint1 rounded-md'>
-          <UserIcon></UserIcon>
-        </span>
-      </span>
-    </div>
-  );
-  const handleSingUp = async (values) => {
-    console.log(values);
-    const pureValues = removeIdentifierFromSingUpForm(values);
 
+  const handleSingUp = async (values) => {
+    const pureValues = removeIdentifierFromSingUpForm(values);
     if (!pureValues.policy)
       return setIsError("لطفا قوانین را خوانده و اعمال کنید");
     setIsLoading(true);
@@ -84,7 +52,6 @@ const SingUpSingInForm = () => {
           },
         },
       });
-
       // const { error: insertError } = await supabase
       //   .from("users")
       //   .insert({ user_id: data.user.id, username: userData.userName });
@@ -107,6 +74,8 @@ const SingUpSingInForm = () => {
           break;
         default:
           console.error(error);
+          toast.error("ثبت نام موفقیت آمیز نبود!");
+          closeModal();
       }
     } finally {
       setIsLoading(false);
@@ -124,18 +93,35 @@ const SingUpSingInForm = () => {
         throw new Error(error.message);
       } else {
         toast.success("شما  با موفقیت وارد شدید.");
-        closeModal();
       }
     } catch (error) {
       if (error.message === "Invalid login credentials") {
         setIsError("ایمیل یا رمز عبور نا معتبر است.");
       } else {
         console.error(error);
+        toast.error("ورود موفقیت آمیز نبود!");
       }
+    } finally {
+      setIsLoading(false);
+      closeModal();
     }
-    setIsLoading(false);
   };
-
+  const button = (
+    <div>
+      <span className='hidden md:flex'>
+        <ButtonPrimary
+          classes='py-2 px-4 rounded-lg'
+          text='ورود / ثبت نام'
+          icon={<UserIcon></UserIcon>}
+        />
+      </span>
+      <span className='flex md:hidden '>
+        <span className='p-2 bg-tint1 rounded-md'>
+          <UserIcon></UserIcon>
+        </span>
+      </span>
+    </div>
+  );
   return (
     <Modal
       button={button}

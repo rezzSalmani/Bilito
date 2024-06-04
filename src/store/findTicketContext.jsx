@@ -143,14 +143,14 @@ const FindTicketContextProvider = ({ children }) => {
         [identifier]: value,
       };
     });
-    if (identifier !== "error") {
-      setSearchFlightParameters((prev) => {
-        return {
-          ...prev,
-          error: "",
-        };
-      });
-    }
+    // if (identifier !== "error") {
+    //   setSearchFlightParameters((prev) => {
+    //     return {
+    //       ...prev,
+    //       error: "",
+    //     };
+    //   });
+    // }
   };
   const updateSearchFlightPassengersParameters = (identifier, type) => {
     if (type == "increment") {
@@ -226,7 +226,6 @@ const FindTicketContextProvider = ({ children }) => {
       const getTicketsBasedRegionTicket = await getTickets().then(
         (data) => data[0].ticketTypes
       );
-
       const getTicketTypeBasedRegionTicket =
         await getTicketsBasedRegionTicket.find(
           (item) => item.type === ticketType
@@ -241,10 +240,7 @@ const FindTicketContextProvider = ({ children }) => {
       }
     } catch (err) {
       console.log(err);
-      updateSearchFlightParameters(
-        "error",
-        "there was a problem fetching data"
-      );
+      updateSearchFlightParameters("error", "دریافت اطلاعات موفقیت آمیز نبود!");
     } finally {
       setIsFindBasedHistory(false);
       updateSearchFlightParameters("isLoading", false);
@@ -294,11 +290,15 @@ const FindTicketContextProvider = ({ children }) => {
     );
   };
   const filterByPrice = (ticket) => {
-    console.log(ticket);
     let ticketPrice = ticket.price;
     return ticketPrice >= priceFiltered[0] && ticketPrice <= priceFiltered[1];
   };
-
+  const resetFilters = () => {
+    setCompaniesChecked([]);
+    setTimeFiltered([0, 1440]);
+    setClassChecked([]);
+    setPriceFiltered([600000, 2200000]);
+  };
   function combinedFilters(ticket) {
     return (
       filterByTime(ticket) &&
@@ -308,9 +308,20 @@ const FindTicketContextProvider = ({ children }) => {
       // filterByPrice(ticket)
     );
   }
-  // useEffect(() => {
-
-  // }, [searchedTickets, companiesChecked, timeFiltered]);
+  useEffect(() => {
+    if (searchedTickets.length > 0) {
+      const filtered = searchedTickets.filter((ticket) =>
+        combinedFilters(ticket)
+      );
+      setFilteredTickets(filtered);
+    }
+  }, [
+    searchedTickets,
+    companiesChecked,
+    timeFiltered,
+    priceFiltered,
+    classChecked,
+  ]);
   const handleFilter = () => {
     if (searchedTickets.length > 0) {
       const filtered = searchedTickets.filter((ticket) =>
@@ -349,6 +360,7 @@ const FindTicketContextProvider = ({ children }) => {
     priceFiltered,
     setPriceFiltered,
     handleFilter,
+    resetFilters,
   };
 
   return (

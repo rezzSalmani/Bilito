@@ -1,5 +1,6 @@
 import React, { useEffect, useState, createContext, useContext } from "react";
 import { supabase } from "../supabaseClient";
+import toast from "react-hot-toast";
 const AuthContext = createContext({ currentUser: null });
 
 export const useAuthContext = () => {
@@ -10,7 +11,7 @@ const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
-      // console.log(event, session);
+      console.log(event, session);
       if (event === "INITIAL_SESSION") {
         // handle initial session
         if (session) setCurrentUser(session.user);
@@ -18,6 +19,7 @@ const AuthContextProvider = ({ children }) => {
         setCurrentUser(session?.user);
         //  set user email in local storage
         localStorage.setItem("Bilito-user", session?.user.id);
+        if (!session.user) toast.error("خطایی رخ داده است!");
       } else if (event === "SIGNED_OUT") {
         setCurrentUser(null);
         localStorage.removeItem("Bilito-user");

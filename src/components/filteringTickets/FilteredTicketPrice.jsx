@@ -1,19 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { Range, getTrackBackground } from "react-range";
-import { ChevronDownIcon, ChevronUpIcon } from "../UI/icons";
 import { FilteringSubMenuHeader } from "./FilteringSubMenuHeader";
 import { useFindTicketContext } from "../../store/FindTicketContext";
 const STEP_PRICE = 10000;
 const MIN_PRICE = 600000;
 const MAX_PRICE = 2200000;
 const FilteredTicketPrice = () => {
-  // const [showPriceFilter, setShowPriceFilter] = useState(false);
-  const {
-    searchedTickets,
-    setFilteredTickets,
-    priceFiltered,
-    setPriceFiltered,
-  } = useFindTicketContext();
+  const { priceFiltered, setPriceFiltered } = useFindTicketContext();
   return (
     <FilteringSubMenuHeader title='قیمت'>
       <>

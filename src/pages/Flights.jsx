@@ -28,7 +28,6 @@ const Flights = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [isFiltering, setIsFiltering] = useState(false);
   const {
-    searchedTickets,
     from,
     to,
     passengers,
@@ -39,6 +38,8 @@ const Flights = () => {
     date,
     filteredTickets,
     handleFilter,
+    error,
+    resetFilters,
   } = useFindTicketContext();
 
   const navigate = useNavigate();
@@ -46,17 +47,8 @@ const Flights = () => {
 
   useEffect(() => {
     if (!from && !to) navigate("/");
-    // if (searchedTickets) {
-    //   tickets.current.scrollIntoView({
-    //     behavior: "smooth",
-    //     block: "start",
-    //   });
-    // }
   }, []);
 
-  const hideEditMenu = () => {
-    setIsEdit(false);
-  };
   return (
     <div>
       {/* Landing Image */}
@@ -66,7 +58,7 @@ const Flights = () => {
         <div className='container md:absolute w-fit h-fit rounded-lg font-IRANSansXBold bg-white text-gray8 left-0 right-0 mx-auto p-3 sm:px-6 sm:py-4 md:-bottom-10 md:shadow-md mt-5 md:my-0'>
           {/* <TicketInputs /> */}
           {isEdit ? (
-            <TicketInputs hideMenu={hideEditMenu} />
+            <TicketInputs hideMenu={() => setIsEdit(false)} />
           ) : (
             <div
               className={`flex w-full  items-center justify-center flex-wrap xs:w-fit visible opacity-100" gap-2 md:text-base text-xs  md:gap-6 child:flex child:items-center child:gap-1 child:md:gap-2 transition-all duration-200 `}
@@ -118,9 +110,11 @@ const Flights = () => {
           <div className='text-gray8 flex items-start justify-between w-full '>
             <span>
               تعداد نتایج:{" "}
-              {searchedTickets.tickets ? searchedTickets.tickets.length : "0"}
+              {filteredTickets.length > 0 ? filteredTickets.length : "0"}
             </span>
-            <span className='text-[10px] text-primary'>پاک کردن فیلتر‌ها</span>
+            <button onClick={resetFilters} className='text-[10px] text-primary'>
+              پاک کردن فیلتر‌ها
+            </button>
           </div>
           <div className=' py-3'>
             <div className='flex gap-4 justify-center w-full flex-wrap'>
@@ -160,7 +154,14 @@ const Flights = () => {
               <AirPlaneSpinnerIcon />
             </div>
           )}
-          {!isLoading ? (
+          {error && (
+            <div className='flex items-center justify-center w-full'>
+              <span className='flex justify-center py-1.5 text-errorLight shadow-sm border border-gray3 rounded-lg w-full'>
+                {error}
+              </span>
+            </div>
+          )}
+          {!isLoading && !error ? (
             filteredTickets.length > 0 ? (
               filteredTickets.map((ticket) => (
                 <TicketDetailItem detail={ticket} key={ticket.id} />

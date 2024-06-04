@@ -26,7 +26,6 @@ const sections = [
   { title: " سفر های من", icon: <AirPlane />, identifier: "user_tickets" },
   { title: " تیکت های من", icon: <TicketIcon />, identifier: "user_support" },
   { title: " کیف پول", icon: <CreditCartIcon />, identifier: "user_wallet" },
-  { title: " خروج از حساب کاربری", icon: <LogOutIcon />, identifier: "logOut" },
 ];
 const UserDashBoard = () => {
   const { currentUser } = useAuthContext();
@@ -73,10 +72,10 @@ const UserDashBoard = () => {
   };
   const handleChangeSection = (identifier) => {
     if (identifier !== "logOut") setActiveSection(identifier);
-    if (identifier === "logOut") {
-      setActiveSection(identifier);
-      handleLogOut();
-    }
+    // if (identifier === "logOut") {
+    //   setActiveSection(identifier);
+    //   handleLogOut();
+    // }
   };
   return (
     <section className='flex flex-col md:flex-row gap-4 lg:gap-6 container py-8'>
@@ -100,30 +99,38 @@ const UserDashBoard = () => {
           </div>
         </div>
         <span className='h-0.5 block w-full bg-gray4 rounded-lg '></span>
-        <div>
-          <ul className='space-y-4 child:flex child:items-center child:justify-between child:gap-1 text-gray8  child:cursor-pointer child-hover:bg-tint1 child-hover:text-primary last:child-hover:text-error child:transition-all child:duration-200 child:py-1 child:rounded-lg child:px-2 child:child:flex child:child:gap-2'>
-            {sections.map((section, index) => (
-              <li
-                onClick={() => handleChangeSection(section.identifier)}
-                key={index}
-                className={`text-sm xl:text-base ${
-                  section.identifier === "logOut" && "text-error"
-                }`}
-              >
-                <span>
-                  {section.icon}
-                  {section.title}
+        <div className='space-y-4 child:flex child:items-center child:justify-between child:gap-1 text-gray8  child:cursor-pointer child-hover:bg-tint1 child-hover:text-primary last:child-hover:text-error child:transition-all child:duration-200 child:py-1 child:rounded-lg child:px-2 child:child:flex child:child:gap-2 child:w-full'>
+          {sections.map((section, index) => (
+            <button
+              onClick={() => handleChangeSection(section.identifier)}
+              key={index}
+              className={`text-sm xl:text-base ${
+                section.identifier === "logOut" && "text-error"
+              }`}
+            >
+              <span>
+                {section.icon}
+                {section.title}
+              </span>
+              {activeSection === section.identifier && (
+                <span
+                  className={`w-3 h-3 rounded-full bg-primary ${
+                    isLoading && "animate-ping"
+                  }`}
+                ></span>
+              )}
+            </button>
+          ))}
+          <LogOutModal
+            customButton={
+              <button className='text-sm xl:text-base text-error'>
+                <span className='flex gap-1'>
+                  <LogOutIcon />
+                  <span>خروج از حساب کاربری</span>
                 </span>
-                {activeSection === section.identifier && (
-                  <span
-                    className={`w-3 h-3 rounded-full bg-primary ${
-                      isLoading && "animate-ping"
-                    }`}
-                  ></span>
-                )}
-              </li>
-            ))}
-          </ul>
+              </button>
+            }
+          />
         </div>
       </div>
       {activeSection === "user_information" && (

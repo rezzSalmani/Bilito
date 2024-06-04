@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, Link, useNavigate, useLocation } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import {
   AboutUsIcon,
   AirPlane,
@@ -23,7 +23,6 @@ const Header = () => {
   const [openMobileMenu, setMobileOpenMenu] = useState(false);
   const { currentUser } = useAuthContext();
   const navigate = useNavigate();
-  // const [userName, setUserName] = useState("");
   const location = useLocation();
   const currentRoute = location.pathname;
   useEffect(() => {
