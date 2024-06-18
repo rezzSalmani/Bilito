@@ -5,19 +5,23 @@
 @layer base {
   @font-face {
     font-family: "IRANSansX Regular"; /* 400*/
-    src: local("IRANSansX Regular"),
-      url("./fonts/IRANSanasX/IRANSans(FaNum).ttf"), format("truetype");
+    src: url("/fonts/IRANSanasX/Woff/IRANSansXFaNum-RegularD4.woff")
+        format("woff"),
+      url("/fonts/IRANSanasX/woff2/IRANSansXFaNum-RegularD4.woff2")
+        format("woff2");
   }
   @font-face {
     font-family: "IRANSansX Medium"; /* 500*/
-    src: local("IRANSansXMedium"),
-      url("./fonts/IRANSanasX/IRANSans(FaNum)_Medium.ttf"), format("truetype");
+    src: url("/fonts/IRANSanasX/Woff/IRANSansXFaNum-MediumD4.woff")
+        format("woff"),
+      url("/fonts/IRANSanasX/woff2/IRANSansXFaNum-MediumD4.woff2")
+        format("woff2");
   }
 
   @font-face {
     font-family: "IRANSansX Bold"; /* 700*/
-    src: local("IRANSansX Bold"),
-      url("./fonts/IRANSanasX/IRANSans(FaNum)_Bold.ttf"), format("truetype");
+    src: url("/fonts/IRANSanasX/Woff/IRANSansXFaNum-BoldD4.woff") format("woff"),
+      url("/fonts/IRANSanasX/woff2/IRANSansXFaNum-BoldD4.woff2") format("woff2");
   }
 
   body {

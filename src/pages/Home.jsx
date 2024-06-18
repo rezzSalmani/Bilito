@@ -329,7 +329,7 @@ const Home = () => {
                     leaveFrom='h-full opacity-100 translate-y-0'
                     leaveTo=' h-0 opacity-0 -translate-y-8'
                   >
-                    <Disclosure.Panel className='px-4 pb-2 pt-4 text-[10px] md:text-lg text-gray6 text-justify '>
+                    <Disclosure.Panel className='px-4 pb-2 pt-4 text-sm md:text-base  text-gray6 text-justify '>
                       {question.text}
                     </Disclosure.Panel>
                   </Transition>

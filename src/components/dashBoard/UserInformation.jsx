@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import UserInfoItem from "./UserInfoItem";
 import {
   EditIcon,
@@ -12,9 +12,29 @@ import { useForm } from "react-hook-form";
 import CustomGenderSelector from "../passengerDetail/CustomGenderSelector";
 import CustomDateSelector from "../passengerDetail/CustomDateSelector";
 import ButtonPrimary from "../UI/ButtonPrimary.jsx";
-const UserInformation = ({ userInformation, setUserInformation }) => {
+import { useAuthContext } from "../../store/AuthContext.jsx";
+const UserInformation = () => {
   const [isEditing, setIsEditing] = useState(true);
-
+  const { currentUser } = useAuthContext();
+  const [userInformation, setUserInformation] = useState({
+    user_fullName: currentUser?.user_metadata?.username || "_",
+    user_nationalCode: "_",
+    user_nationality: "_",
+    user_gender: "_",
+    user_birthDate: "_",
+    user_phoneNumber: currentUser?.user_metadata?.phone || "_",
+  });
+  useEffect(() => {
+    if (currentUser) {
+      setUserInformation((prev) => {
+        return {
+          ...prev,
+          "user_fullName": currentUser.user_metadata.username || "_",
+          "user_phoneNumber": currentUser.user_metadata.phone || "_",
+        };
+      });
+    }
+  }, [currentUser]);
   const changeUserInformation = (identifier, value) => {
     setUserInformation((prev) => {
       return {

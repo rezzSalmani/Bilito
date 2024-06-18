@@ -9,7 +9,13 @@ import {
 } from "../components/UI/icons";
 import UserInformation from "../components/dashBoard/UserInformation";
 import { useAuthContext } from "../store/AuthContext";
-import { useNavigate } from "react-router-dom";
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import LogOutModal from "../components/Authentication/LogOutModal";
 import toast from "react-hot-toast";
 import { supabase } from "../supabaseClient";
@@ -20,39 +26,23 @@ export const SECTIONS = [
   {
     title: "اطلاعات حساب کاربری",
     icon: <UserIcon />,
-    identifier: "user_information",
+    identifier: "userInformation",
   },
-  { title: " سفر های من", icon: <AirPlane />, identifier: "user_tickets" },
-  { title: " تیکت های من", icon: <TicketIcon />, identifier: "user_support" },
-  { title: " کیف پول", icon: <CreditCartIcon />, identifier: "user_wallet" },
+  { title: " سفر های من", icon: <AirPlane />, identifier: "userTickets" },
+  { title: " تیکت های من", icon: <TicketIcon />, identifier: "userSupport" },
+  { title: " کیف پول", icon: <CreditCartIcon />, identifier: "userWallet" },
 ];
 const UserDashBoard = () => {
   const { currentUser } = useAuthContext();
   const navigate = useNavigate();
-  const [userInformation, setUserInformation] = useState({
-    user_fullName: currentUser?.user_metadata?.username || "_",
-    user_nationalCode: "_",
-    user_nationality: "_",
-    user_gender: "_",
-    user_birthDate: "_",
-    user_phoneNumber: currentUser?.user_metadata?.phone || "_",
-  });
-  const [activeSection, setActiveSection] = useState("user_information");
+  const location = useLocation();
+  const subPath = location.pathname.split("/").pop() || "userTicket";
+  const [activeSection, setActiveSection] = useState(subPath);
   useEffect(() => {
     const user = localStorage.getItem("Bilito-user");
     if (!user) navigate("/");
   }, []);
-  useEffect(() => {
-    if (currentUser) {
-      setUserInformation((prev) => {
-        return {
-          ...prev,
-          "user_fullName": currentUser.user_metadata.username || "_",
-          "user_phoneNumber": currentUser.user_metadata.phone || "_",
-        };
-      });
-    }
-  }, [currentUser]);
+
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogOut = async () => {
@@ -79,7 +69,7 @@ const UserDashBoard = () => {
         <div className='flex items-center flex-col gap-4'>
           <div className='relative w-fit h-fit'>
             <img
-              src='images/user.jpg'
+              src='/images/user.jpg'
               alt='user'
               className='rounded-full w-24 lg:w-36 h-24 lg:h-36 object-cover'
             />
@@ -88,7 +78,7 @@ const UserDashBoard = () => {
             </span>
           </div>
           <div className='font-IRANSansXBold text-gray6 text-center'>
-            <h6>{userInformation.user_fullName || "_"}</h6>
+            <h6>{currentUser?.user_metadata?.username || "_"}</h6>
             <span className='text-xs md:text-sm'>
               {currentUser?.email || "_"}
             </span>
@@ -97,7 +87,8 @@ const UserDashBoard = () => {
         <span className='h-0.5 block w-full bg-gray4 rounded-lg '></span>
         <div className='md:space-y-2 child:flex child:items-center child:justify-between child:gap-1 text-gray8 child:cursor-pointer child-hover:md:bg-tint1 child-hover:md:text-primary last:child-hover:text-error child:transition-all child:duration-200 child:py-2 child:rounded-lg child:px-2 child:child:flex child:child:gap-2 child:w-full font-IRANSansXMedium'>
           {SECTIONS.map((section, index) => (
-            <button
+            <Link
+              to={`/dashBoard/${section.identifier}`}
               onClick={() => handleChangeSection(section.identifier)}
               key={index}
               className={`text-sm xl:text-base ${
@@ -113,7 +104,7 @@ const UserDashBoard = () => {
                   className={`w-2 h-2 rounded-full bg-primary animate-ping`}
                 ></span>
               )}
-            </button>
+            </Link>
           ))}
           <LogOutModal
             customButton={
@@ -127,15 +118,8 @@ const UserDashBoard = () => {
           />
         </div>
       </div>
-      {activeSection === "user_information" && (
-        <UserInformation
-          setUserInformation={setUserInformation}
-          userInformation={userInformation}
-        />
-      )}
-      {activeSection === "user_tickets" && <UserTickets />}
-      {activeSection === "user_support" && <UserSupport />}
-      {activeSection === "user_wallet" && <UserWallet />}
+
+      <Outlet />
     </section>
   );
 };

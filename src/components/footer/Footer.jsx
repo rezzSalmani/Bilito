@@ -102,12 +102,12 @@ const Footer = () => {
             باشید.
           </span>
         </div>
-        <div className='flex sm:flex-row items-center justify-center sm:gap-2 flex-wrap sm:w-1/2 child:flex-all child:rounded-xl text-white text-xs md:text-base text-nowrap child:cursor-pointer child:bg-shade1'>
-          <span className='flex items-center w-full xs:w-[142px] lg:w-[182px] gap-2 py-2.5 lg:py-4 px-3 '>
+        <div className='flex sm:flex-row items-center justify-center gap-2 flex-wrap sm:w-1/2 child:flex-all child:rounded-xl text-white text-xs md:text-base text-nowrap child:cursor-pointer child:bg-shade1'>
+          <span className='flex items-center w-full xs:w-[142px] lg:w-[182px] gap-2 py-1.5 lg:py-2.5 px-3 '>
             Play Store
             <GooglePlayIcon />
           </span>
-          <span className='flex items-center w-full xs:w-[142px] lg:w-[182px] gap-2 py-2.5 lg:py-4 px-3 '>
+          <span className='flex items-center w-full xs:w-[142px] lg:w-[182px] gap-2 py-1.5 lg:py-2.5 px-3 '>
             Apple Store
             <AppStoreIcon />
           </span>

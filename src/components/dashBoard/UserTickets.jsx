@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AirPlane,
   AirPlaneIconPopularServices,
@@ -32,12 +32,17 @@ const UserTickets = () => {
   const [userTickets, setUserTickets] = useState(
     currentUser?.user_metadata?.tickets || []
   );
+
+  useEffect(() => {
+    setUserTickets(currentUser?.user_metadata?.tickets);
+  }, [currentUser]);
+
   const Button = (
     <button
       className='cursor-pointer relative'
       onClick={() => setIsMessageOpen(true)}
     >
-      <span className='absolute -top-2 right-0 w-fit h-fit p-0.5 text-xs text-errorLight font-IRANSansXBold bg-white '>
+      <span className='absolute -top-2 -right-1  w-fit h-fit p-0.5 text-[10px] xs:text-xs text-errorLight font-IRANSansXBold bg-white '>
         2
       </span>
       <span>
@@ -47,15 +52,15 @@ const UserTickets = () => {
   );
   return (
     <div className='w-full text-gray8 space-y-4 md:space-y-6 lg:space-y-8 '>
-      <div className='relative flex items-center justify-between gap-4 w-full'>
+      <div className='relative flex flex-wrap xs:flex-nowrap items-start sm:items-center justify-between gap-2 xs:gap-4 w-full'>
         <h4 className='font-IRANSansXBold text-xl text-gray8 text-nowrap'>
           سفر های من
         </h4>
-        <div className='flex w-2/4 xs:w-auto flex-col xs:flex-row justify-end items-center gap-2'>
+        <div className='flex w-2/4 xs:w-auto flex-wrap xs:flex-row justify-end items-center gap-2'>
           <div className='relative'>
             <input
               type='text'
-              className='w-full xs:w-40 lg:w-[350px] py-1.5 px-2 border border-gray4 rounded-lg shadow-sm outline-none group focus:border-tint3 placeholder:text-sm'
+              className='w-full  py-1 md:py-1.5  px-2 border border-gray4 rounded-lg shadow-sm outline-none group focus:border-tint3 placeholder:text-sm'
               name=''
               id=''
               placeholder='جستوجو'
@@ -70,7 +75,7 @@ const UserTickets = () => {
             as={"div"}
             className='relative text-sm md:text-base w-full xs:w-auto'
           >
-            <Listbox.Button className='flex w-full xs:w-auto  justify-between items-center gap-1 border border-gray4 px-2 lg:px-6 py-1.5 rounded-lg '>
+            <Listbox.Button className='flex w-full xs:w-auto justify-between items-center gap-1 border border-gray4 px-2 lg:px-6 py-1.5 rounded-lg text-nowrap'>
               <span>مرتب سازی</span>
               <span>
                 <ChevronDownIcon classes='w-4 h-4' />
@@ -183,9 +188,9 @@ const UserTickets = () => {
                     </span>
                   </h6>
                 )}
-                <div className='flex flex-col md:flex-row md:flex-wrap items-center justify-between gap-4 child:flex child:gap-2 child:items-center'>
+                <div className='flex flex-col md:flex-row md:flex-wrap items-center justify-between gap-4 child:flex child:gap-2 child:items-center '>
                   {isTicketOpen === ticketReservationNumber && (
-                    <h6 className='lg:text-lg transition-all duration-200'>
+                    <h6 className='lg:text-lg transition-all duration-200 font-IRANSansXMedium'>
                       <span>
                         <AirPlane />
                       </span>
@@ -256,14 +261,14 @@ const UserTickets = () => {
                   }`}
                 >
                   {/* second row */}
-                  <div className='flex flex-col md:flex-row gap-10 items-center justify-center md:justify-between'>
+                  <div className='flex flex-col md:flex-row gap-6 md:gap-10 items-center justify-center md:justify-between'>
                     <div className='flex justify-center items-center gap-4 xs:gap-4'>
                       <img
                         src='/images/companies/mahan.png'
                         alt='company image'
                         className='w-8 lg:w-10 h-8 lg:h-10 rounded-full object-cover'
                       />
-                      <div className='flex items-center gap-2 xs:gap-4'>
+                      <div className='flex items-center gap-6 md:gap-4'>
                         <div className='flex flex-col'>
                           <span className='text-sm xs:text-base font-IRANSansXBold'>
                             {ticket.ticketInformation?.takeOff || "-"}
@@ -278,7 +283,7 @@ const UserTickets = () => {
                             <TimeIcon classes='w-4 h-4' />
                             {ticket.ticketInformation?.travelTime || "-"}
                           </span>
-                          <span className=' border-dashed border-b w-14 xs:w-20 md:min-w-28 lg:w-full border-gray3 relative'>
+                          <span className='border-dashed border-b w-14 xs:w-20 md:min-w-22 lg:w-32 border-gray3 relative'>
                             <span className='flex-all absolute inset-0 my-auto left-0 w-full text-primary'>
                               <AirPlaneIconPopularServices />
                             </span>
@@ -381,6 +386,13 @@ const UserTickets = () => {
               </div>
             );
           })}
+        {!userTickets && (
+          <div className='flex items-center justify-center my-10 md:my-20 border border-gray3 rounded-lg'>
+            <span className='text-lg font-IRANSansXMedium py-1'>
+              تاریخچه سفری یافت نشد!
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

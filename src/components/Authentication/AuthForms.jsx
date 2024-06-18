@@ -28,10 +28,9 @@ const AuthForms = () => {
   }
 
   const button = (
-    <div>
+    <div onClick={() => openModal()}>
       <span className='hidden md:flex'>
         <ButtonPrimary
-          onClick={() => openModal()}
           classes='py-2 px-4 rounded-lg'
           text='ورود / ثبت نام'
           icon={<UserIcon></UserIcon>}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { NavLink, useNavigate, useLocation, Link } from "react-router-dom";
 import {
   AboutUsIcon,
   AirPlane,
@@ -34,11 +34,13 @@ const Header = () => {
       {/* desktop menu */}
       <div className=' container hidden md:flex items-center justify-between bg-white h-[104px] '>
         <div className='flex items-center gap-8 xl:gap-14'>
-          <img
-            src='/images/mainLogo.svg'
-            alt='Logo'
-            className='w-[100px] xl:w-[148px]'
-          />
+          <Link to='/'>
+            <img
+              src='/images/mainLogo.svg'
+              alt='Logo'
+              className='w-[100px] xl:w-[148px]'
+            />
+          </Link>
           <ul className='flex items-center gap-4 xl:gap-8 child:py-2 w-full font-IRANSansXDemiBold lg:text-xl text-right child:min-h-full'>
             <li>
               <NavLink
@@ -62,7 +64,7 @@ const Header = () => {
             </li>
             <li>
               <NavLink
-                to='/dashBoard'
+                to='/dashBoard/userTickets'
                 onClick={(event) => {
                   if (!currentUser) {
                     event.preventDefault();
@@ -159,7 +161,9 @@ const Header = () => {
         <span onClick={() => setMobileOpenMenu((perv) => !perv)}>
           {openMobileMenu ? <CloseCircleIcon /> : <BarIcon />}
         </span>
-        <img src='/images/mainLogo.svg' alt='Logo' className='w-[100px] ' />
+        <Link to='/'>
+          <img src='/images/mainLogo.svg' alt='Logo' className='w-[100px] ' />
+        </Link>
         <span onClick={() => setMobileOpenMenu(false)}>
           {currentUser !== null ? <LogOutModal /> : <AuthForms />}
         </span>
@@ -192,7 +196,7 @@ const Header = () => {
           </li>
           <li>
             <NavLink
-              to='/dashBoard'
+              to='/dashBoard/userTickets'
               className={({ isActive }) => (isActive ? "text-primary " : "")}
             >
               <AirPlane></AirPlane>
@@ -228,7 +232,7 @@ const Header = () => {
           </li>
           <li>
             <NavLink
-              to='/dashBoard'
+              to='/dashBoard/userInformation'
               className={({ isActive }) => (isActive ? "text-primary" : "")}
             >
               <UserIcon />

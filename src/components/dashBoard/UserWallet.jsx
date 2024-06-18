@@ -43,7 +43,7 @@ const UserWallet = () => {
           />
           <ButtonPrimary
             onClick={() => {
-              setUserWalletValue((prev) => prev + inputPriceValue);
+              setUserWalletValue((prev) => +prev + +inputPriceValue);
               setInputPriceValue("");
             }}
             text='+ افزایش اعتبار'

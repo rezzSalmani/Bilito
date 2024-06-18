@@ -12,6 +12,10 @@ import TicketBuyingProcessProvider from "./store/TicketBuyingProcess";
 import Insurance from "./pages/Insurance.jsx";
 import FindInsuranceContextProvider from "./store/FindInsuranceContext.jsx";
 import UserDashBoard from "./pages/UserDashBoard.jsx";
+import UserTickets from "./components/dashBoard/UserTickets.jsx";
+import UserSupport from "./components/dashBoard/UserSupport.jsx";
+import UserWallet from "./components/dashBoard/UserWallet.jsx";
+import UserInformation from "./components/dashBoard/UserInformation.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -32,6 +36,12 @@ const router = createBrowserRouter([
       {
         path: "/dashBoard",
         element: <UserDashBoard />,
+        children: [
+          { path: "userInformation", element: <UserInformation /> },
+          { path: "userTickets", element: <UserTickets /> },
+          { path: "userSupport", element: <UserSupport /> },
+          { path: "userWallet", element: <UserWallet /> },
+        ],
       },
       {
         path: "/checkout",
