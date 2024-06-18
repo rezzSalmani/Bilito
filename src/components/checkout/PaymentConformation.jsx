@@ -82,7 +82,7 @@ const PaymentConformation = () => {
   };
 
   return (
-    <div className='space-y-10 md:space-y-20'>
+    <div className='space-y-6 md:space-y-10'>
       <div className='flex-all gap-3 md:text-xl bg-successLight2xl text-success py-2 rounded-lg'>
         <CheckCircleIcon classes='w-6 md:w-8 h-6 md:h-8' />
         پرداخت شما با موفقیت انجام شد.
@@ -163,26 +163,26 @@ const PaymentConformation = () => {
               </span>
             </div>
           </div>
+          <button
+            className='flex items-end justify-end gap-1 w-full lg:w-fit xs:gap-2 text-primary cursor-pointer text-xs xs:text-sm'
+            onClick={() => setShowDetails((prev) => !prev)}
+          >
+            جزئیات بیشتر
+            {showDetails ? (
+              <ChevronUpIcon classes='w-4 h-4 xs:w-5 xs:h-5' />
+            ) : (
+              <ChevronDownIcon classes='w-4 h-4 xs:w-5 xs:h-5' />
+            )}
+          </button>
         </div>
-        <span
-          className='flex items-end justify-end gap-1 xs:gap-2 text-primary cursor-pointer text-xs xs:text-sm'
-          onClick={() => setShowDetails((prev) => !prev)}
-        >
-          جزئیات بیشتر
-          {showDetails ? (
-            <ChevronUpIcon classes='w-4 h-4 xs:w-5 xs:h-5' />
-          ) : (
-            <ChevronDownIcon classes='w-4 h-4 xs:w-5 xs:h-5' />
-          )}
-        </span>
       </div>
       {/* ticket Details */}
       <div
         id='ticketDetails'
-        className={`border border-gray4 rounded-lg text-sm transition-all duration-200 ${
+        className={`border border-gray4 rounded-lg text-sm transition-all ease-linear ${
           showDetails
-            ? "visible opacity-100 h-full translate-y-4"
-            : "invisible opacity-0 h-0"
+            ? "h-full opacity-100 visible translate-y-0"
+            : "h-0 opacity-0 invisible -translate-y-40"
         }`}
       >
         <div className='flex h-full child:py-6'>

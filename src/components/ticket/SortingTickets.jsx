@@ -49,7 +49,7 @@ const SortingTickets = () => {
       value={sortingSelected}
       onChange={setSortingSelected}
       as={"div"}
-      className='relative flex flex-col w-1/2 xs:w-1/3 md:w-full shadow-md h-full border-gray3 '
+      className='relative flex flex-col xs:w-1/2 sm:w-1/3 md:w-full shadow-md h-full border-gray3 '
     >
       <>
         <Listbox.Button className='w-full cursor-pointer p-2 bg-white flex items-center justify-between focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 text-sm border rounded-lg'>

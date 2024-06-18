@@ -21,7 +21,11 @@ import {
 } from "../components/UI/icons.jsx";
 import ButtonPrimary from "../components/UI/ButtonPrimary.jsx";
 import { useFindInsuranceContext } from "../store/FindInsuranceContext.jsx";
-
+import {
+  internationalCitiesInsurance,
+  travelTimes,
+  passengerRange,
+} from "../data/data";
 import Modal from "../components/UI/Modal.jsx";
 const servicesDetails = [
   {
@@ -55,36 +59,7 @@ const servicesDetails = [
     des: "بیمهه مسافرتی می‌تواند در صورت خسارت، سرقت یا از دست رفتن وسایل شخصی و اموال شما در سفر تأمین کند",
   },
 ];
-const internationalCities = [
-  "روسیه",
-  "ترکیه",
-  "ارمنستان",
-  "آذربایجان",
-  "انگلیس",
-  "دبی",
-  "عراق",
-];
-const travelTimes = [
-  "1 تا 4 روز",
-  "5 تا 8 روز",
-  "9 تا 10 روز",
-  "11 تا 15 روز",
-  "16 تا 21 روز",
-  "22 تا 23 روز",
-  "24 تا 31 روز",
-  "32 تا 45 روز",
-  "3 ماه",
-  "6 ماه",
-  "1 سال",
-];
-const passengerRange = [
-  { title: "۰ تا ۱۲ سال", identifier: "range0To12" },
-  { title: "۱۳ تا ۶۵ سال", identifier: "range13To65" },
-  { title: "۶۶ تا ۷۰ سال", identifier: "range66To70" },
-  { title: "۷۱ تا ۷۵ سال", identifier: "range71To75" },
-  { title: "۷۶ تا ۸۰ سال", identifier: "range76To80" },
-  { title: "۸۱ سال به بالا", identifier: "range81ToHigher" },
-];
+
 const Insurance = () => {
   const {
     insuranceOptions,
@@ -132,6 +107,7 @@ const Insurance = () => {
     <ButtonPrimary
       text='جستجو'
       type='submit'
+      onClick={() => setIsModal(true)}
       classes='h-full w-full md:w-fit px-4 md:px-8 lg:px-12 rounded-lg py-1.5 md:py-3 mb-auto'
       icon={<SearchIcon />}
     />
@@ -143,6 +119,7 @@ const Insurance = () => {
       <div className='container relative '>
         <div className='h-auto w-full md:absolute -top-40 left-0 right-0 mx-auto flex items-center flex-col md:flex-row justify-between gap-2 mt-4 md:gap-6 lg:gap-10 xl:gap-20 p-4 md:p-6 bg-white rounded-lg shadow-md z-10'>
           <div className='flex w-full flex-col md:flex-row items-center gap-3 lg:gap-6 child:w-full'>
+            {/* city */}
             <Listbox
               value={insuranceOptions.city}
               onChange={(value) => {
@@ -163,15 +140,15 @@ const Insurance = () => {
                   </Listbox.Button>
                   <Transition
                     as={Fragment}
-                    enter='ease-out duration-100'
-                    enterFrom='opacity-0 -translate-y-4'
+                    enter='ease-out transition-all duration-200'
+                    enterFrom='opacity-0 -translate-y-10'
                     enterTo='opacity-100 translate-y-0'
-                    leave='ease-in duration-100'
+                    leave='ease-in transition-all duration-200'
                     leaveFrom='opacity-100 translate-y-0'
-                    leaveTo='opacity-0 -translate-y-4'
+                    leaveTo='opacity-0 -translate-y-10'
                   >
                     <Listbox.Options className='absolute top-[90%] max-h-64 overflow-auto left-0 flex flex-col bg-white rounded-lg border w-full z-20'>
-                      {internationalCities.map((city) => (
+                      {internationalCitiesInsurance.map((city) => (
                         <Listbox.Option
                           className={({ active }) =>
                             `relative cursor-default select-none py-2 0 pr-4 rounded-lg ${
@@ -213,6 +190,7 @@ const Insurance = () => {
                 </div>
               )}
             </Listbox>
+            {/* travel time */}
             <Listbox
               value={insuranceOptions.travelTime}
               onChange={(value) => {
@@ -233,12 +211,12 @@ const Insurance = () => {
                   </Listbox.Button>
                   <Transition
                     as={Fragment}
-                    enter='ease-out duration-100'
-                    enterFrom='opacity-0 -translate-y-4'
+                    enter='ease-out transition-all duration-200'
+                    enterFrom='opacity-0 -translate-y-10'
                     enterTo='opacity-100 translate-y-0'
-                    leave='ease-in duration-100'
+                    leave='ease-in transition-all duration-200'
                     leaveFrom='opacity-100 translate-y-0'
-                    leaveTo='opacity-0 -translate-y-4'
+                    leaveTo='opacity-0 -translate-y-10'
                   >
                     <Listbox.Options className='absolute top-[90%] max-h-64 overflow-auto left-0 flex flex-col bg-white rounded-lg border w-full z-20'>
                       {travelTimes.map((period) => (
@@ -283,6 +261,7 @@ const Insurance = () => {
                 </div>
               )}
             </Listbox>
+            {/* passengers */}
             <Menu as='div' className='relative flex flex-col text-right'>
               {({ open }) => (
                 <>
@@ -303,12 +282,12 @@ const Insurance = () => {
               </span> */}
                   <Transition
                     as={Fragment}
-                    enter='ease-out duration-100'
-                    enterFrom='opacity-0 -translate-y-4'
+                    enter='ease-out transition-all duration-200'
+                    enterFrom='opacity-0 -translate-y-10'
                     enterTo='opacity-100 translate-y-0'
-                    leave='ease-in duration-100'
+                    leave='ease-in transition-all duration-200'
                     leaveFrom='opacity-100 translate-y-0'
-                    leaveTo='opacity-0 -translate-y-4'
+                    leaveTo='opacity-0 -translate-y-10'
                   >
                     <Menu.Items
                       static
@@ -353,7 +332,14 @@ const Insurance = () => {
                                   "decrement"
                                 )
                               }
-                              className='bg-primary text-white rounded-full cursor-pointer'
+                              className={`text-white rounded-full cursor-pointer ${
+                                passenger.identifier === "range13To65" &&
+                                insuranceOptions.passengers[
+                                  passenger.identifier
+                                ] === 1
+                                  ? "bg-gray4"
+                                  : "bg-primary"
+                              }`}
                             >
                               <MinusCircle classes='w-5 h-5 md:w-6 md:h-6' />
                             </span>
@@ -369,15 +355,14 @@ const Insurance = () => {
           <Modal
             button={button}
             closeModal={() => setIsModal(false)}
-            openModal={() => setIsModal(true)}
             isOpen={isModal}
           >
-            <div className='flex flex-col items-center justify-center gap-2 text-center w-72 h-40 bg-white rounded-lg border-gray-400 p-2'>
+            <div className='flex flex-col items-center justify-center gap-4 text-center w-72 h-40 bg-white rounded-lg border-gray-400 p-2'>
               <h6 className='text-errorLight'>
-                متاسفانه بیمه ای در حال حاضر وجود ندارد, لطفا بعدا تلاش کنید .
+                متاسفانه بیمه ای در حال حاضر وجود ندارد لطفا بعدا تلاش کنید.
               </h6>
               <button
-                className='flex items-center gap-2 border bg-warningLight2xl rounded-lg px-3 py-1'
+                className='flex items-center gap-2 border bg-warning text-zinc-200 rounded-lg px-3 py-1'
                 onClick={() => setIsModal(false)}
               >
                 <span>

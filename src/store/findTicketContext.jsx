@@ -3,7 +3,7 @@ import { supabase } from "../supabaseClient";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import { DateObject } from "react-multi-date-picker";
-import { getTravelTimeInMinutes } from "../util/util";
+
 const FindTicketContext = createContext({
   ticketRegion: "",
   ticketType: "",
@@ -40,88 +40,7 @@ const FindTicketContextProvider = ({ children }) => {
     displayToCity: "",
   });
   const [searchedTickets, setSearchedTickets] = useState([]);
-  const [filteredTickets, setFilteredTickets] = useState([
-    {
-      "id": "t4",
-      "price": 2200000,
-      "compony": "چابهار",
-      "sitLeft": 7,
-      "takeOff": "14:30",
-      "isPopular": false,
-      "middleStop": false,
-      "returnable": false,
-      "sourceCity": "تهران",
-      "travelTime": "04:30",
-      "landingTime": "18:40",
-      "ticketLevel": "بیزینس",
-      "componyImage": "/images/companies/chabahar.png",
-      "flightNumber": 235562,
-      "childrenPrice": 1900000,
-      "sourceAirport": "Tehran Airport",
-      "destinationCity": "مشهد",
-      "destinationAirport": "Mashhad Airport",
-    },
-    {
-      "id": "t1",
-      "price": 1200000,
-      "compony": "زاگرس",
-      "sitLeft": 16,
-      "takeOff": "19:30",
-      "isPopular": false,
-      "middleStop": false,
-      "returnable": false,
-      "sourceCity": "تهران",
-      "travelTime": "03:30",
-      "landingTime": "22:40",
-      "ticketLevel": "اکونومی",
-      "componyImage": "/images/companies/zakros.png",
-      "flightNumber": 122434,
-      "childrenPrice": 900000,
-      "sourceAirport": "Tehran Airport",
-      "destinationCity": "مشهد",
-      "destinationAirport": "Mashhad Airport",
-    },
-    {
-      "id": "t3",
-      "price": 1150000,
-      "compony": "ایران ایر",
-      "sitLeft": 3,
-      "takeOff": "18:30",
-      "isPopular": false,
-      "middleStop": false,
-      "returnable": false,
-      "sourceCity": "تهران",
-      "travelTime": "04:30",
-      "landingTime": "21:40",
-      "ticketLevel": "بیزینس",
-      "componyImage": "/images/companies/iranAir.png",
-      "flightNumber": 535215,
-      "childrenPrice": 890000,
-      "sourceAirport": "Tehran Airport",
-      "destinationCity": "مشهد",
-      "destinationAirport": "Mashhad Airport",
-    },
-    {
-      "id": "t2",
-      "price": 1100000,
-      "compony": "کارون",
-      "sitLeft": 10,
-      "takeOff": "15:30",
-      "isPopular": true,
-      "middleStop": false,
-      "returnable": false,
-      "sourceCity": "تهران",
-      "travelTime": "04:00",
-      "landingTime": "19:30",
-      "ticketLevel": "فرست",
-      "componyImage": "/images/companies/karon.png",
-      "flightNumber": 923153,
-      "childrenPrice": 850000,
-      "sourceAirport": "Tehran Airport",
-      "destinationCity": "مشهد",
-      "destinationAirport": "Mashhad Airport",
-    },
-  ]);
+  const [filteredTickets, setFilteredTickets] = useState([]);
   const [isFindBasedHistory, setIsFindBasedHistory] = useState(false);
   const [companiesChecked, setCompaniesChecked] = useState([]);
   const [timeFiltered, setTimeFiltered] = useState([0, 1440]);

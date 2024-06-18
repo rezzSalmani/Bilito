@@ -167,7 +167,10 @@ const PassengerConformInformation = () => {
               className='w-full xs:w-[260px] h-10 rounded-lg border border-gray3 px-2 outline-none'
               placeholder='کد تخفیف'
             />
-            <button className='flex-all w-full xs:w-[100px] h-10 rounded-lg border border-primary text-primary '>
+            <button
+              className='flex-all w-full xs:w-[100px] h-10 rounded-lg border border-primary text-primary'
+              onClick={() => toast.error("این قسمت در دسترس نیست")}
+            >
               ثبت
             </button>
           </div>
@@ -200,12 +203,30 @@ const PassengerConformInformation = () => {
                 <button
                   onClick={handlePayment}
                   disabled={isLoading}
-                  className='w-full xs:w-full px-12 py-2 bg-primary text-white rounded-lg text-sm'
+                  className={`flex items-center justify-center gap-1 w-full xs:w-full px-12 py-2  text-white rounded-lg text-sm ${
+                    isLoading ? "bg-warning animate-pulse" : "bg-primary"
+                  }`}
                 >
-                  {isLoading ? "درحال پرداخت ..." : "پرداخت"}
+                  <span>پرداخت</span>
                   <span className='inline-flex xs:hidden px-2'>
                     {totalPrice?.toLocaleString()} تومان
                   </span>
+                  {isLoading && (
+                    <span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        viewBox='0 0 24 24'
+                        fill='currentColor'
+                        class='w-5 md:w-6 h-5 md:h-6 animate-spin'
+                      >
+                        <path
+                          fill-rule='evenodd'
+                          d='M4.755 10.059a7.5 7.5 0 0 1 12.548-3.364l1.903 1.903h-3.183a.75.75 0 1 0 0 1.5h4.992a.75.75 0 0 0 .75-.75V4.356a.75.75 0 0 0-1.5 0v3.18l-1.9-1.9A9 9 0 0 0 3.306 9.67a.75.75 0 1 0 1.45.388Zm15.408 3.352a.75.75 0 0 0-.919.53 7.5 7.5 0 0 1-12.548 3.364l-1.902-1.903h3.183a.75.75 0 0 0 0-1.5H2.984a.75.75 0 0 0-.75.75v4.992a.75.75 0 0 0 1.5 0v-3.18l1.9 1.9a9 9 0 0 0 15.059-4.035.75.75 0 0 0-.53-.918Z'
+                          clip-rule='evenodd'
+                        ></path>
+                      </svg>
+                    </span>
+                  )}
                 </button>
                 {error && (
                   <span className='absolute right-0 left-0 mx-auto -bottom-[50%] text-xs text-errorLight'>

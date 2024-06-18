@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 const CustomInput = ({
   placeHolder = "تایپ کنید",
   identifier,
@@ -29,15 +26,20 @@ const CustomInput = ({
 
   const validation = validations && {
     value: defaultValue,
-    required: `لطفا ${placeHolder} را وارد کنید`,
-    minLength: {
-      value: min,
-      message: `لطفا حداقل ${min} کاراکتر وارد کنید`,
-    },
-    maxLength: {
-      value: max,
-      message: `لطفا حداکثر ${max} کاراکتر وارد کنید`,
-    },
+    required: `لطفا ${placeHolder} را وارد کنید.`,
+    minLength:
+      (inputType !== "email" && {
+        value: min,
+        message: `لطفا حداقل ${min} کاراکتر وارد کنید`,
+      }) ||
+      "",
+    maxLength:
+      (inputType !== "email" && {
+        value: max,
+        message: `لطفا حداکثر ${max} کاراکتر وارد کنید`,
+      }) ||
+      "",
+
     // valueAsNumber: inputType === "number",
     pattern:
       (inputType === "email" && {
@@ -47,16 +49,17 @@ const CustomInput = ({
       "",
   };
   return (
-    <div className='flex flex-col '>
+    <div className='flex flex-col'>
       <div
-        className={`float-container w-auto relative flex rounded-lg px-2 text-right border shadow-md transition-all duration-200 text-gray8 ${
+        className={`float-container w-auto relative flex flex-col rounded-lg px-2 py-2 md:py-3 text-right border border-gray3 shadow-md transition-all duration-200 text-gray8 ${
           isFocused || myInputValue ? "active " : ""
         } ${isFocused && "border-primary"}`}
-        onClick={handleFocus}
+        // onClick={handleFocus}
+        // onBlur={() => setIsFocused(false)}
       >
         <input
           type={inputType}
-          className='float-field py-4 outline-none border-none w-full bg-white'
+          className='float-field w-full h-full outline-none border-none bg-white'
           onFocus={handleFocus}
           name={inputName}
           // onChange={() => onChange(event, `${identifier}`)}
@@ -69,15 +72,15 @@ const CustomInput = ({
         />
         <label
           htmlFor={inputName}
-          className={`float-label absolute transition-all duration-200 text-sm lg:text-base  ${
-            isFocused ? "move-up" : ""
+          className={`float-label absolute top-0  transition-all duration-200 text-sm lg:text-base  ${
+            isFocused ? "move-up text-primary" : ""
           }`}
         >
           {placeHolder}
         </label>
         {icon && (
           <span
-            className={`absolute left-2 translate-y-1/2 mt-1 ${
+            className={`absolute top-0 left-2 translate-y-1 md:translate-y-1/2 mt-1 ${
               isFocused ? "text-primary" : "text-gray7"
             }`}
           >
@@ -86,7 +89,7 @@ const CustomInput = ({
         )}
       </div>
       <span
-        className={`flex text-sm text-errorLight transition-all h-4 mt-1  ${
+        className={`flex text-xs md:text-sm text-errorLight transition-all pr-1 h-4 mt-1  ${
           errors[`${inputIdentifier}_${identifier}`]
             ? "opacity-100 visible w-full"
             : "opacity-0 invisible w-0"

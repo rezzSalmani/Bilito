@@ -6,6 +6,7 @@ import ButtonPrimary from "../UI/ButtonPrimary";
 import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
+import opacity from "react-element-popper/animations/opacity";
 import {
   ChevronDownIcon,
   SearchIcon,
@@ -14,12 +15,14 @@ import {
   MinusCircle,
   LocationIcon,
   CalenderIcon,
+  TicketIcon,
 } from "../UI/icons";
-const ticketClasses = ["اکونومی", "بیزینس", "فرست"];
-const localCities = ["تهران", "مشهد", "شیراز", "کیش"];
-const internationalCities = ["روسیه", "ایران"];
-
-const TicketInputs = () => {
+import {
+  ticketClasses,
+  localCities,
+  internationalCities,
+} from "../../data/data";
+const TicketInputs = ({ hideMenu = null }) => {
   const {
     from,
     to,
@@ -44,10 +47,11 @@ const TicketInputs = () => {
     if (isTrue) {
       navigate("/flights");
       handleSearchTicket();
+      if (hideMenu) hideMenu();
     }
   };
   return (
-    <div className=' flex items-center gap-2 w-full h-full justify-center flex-wrap lg:flex-nowrap child:outline-none child:border child:h-10 child:lg:h-12 child:rounded-lg child:border-gray3 child:px-2 text-sm sm:text-sm child:md:w-[100px] child:lg:w-[200px] transition-all duration-400'>
+    <div className=' flex items-center gap-2 w-full h-full justify-center flex-wrap lg:flex-nowrap child:outline-none child:border child:h-10 child:rounded-xl child:border-gray3 child:px-2 text-sm sm:text-base  child:md:w-[100px] child:lg:w-[200px] transition-all duration-300'>
       {/* from */}
       <Listbox
         value={from}
@@ -56,46 +60,53 @@ const TicketInputs = () => {
         }}
       >
         <div className='relative child:flex h-full w-full '>
-          <Listbox.Button className='flex items-center justify-between h-full w-full font-IRANSansXBold'>
+          <Listbox.Button className='flex items-center justify-between h-full w-full font-IRANSansXBold '>
             {from ? <span>{from}</span> : <span>مبدا</span>}
             <ChevronDownIcon classes='sm:hidden' />
           </Listbox.Button>
           <Transition
             as={Fragment}
-            enter='ease-out duration-100'
-            enterFrom='opacity-0 -translate-y-4'
+            enter='ease-out transition-all duration-200'
+            enterFrom='opacity-0 -translate-y-10'
             enterTo='opacity-100 translate-y-0'
-            leave='ease-in duration-100'
+            leave='ease-in transition-all duration-200'
             leaveFrom='opacity-100 translate-y-0'
-            leaveTo='opacity-0 -translate-y-4'
+            leaveTo='opacity-0 -translate-y-10'
           >
-            <Listbox.Options className='absolute top-10 max-max-h-40 overflow-auto left-0 flex flex-col bg-white rounded-lg border w-full z-20'>
+            <Listbox.Options className='absolute top-10 max-max-h-40 overflow-auto right-0 flex flex-col bg-white rounded-lg border w-full md:w-[300px] z-20'>
               {tempCities.map((city) => (
                 <Listbox.Option
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 0 pr-4 rounded-lg ${
-                      active ? "bg-gray3 text-black" : "text-gray-900"
+                      active ? "bg-tint1 text-black" : "text-gray-900"
                     }`
                   }
-                  value={city}
-                  key={city}
+                  value={city.name}
+                  key={city.name}
                 >
                   {({ selected }) => (
                     <>
-                      <div className='flex items-center gap-1'>
+                      <div className='flex items-center gap-1 w-full'>
                         <span>
-                          <LocationIcon classes='w-4 h-4' />
+                          <LocationIcon
+                            classes={`w-4 h-4 ${
+                              selected ? "text-success" : ""
+                            }`}
+                          />
                         </span>
                         <span
-                          className={`block truncate ${
-                            selected ? "font-medium" : "font-normal"
+                          className={`block truncate font-IRANSansXBold ${
+                            selected ? "text-success" : ""
                           }`}
                         >
-                          {city}
+                          {city.name}
+                        </span>
+                        <span className='text-[10px] md:text-xs text-gray6 line-clamp-1 pr-1'>
+                          ({city.airPort})
                         </span>
                       </div>
                       {selected ? (
-                        <span className='absolute inset-y-0 left-0 flex items-center pl-3 text-successLight'>
+                        <span className='absolute inset-y-0 left-0 flex items-center pl-3 text-success'>
                           <CheckIcon />
                         </span>
                       ) : null}
@@ -107,9 +118,9 @@ const TicketInputs = () => {
           </Transition>
         </div>
       </Listbox>
-      <span
+      <div
         onClick={() => revereCity()}
-        style={{ width: " fit-content", padding: "0" }}
+        style={{ width: "fit-content", padding: "0" }}
         className='hidden flex-all w-fit border-none cursor-pointer'
       >
         <svg
@@ -126,53 +137,62 @@ const TicketInputs = () => {
             d='M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5'
           />
         </svg>
-      </span>
+      </div>
       {/* to */}
       <Listbox
         value={to}
-        onChange={(value) => updateSearchFlightParameters("to", value)}
+        onChange={(value) => {
+          updateSearchFlightParameters("to", value);
+        }}
       >
-        <div className='relative child:flex h-full w-full'>
-          <Listbox.Button className='flex items-center justify-between h-full w-full font-IRANSansXBold'>
+        <div className='relative child:flex h-full w-full '>
+          <Listbox.Button className='flex items-center justify-between h-full w-full font-IRANSansXBold '>
             {to ? <span>{to}</span> : <span>مقصد</span>}
             <ChevronDownIcon classes='sm:hidden' />
           </Listbox.Button>
           <Transition
             as={Fragment}
-            enter='ease-out duration-100'
-            enterFrom='opacity-0 -translate-y-4'
+            enter='ease-out transition-all duration-200'
+            enterFrom='opacity-0 -translate-y-10'
             enterTo='opacity-100 translate-y-0'
-            leave='ease-in duration-100'
+            leave='ease-in transition-all duration-200'
             leaveFrom='opacity-100 translate-y-0'
-            leaveTo='opacity-0 -translate-y-4'
+            leaveTo='opacity-0 -translate-y-10'
           >
-            <Listbox.Options className='absolute top-10 max-max-h-40 overflow-auto left-0 flex flex-col bg-white rounded-lg border w-full z-20'>
+            <Listbox.Options className='absolute top-10 max-max-h-40 overflow-auto right-0 flex flex-col bg-white rounded-lg border w-full md:w-[300px] z-20'>
               {tempCities.map((city) => (
                 <Listbox.Option
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 0 pr-4 rounded-lg ${
-                      active ? "bg-gray3 text-black" : "text-gray-900"
+                      active ? "bg-tint1 text-black" : "text-gray-900"
                     }`
                   }
-                  value={city}
-                  key={city}
+                  value={city.name}
+                  key={city.name}
                 >
                   {({ selected }) => (
                     <>
-                      <div className='flex items-center gap-1'>
+                      <div className='flex items-center gap-1 w-full'>
                         <span>
-                          <LocationIcon classes='w-4 h-4' />
+                          <LocationIcon
+                            classes={`w-4 h-4 ${
+                              selected ? "text-success" : ""
+                            }`}
+                          />
                         </span>
                         <span
-                          className={`block truncate ${
-                            selected ? "font-medium" : "font-normal"
+                          className={`block truncate font-IRANSansXBold ${
+                            selected ? "text-success" : ""
                           }`}
                         >
-                          {city}
+                          {city.name}
+                        </span>
+                        <span className='text-[10px] md:text-xs text-gray6 line-clamp-1 pr-1'>
+                          ({city.airPort})
                         </span>
                       </div>
                       {selected ? (
-                        <span className='absolute inset-y-0 left-0 flex items-center pl-3 text-successLight'>
+                        <span className='absolute inset-y-0 left-0 flex items-center pl-3 text-success'>
                           <CheckIcon />
                         </span>
                       ) : null}
@@ -200,10 +220,11 @@ const TicketInputs = () => {
           placeholder='تاریخ رفت'
           calendar={persian}
           locale={persian_fa}
-          calendarPosition='bottom-center'
           containerStyle={{
             width: "100%",
           }}
+          animations={[opacity()]}
+          calendarPosition='bottom-center'
         />
         <span
           className='md:hidden lg:block absolute left-2 top-0 bottom-0 my-auto w-fit h-fit'
@@ -219,12 +240,12 @@ const TicketInputs = () => {
         </Menu.Button>
         <Transition
           as={Fragment}
-          enter='ease-out duration-100'
-          enterFrom='opacity-0 -translate-y-4'
+          enter='ease-out transition-all duration-200'
+          enterFrom='opacity-0 -translate-y-10'
           enterTo='opacity-100 translate-y-0'
-          leave='ease-in duration-100'
+          leave='ease-in transition-all duration-200'
           leaveFrom='opacity-100 translate-y-0'
-          leaveTo='opacity-0 -translate-y-4'
+          leaveTo='opacity-0 -translate-y-10'
         >
           <Menu.Items
             static
@@ -349,12 +370,12 @@ const TicketInputs = () => {
           </Listbox.Button>
           <Transition
             as={Fragment}
-            enter='ease-out duration-100'
-            enterFrom='opacity-0 -translate-y-4'
+            enter='ease-out transition-all duration-200'
+            enterFrom='opacity-0 -translate-y-10'
             enterTo='opacity-100 translate-y-0'
-            leave='ease-in duration-100'
+            leave='ease-in transition-all duration-200'
             leaveFrom='opacity-100 translate-y-0'
-            leaveTo='opacity-0 -translate-y-4'
+            leaveTo='opacity-0 -translate-y-10'
           >
             <Listbox.Options className='absolute top-10 w-full md:w-40 md:min-w-full max-h-44 text-nowrap overflow-auto right-0 flex flex-col bg-white rounded-lg border z-10'>
               {ticketClasses.map((ticketClass, index) => (
@@ -362,26 +383,31 @@ const TicketInputs = () => {
                   key={index}
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 0 pr-4 rounded-lg ${
-                      active ? "bg-gray3 text-black" : "text-gray-900"
+                      active ? "bg-tint1 text-black" : "text-gray-900"
                     }`
                   }
                   value={ticketClass}
                 >
                   {({ selected }) => (
-                    <>
+                    <div className='flex items-center gap-1'>
+                      <span>
+                        <TicketIcon
+                          classes={`w-5 w-5 ${selected && "text-success"} `}
+                        />
+                      </span>
                       <span
-                        className={`block truncate ${
-                          selected ? "font-medium" : "font-normal"
+                        className={`block truncate text-sm font-IRANSansXBold ${
+                          selected ? "text-success" : ""
                         }`}
                       >
                         {ticketClass}
                       </span>
                       {selected ? (
-                        <span className='absolute inset-y-0 left-0 flex items-center pl-3 text-successLight'>
+                        <span className='absolute inset-y-0 left-0 flex items-center pl-3 text-success'>
                           <CheckIcon />
                         </span>
                       ) : null}
-                    </>
+                    </div>
                   )}
                 </Listbox.Option>
               ))}
@@ -389,10 +415,10 @@ const TicketInputs = () => {
           </Transition>
         </div>
       </Listbox>
-      <div className='relative w-full h-full  border-none'>
+      <div className='relative w-full h-full border-none'>
         <ButtonPrimary
           onClick={handleSearch}
-          classes=' rounded-lg h-full w-full'
+          classes='rounded-xl h-full w-full'
           text='جستجو'
           icon={<SearchIcon />}
         />

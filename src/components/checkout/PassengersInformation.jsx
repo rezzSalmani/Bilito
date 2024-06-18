@@ -4,7 +4,7 @@ import CustomInput from "../UI/CustomInput";
 import { useForm } from "react-hook-form";
 import { useTicketBuyingProcess } from "../../store/TicketBuyingProcess";
 import { useNavigate } from "react-router-dom";
-import { EmailIcon, PhoneIcon } from "../UI/icons";
+import { CirclesSpinner, EmailIcon, PhoneIcon } from "../UI/icons";
 import { useAuthContext } from "../../store/AuthContext.jsx";
 import HeaderTable from "./HeaderTable.jsx";
 function convertObjectToArray(inputObject) {
@@ -169,6 +169,8 @@ const PassengersInformation = () => {
             icon={<PhoneIcon />}
             defaultValue={userPhone}
             setValue={setValue}
+            min={11}
+            max={11}
           />
         </div>
       </div>
@@ -177,11 +179,17 @@ const PassengersInformation = () => {
         <button
           type='submit'
           // disabled={isSubmitting}
-          className={`w-full xs:w-1/2  text-white md:w-1/3 rounded-lg  h-10 ${
+          className={`w-full xs:w-1/2 text-white md:w-1/3 rounded-lg transition-colors duration-150 h-10 ${
             isValid ? "bg-primary" : "bg-tint5"
           }`}
         >
-          {isSubmitting ? "در حال ارسال" : "ادامه"}
+          {isSubmitting ? (
+            <span>
+              <CirclesSpinner />
+            </span>
+          ) : (
+            "ادامه"
+          )}
         </button>
       </div>
     </form>

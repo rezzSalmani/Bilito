@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Modal from "../UI/Modal";
-import ButtonPrimary from "../UI/ButtonPrimary";
-import { UserIcon } from "../UI/icons";
+import Modal from "../UI/Modal.jsx";
+import ButtonPrimary from "../UI/ButtonPrimary.jsx";
+import { CircleSpinner, UserIcon } from "../UI/icons.jsx";
 import { useAuthContext } from "../../store/AuthContext.jsx";
-import { supabase } from "../../supabaseClient";
+import { supabase } from "../../supabaseClient.js";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -29,9 +29,9 @@ const LogOutModal = ({ customButton = null }) => {
     }
   };
   const Button = customButton ? (
-    customButton
+    <div onClick={() => setIsExistModal(true)}>{customButton}</div>
   ) : (
-    <div>
+    <div onClick={() => setIsExistModal(true)}>
       <ButtonPrimary
         classes='hidden md:flex flex-row-reverse py-2 px-4 rounded-lg items-center'
         text={currentUser?.user_metadata.username || "_"}
@@ -48,7 +48,6 @@ const LogOutModal = ({ customButton = null }) => {
     <Modal
       button={Button}
       closeModal={() => setIsExistModal(false)}
-      openModal={() => setIsExistModal(true)}
       isOpen={isExistModal}
     >
       <div className='flex items-center justify-center flex-col gap-6 md:gap-10 bg-white w-[300px] h-[200px] rounded-lg shadow-md'>
@@ -59,7 +58,13 @@ const LogOutModal = ({ customButton = null }) => {
             onClick={handleLogOut}
             className='bg-successLight'
           >
-            {isLoading ? "خروج ..." : "بله"}
+            {isLoading ? (
+              <span>
+                <CircleSpinner />
+              </span>
+            ) : (
+              "بله"
+            )}
           </button>
           <button
             disabled={isLoading}

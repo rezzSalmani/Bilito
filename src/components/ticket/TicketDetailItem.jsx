@@ -38,6 +38,7 @@ const TicketDetailItem = ({
 
   const button = (
     <button
+      onClick={openModal}
       type='button'
       className='flex items-center justify-center gap-2 px-2 sm:px-3 py-1.5 sm:py-2 bg-primary text-white text-nowrap cursor-pointer rounded-md transition-all text-sm md:text-base font-medium hover:bg-primary/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 active:scale-95'
     >
@@ -83,7 +84,7 @@ const TicketDetailItem = ({
     navigate("/checkout");
   };
   return (
-    <div className=' border border-gray3 rounded-lg p-3 md:p-6 space-y-3 md:space-y-6 w-full xs:w-auto'>
+    <div className='border border-gray3 rounded-lg p-3 md:p-6 space-y-3 md:space-y-6 w-full xs:w-auto'>
       <div className='flex items-center justify-between '>
         <div className='flex-all flex-wrap gap-2 text-[10px] sm:text-xs child:bg-errorLight2xl text-error child:p-1.5 child:rounded-lg'>
           <span>{sitLeft} صندلی باقی مانده </span>
@@ -144,12 +145,7 @@ const TicketDetailItem = ({
           </div>
           {changeTicket}
           {isMoreDetail && (
-            <Modal
-              button={button}
-              isOpen={isModalOpen}
-              closeModal={closeModal}
-              openModal={openModal}
-            >
+            <Modal button={button} isOpen={isModalOpen} closeModal={closeModal}>
               <div className='flex flex-col gap-3 justify-start items-start p-4 xs:p-6 w-screen h-screen xs:h-[560px] md:h-[490px] xs:w-[500px] md:w-[600px] lg:w-[800px] transition-all text-right bg-white rounded-xl'>
                 <Tab.Group
                   selectedIndex={selectedTabIndex}
@@ -260,7 +256,7 @@ const TicketDetailItem = ({
                           <span
                             className={
                               returnable
-                                ? "bg-successLight"
+                                ? "bg-successLight text-warningLight2xl"
                                 : "bg-errorLight2xl"
                             }
                           >

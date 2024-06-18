@@ -15,9 +15,9 @@ import {
   UserIcon,
 } from "../UI/icons";
 import { Popover, Transition } from "@headlessui/react";
-import SingUpSingInForm from "./SingUpSingInForm";
+import AuthForms from "../Authentication/AuthForms.jsx";
 import { useAuthContext } from "../../store/AuthContext.jsx";
-import LogOutModal from "./LogOutModal";
+import LogOutModal from "../Authentication/LogOutModal.jsx";
 import toast from "react-hot-toast";
 const Header = () => {
   const [openMobileMenu, setMobileOpenMenu] = useState(false);
@@ -151,7 +151,7 @@ const Header = () => {
             <span>4045_021 پشتیبانی</span>
             <PhoneIcon />
           </div>
-          {currentUser !== null ? <LogOutModal /> : <SingUpSingInForm />}
+          {currentUser !== null ? <LogOutModal /> : <AuthForms />}
         </div>
       </div>
       {/* mobile menu */}
@@ -161,17 +161,17 @@ const Header = () => {
         </span>
         <img src='/images/mainLogo.svg' alt='Logo' className='w-[100px] ' />
         <span onClick={() => setMobileOpenMenu(false)}>
-          {currentUser !== null ? <LogOutModal /> : <SingUpSingInForm />}
+          {currentUser !== null ? <LogOutModal /> : <AuthForms />}
         </span>
       </div>
       <div
-        className={`md:hidden fixed w-full inset-0 bg-white z-10 transition-all duration-200 ${
+        className={`md:hidden fixed w-full inset-0 bg-white z-10 transition-all ease-linear ${
           openMobileMenu
-            ? "h-[calc(100vh-65px)]  visible opacity-100 translate-y-16"
-            : "invisible opacity-0 h-0"
+            ? "h-[calc(100vh-65px)] opacity-100 visible translate-y-16"
+            : "opacity-0 h-0 invisible"
         }`}
       >
-        <ul className='container flex-all flex-col child:w-fit  child:child:inline-flex child:child:justify-start child:child:gap-2 child:p-2 space-y-3 pt-10 child-hover:text-tint5 transition-all child:transition-all'>
+        <ul className='container flex-all flex-col child:w-fit child:child:inline-flex child:child:justify-start child:child:gap-2 child:p-2 space-y-3 pt-10 child-hover:text-tint5 transition-all child:transition-all'>
           <li>
             <NavLink
               to='/'
@@ -219,17 +219,17 @@ const Header = () => {
           </li>
           <li>
             <NavLink
-              to='/frequent-questions'
+              to='/guide'
               className={({ isActive }) => (isActive ? "text-primary " : "")}
             >
               <QuestionIcon />
-              سوالات متداول
+              راهنمای
             </NavLink>
           </li>
           <li>
             <NavLink
-              to='/login'
-              className={({ isActive }) => (isActive ? "text-primary " : "")}
+              to='/dashBoard'
+              className={({ isActive }) => (isActive ? "text-primary" : "")}
             >
               <UserIcon />
               حساب کاربری

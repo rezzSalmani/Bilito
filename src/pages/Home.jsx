@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   CloseCircleIcon,
   ChevronRightIcon,
@@ -20,104 +20,42 @@ import SearchTicketBox from "../components/ticket/SearchTicketBox";
 import LandingImage from "../components/LandingImage";
 import { useFindTicketContext } from "../store/FindTicketContext";
 import { useNavigate } from "react-router-dom";
-const popularCities = ["تهران", "مشهد", "شیراز", "کیش"];
-const popularCitiesFlights = [
-  {
-    id: "c1",
-    title: "تهران",
-    flights: [
-      {
-        id: "f1",
-        from: "شیراز",
-        to: "تهران",
-        price: 1700000,
-        image: "/images/popularServices1.jpg",
-      },
-      {
-        id: "f2",
-        from: "تهران",
-        to: "کیش",
-        price: 2500000,
-        image: "/images/popularServices2.jpg",
-      },
-      {
-        id: "f3",
-        from: "تهران",
-        to: "مشهد",
-        price: 1500000,
-        image: "/images/popularServices3.jpg",
-      },
-      {
-        id: "f4",
-        from: "مشهد",
-        to: "تهران",
-        price: 1500000,
-        image: "/images/popularServices4.jpg",
-      },
-    ],
-  },
-];
-const frequentQuestions = [
-  {
-    title: "در هر پرواز میزان بار مجاز چقدر است؟",
-    text: "بلیط تمام خطوط هوایی دنیا در سایت بیلیتو موجود است، چه پروازهایی که مبدا یا مقصد آنها ایران است و چه پروازهای داخلی دورترین کشورهای دنیا. پروازهای ایرلاین‌هایی مثل لوفت‌هانزا، امارات، قطرایرویز، ترکیش‌ایر، ایرفرانس، کی‌ال‌ام، آئروفلوت، آلیتالیا، اوکراینی، ایرایژیا، پگاسوس و ده‌ها ایرلاین دیگر در بیلیتو قابل تهیه هستند. همچنین بلیط پروازهای خارجیِ شرکت‌های هواپیمایی داخلی مانند ماهان، ایران‌ایر، قشم ایر، آتا و... نیز روی سایت بیلیتو به فروش می‌رسد.",
-  },
-  {
-    title: "نرخ بلیط هواپیما برای نوزادان و کودکان زیر 12سال چگونه است؟",
-    text: "بلیط تمام خطوط هوایی دنیا در سایت بیلیتو موجود است، چه پروازهایی که مبدا یا مقصد آنها ایران است و چه پروازهای داخلی دورترین کشورهای دنیا. پروازهای ایرلاین‌هایی مثل لوفت‌هانزا، امارات، قطرایرویز، ترکیش‌ایر، ایرفرانس، کی‌ال‌ام، آئروفلوت، آلیتالیا، اوکراینی، ایرایژیا، پگاسوس و ده‌ها ایرلاین دیگر در بیلیتو قابل تهیه هستند. همچنین بلیط پروازهای خارجیِ شرکت‌های هواپیمایی داخلی مانند ماهان، ایران‌ایر، قشم ایر، آتا و... نیز روی سایت بیلیتو به فروش می‌رسد.",
-  },
-  {
-    title: "آیا پس از خرید اینترنتی بلیط هواپیما امکان استرداد آن وجود دارد؟",
-    text: "بلیط تمام خطوط هوایی دنیا در سایت بیلیتو موجود است، چه پروازهایی که مبدا یا مقصد آنها ایران است و چه پروازهای داخلی دورترین کشورهای دنیا. پروازهای ایرلاین‌هایی مثل لوفت‌هانزا، امارات، قطرایرویز، ترکیش‌ایر، ایرفرانس، کی‌ال‌ام، آئروفلوت، آلیتالیا، اوکراینی، ایرایژیا، پگاسوس و ده‌ها ایرلاین دیگر در بیلیتو قابل تهیه هستند. همچنین بلیط پروازهای خارجیِ شرکت‌های هواپیمایی داخلی مانند ماهان، ایران‌ایر، قشم ایر، آتا و... نیز روی سایت بیلیتو به فروش می‌رسد.",
-  },
-  {
-    title:
-      "آیا پس از خرید بلیط هواپیما امکان تغییر نام یا نام خانوادگی وجود دارد؟",
-    text: "بلیط تمام خطوط هوایی دنیا در سایت بیلیتو موجود است، چه پروازهایی که مبدا یا مقصد آنها ایران است و چه پروازهای داخلی دورترین کشورهای دنیا. پروازهای ایرلاین‌هایی مثل لوفت‌هانزا، امارات، قطرایرویز، ترکیش‌ایر، ایرفرانس، کی‌ال‌ام، آئروفلوت، آلیتالیا، اوکراینی، ایرایژیا، پگاسوس و ده‌ها ایرلاین دیگر در بیلیتو قابل تهیه هستند. همچنین بلیط پروازهای خارجیِ شرکت‌های هواپیمایی داخلی مانند ماهان، ایران‌ایر، قشم ایر، آتا و... نیز روی سایت بیلیتو به فروش می‌رسد.",
-  },
-  {
-    title:
-      "هنگامی که از سایت خرید بلیط هواپیما رزرو بلیط را انجام می‌دهیم امکان انتخاب صندلی مورد نظرمان وجود دارد؟",
-    text: "بلیط تمام خطوط هوایی دنیا در سایت بیلیتو موجود است، چه پروازهایی که مبدا یا مقصد آنها ایران است و چه پروازهای داخلی دورترین کشورهای دنیا. پروازهای ایرلاین‌هایی مثل لوفت‌هانزا، امارات، قطرایرویز، ترکیش‌ایر، ایرفرانس، کی‌ال‌ام، آئروفلوت، آلیتالیا، اوکراینی، ایرایژیا، پگاسوس و ده‌ها ایرلاین دیگر در بیلیتو قابل تهیه هستند. همچنین بلیط پروازهای خارجیِ شرکت‌های هواپیمایی داخلی مانند ماهان، ایران‌ایر، قشم ایر، آتا و... نیز روی سایت بیلیتو به فروش می‌رسد.",
-  },
-  {
-    title:
-      "بلیط پرواز چه کشورها ایرلاین‌هایی را می‌توانم‌ در سایت بیلیتو جستجو و خریداری کنم؟",
-    text: "بلیط تمام خطوط هوایی دنیا در سایت بیلیتو موجود است، چه پروازهایی که مبدا یا مقصد آنها ایران است و چه پروازهای داخلی دورترین کشورهای دنیا. پروازهای ایرلاین‌هایی مثل لوفت‌هانزا، امارات، قطرایرویز، ترکیش‌ایر، ایرفرانس، کی‌ال‌ام، آئروفلوت، آلیتالیا، اوکراینی، ایرایژیا، پگاسوس و ده‌ها ایرلاین دیگر در بیلیتو قابل تهیه هستند. همچنین بلیط پروازهای خارجیِ شرکت‌های هواپیمایی داخلی مانند ماهان، ایران‌ایر، قشم ایر، آتا و... نیز روی سایت بیلیتو به فروش می‌رسد.",
-  },
-  {
-    title: "چطور تاریخ پرواز را تغییر دهیم؟",
-    text: "بلیط تمام خطوط هوایی دنیا در سایت بیلیتو موجود است، چه پروازهایی که مبدا یا مقصد آنها ایران است و چه پروازهای داخلی دورترین کشورهای دنیا. پروازهای ایرلاین‌هایی مثل لوفت‌هانزا، امارات، قطرایرویز، ترکیش‌ایر، ایرفرانس، کی‌ال‌ام، آئروفلوت، آلیتالیا، اوکراینی، ایرایژیا، پگاسوس و ده‌ها ایرلاین دیگر در بیلیتو قابل تهیه هستند. همچنین بلیط پروازهای خارجیِ شرکت‌های هواپیمایی داخلی مانند ماهان، ایران‌ایر، قشم ایر، آتا و... نیز روی سایت بیلیتو به فروش می‌رسد.",
-  },
-];
+import {
+  popularCities,
+  popularCitiesFlights,
+  frequentQuestions,
+  tempHistoryCity,
+} from "../data/data";
 
 const Home = () => {
   const [popularCitySelected, setPopularCitySelected] = useState("تهران");
   const historSwiperRef = useRef(null);
-  const naviagte = useNavigate();
+  const navigate = useNavigate();
   const { findTicketBasedHistory } = useFindTicketContext();
-  const [searchTicketHistory, setSearchTicketHistory] = useState([
-    { id: 1, sourceCity: "تهران", distentionCity: "مشهد" },
-    { id: 2, sourceCity: "مشهد", distentionCity: "تهران" },
-    { id: 3, sourceCity: "تهران", distentionCity: "شیراز" },
-    { id: 4, sourceCity: "شیراز", distentionCity: "مشهد" },
-    { id: 5, sourceCity: "مشهد", distentionCity: "شیراز" },
-    { id: 6, sourceCity: "تهران", distentionCity: "مشهد" },
-    { id: 7, sourceCity: "شیراز", distentionCity: "تهران" },
-    { id: 8, sourceCity: "روسیه", distentionCity: "ایران" },
-    { id: 9, sourceCity: "تهران", distentionCity: "کیش" },
-  ]);
+  const [searchTicketHistory, setSearchTicketHistory] =
+    useState(tempHistoryCity);
+  const [isMarquee, setIsMarquee] = useState(
+    Array(searchTicketHistory.length).fill(false)
+  );
   const handleRemoveItem = (itemId) => {
     const updatedItems = searchTicketHistory.filter(
       (item) => item.id !== itemId
     );
     setSearchTicketHistory(updatedItems);
   };
-
   const handleSearchTicketByHistory = (sourceCity, distentionCity) => {
     findTicketBasedHistory(sourceCity, distentionCity);
-    naviagte("flights");
+    navigate("flights");
   };
+  useEffect(() => {
+    const newIsMarquee = searchTicketHistory.map((history) => {
+      const text = ` ${history.sourceCity} به ${history.distentionCity};`;
+      return text.length > 15;
+    });
+    setIsMarquee(newIsMarquee);
+  }, [searchTicketHistory]);
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   return (
     <main className='flex flex-col w-full '>
       {/* Landing Image */}
@@ -130,7 +68,7 @@ const Home = () => {
       <div className='container space-y-4 mt-10 md:mt-52 lg:mt-48 my-6 md:my-10'>
         <div className=' flex text-lg justify-between items-center'>
           <h6 className='text-gray8 flex items-center gap-2'>
-            <span className=' flex-all w-7 h-7 bg-tint2 rounded-full'>
+            <span className=' flex-all w-7 h-7 bg-tint2 rounded-lg'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
@@ -166,7 +104,6 @@ const Home = () => {
                 nextEl: ".nextElement",
               }}
               modules={[Navigation]}
-              centeredSlides={false}
             >
               {searchTicketHistory.map((history, index) => (
                 <SwiperSlide
@@ -175,12 +112,12 @@ const Home = () => {
                   className=' px-2  w-fit '
                   // style={{ transform: `translateX(${sliderPosition}px)` }}
                 >
-                  <div className='flex items-center px-2 sm:w-[165px] text-nowrap gap-1 border rounded-lg py-2 shadow-md overflow-hidden'>
+                  <div className='flex items-center px-2 sm:w-[140px] text-nowrap gap-1 border rounded-lg py-2 shadow-md '>
                     <span onClick={() => handleRemoveItem(history.id)}>
                       <CloseCircleIcon classes='w-4 h-4 md:w-5 md:h-5' />
                     </span>
                     <div
-                      className='flex items-center gap-1 cursor-pointer'
+                      className='flex items-center gap-1 cursor-pointer w-fit relative overflow-hidden '
                       onClick={() =>
                         handleSearchTicketByHistory(
                           history.sourceCity,
@@ -188,9 +125,16 @@ const Home = () => {
                         )
                       }
                     >
-                      <span>{history.sourceCity}</span>
-                      به
-                      <span>{history.distentionCity}</span>
+                      {/* if not fit "animate-marquee" class */}
+                      <span
+                        className={`flex items-center gap-1 cursor-pointer w-fit gap-1 whitespace-nowrap ${
+                          isMarquee[index] ? "animate-marquee" : ""
+                        }`}
+                      >
+                        {history.sourceCity}
+                        &nbsp; به &nbsp;
+                        {history.distentionCity}
+                      </span>
                     </div>
                   </div>
                 </SwiperSlide>
@@ -246,7 +190,7 @@ const Home = () => {
         </div>
       </div>
       {/* popular services */}
-      <div className='container space-y-6 my-7 md:my-10'>
+      <div className='container space-y-6 my-7 md:my-10 '>
         <h6 className='font-IRANSansXBold sm:text-xl text-black'>
           پرطرفدار ترین پروازهای داخلی
         </h6>
@@ -254,7 +198,7 @@ const Home = () => {
           {popularCities.map((city) => (
             <span
               onClick={() => setPopularCitySelected(city)}
-              className={`text-lg px-4 py-1 rounded-lg transition-colors shadow-md ${
+              className={`text-lg px-4 py-1 rounded-lg transition-colors shadow-md cursor-pointer ${
                 popularCitySelected === city
                   ? "bg-tint1 text-primary"
                   : "bg-white text-gray7"
@@ -271,48 +215,45 @@ const Home = () => {
             <Swiper
               spaceBetween={10}
               slidesPerView={"auto"}
-              centeredSlides={true}
+              centeredSlides={false}
               autoplay={{
-                delay: 2500,
-                disableOnInteraction: false,
+                delay: 3000,
+                disableOnInteraction: true,
               }}
               modules={[Autoplay]}
-              className='flex items-center justify-center  w-full gap-2 pt-4'
+              className='flex items-center justify-center pt-4  overflow-hidden'
               key={item.id}
-              breakpoints={{
-                380: {
-                  slidesPerView: 1,
-                  spaceBetween: 10,
-                },
-                480: {
-                  slidesPerView: 2,
-                  spaceBetween: 10,
-                  centeredSlides: false,
-                },
-                640: {
-                  slidesPerView: 3,
-                  spaceBetween: 70,
-                  centeredSlides: false,
-                },
-                1024: {
-                  slidesPerView: 4,
-                  spaceBetween: 10,
-                  centeredSlides: false,
-                },
-              }}
+              // breakpoints={{
+              //   380: {
+              //     slidesPerView: 1,
+              //     spaceBetween: 10,
+              //   },
+              //   480: {
+              //     slidesPerView: 2,
+              //     spaceBetween: 10,
+              //   },
+              //   640: {
+              //     slidesPerView: 3,
+              //     spaceBetween: 160,
+              //   },
+              //   1024: {
+              //     slidesPerView: 4,
+              //     spaceBetween: 10,
+              //   },
+              // }}
             >
               {item.flights.map((flight) => (
                 <SwiperSlide
-                  className='flex items-center w-full shadow-md '
+                  className='flex items-center w-fit shadow-md '
                   key={flight.id}
                 >
                   <img
                     src={flight.image}
                     alt={flight.from}
-                    className='h-full w-[68px] sm:w-auto object-contain'
+                    className='h-full w-[68px] sm:w-auto object-contain rounded-r-md'
                   />
 
-                  <div className='flex items-center justify-between h-[74px] sm:h-[88px] flex-col border border-gray2 rounded-md divide-y divide-gray2 child:px-4 w-full xs:w-fit  child:bg-white'>
+                  <div className='flex items-center justify-between h-[74px] sm:h-[88px] flex-col border border-gray2 rounded-md overflow-hidden divide-y divide-gray2 child:px-4 w-full xs:w-fit  child:bg-white'>
                     {/* city Names */}
                     <div className='flex-all gap-2 items-center w-full h-full '>
                       <span
@@ -360,35 +301,35 @@ const Home = () => {
             <Disclosure key={index}>
               {({ open }) => (
                 <>
-                  <Disclosure.Button className='flex w-full justify-between gap-2 px-4 py-3 md:py-4 text-right hover:bg-gray2 transition-all focus:outline-none focus-visible:ring child:transition-all focus-visible:ring-purple-500/75'>
+                  <Disclosure.Button className='flex w-full justify-between gap-2 px-4 py-3 md:py-4 text-right hover:bg-tint1 transition-all focus:outline-none focus-visible:ring child:transition-all focus-visible:ring-purple-500/75'>
                     <span
-                      className={`flex items-center gap-2 ${
+                      className={`flex items-center gap-2  ${
                         open
-                          ? "text-primary text-xs md:text-sm lg:text-base font-IRANSansXBold"
-                          : "text-xs  md:text-sm lg:text-lg font-IRANSansXMedium"
+                          ? "text-primary text-base md:text-lg lg:text-xl font-IRANSansXBold"
+                          : "text-sm md:text-base lg:text-lg font-IRANSansXMedium"
                       } `}
                     >
-                      <span className='flex-all w-5 h-5 bg-tint2 rounded-full text-primary'>
+                      <span className='flex-all w-5 h-5 bg-tint2 rounded-full text-primary  '>
                         <QuestionIcon />
                       </span>
 
                       {question.title}
                     </span>
                     <ChevronUpIcon
-                      classes={`w-4 h-4 md:w-5 md:h-5 ${
+                      classes={`w-4 h-4 md:w-5 md:h-5  ${
                         open ? " rotate-180 transform text-primary" : ""
                       } `}
                     />
                   </Disclosure.Button>
                   <Transition
-                    enter='transition duration-100 ease-out'
-                    enterFrom='transform -translate-y-2 opacity-0'
-                    enterTo='transform translate-y-0 opacity-100'
-                    leave='transition duration-75 ease-out'
-                    leaveFrom='transform translate-y-0 opacity-100'
-                    leaveTo='transform -translate-y-2 opacity-0'
+                    enter='transition-all duration-200 ease-out'
+                    enterFrom='h-0 opacity-0 -translate-y-2'
+                    enterTo='h-full opacity-100 translate-y-0'
+                    leave='transition-all duration-200 ease-out'
+                    leaveFrom='h-full opacity-100 translate-y-0'
+                    leaveTo=' h-0 opacity-0 -translate-y-8'
                   >
-                    <Disclosure.Panel className='px-4 pb-2 pt-4 text-[10px] md:text-lg text-gray6 text-justify'>
+                    <Disclosure.Panel className='px-4 pb-2 pt-4 text-[10px] md:text-lg text-gray6 text-justify '>
                       {question.text}
                     </Disclosure.Panel>
                   </Transition>
@@ -399,30 +340,32 @@ const Home = () => {
         </div>
       </div>
       {/* benfifts */}
-      <div className='container flex items-center justify-evenly gap-2 text-shade4 text-xs xs:text-sm md:text-xl text-center md:font-IRANSansXBold mt-14 bg-tint1 py-7 rounded-lg shadow-md'>
-        <div className='flex-all flex-col gap-3 md:gap-6 '>
-          <span className='p-1.5 md:p-3.5 rounded-xl md:rounded-3xl border border-primary '>
-            <PcIcon />
-          </span>
-          <span>دسترسی آسان و راحت</span>
-        </div>
-        <div className='flex-all flex-col gap-3 md:gap-6'>
-          <span className='p-1.5 md:p-3.5 rounded-xl md:rounded-3xl border border-primary '>
-            <HeadphoneIcon />
-          </span>
-          <span>پاسخگویی 24 ساعته</span>
-        </div>
-        <div className='flex-all flex-col gap-3 md:gap-6'>
-          <span className='p-1.5 md:p-3.5 rounded-xl md:rounded-3xl border border-primary '>
-            <InternetIcon />
-          </span>
-          <span>خدمات آنلاین</span>
-        </div>
-        <div className='flex-all flex-col gap-3 md:gap-6'>
-          <span className='p-1.5 md:p-3.5 rounded-xl md:rounded-3xl border border-primary '>
-            <CartIcon />
-          </span>
-          <span>کمترین نرخ خرید بلیط</span>
+      <div className=' mt-14 bg-tint2 py-7 rounded-lg shadow-sm'>
+        <div className='container flex items-center justify-evenly gap-2 text-shade4 text-xs xs:text-sm md:text-xl text-center md:font-IRANSansXBold child:flex-all child:flex-col child:gap-3 child:md:ga'>
+          <div>
+            <span className='p-1.5 md:p-3.5 rounded-xl md:rounded-3xl border border-primary bg-white'>
+              <PcIcon />
+            </span>
+            <span>دسترسی آسان و راحت</span>
+          </div>
+          <div>
+            <span className='p-1.5 md:p-3.5 rounded-xl md:rounded-3xl border border-primary bg-white '>
+              <HeadphoneIcon />
+            </span>
+            <span>پاسخگویی 24 ساعته</span>
+          </div>
+          <div>
+            <span className='p-1.5 md:p-3.5 rounded-xl md:rounded-3xl border border-primary bg-white'>
+              <InternetIcon />
+            </span>
+            <span>خدمات آنلاین</span>
+          </div>
+          <div>
+            <span className='p-1.5 md:p-3.5 rounded-xl md:rounded-3xl border border-primary bg-white'>
+              <CartIcon />
+            </span>
+            <span>کمترین نرخ خرید بلیط</span>
+          </div>
         </div>
       </div>
     </main>

@@ -17,50 +17,10 @@ const PassengerDetail = ({
   watch,
   control,
 }) => {
-  const [passengerDetails, setPassengerDetails] = useState({
-    firstName: "",
-    lastName: "",
-    gender: "",
-    nationality: "",
-    nationalCode: "",
-    passPortNumber: "",
-    dateOfBirth: null,
-    passPortExpiry: null,
-  });
-
-  // const [isError, setIsError] = useState("");
-  const changeInputHandler = (event, identifier) => {
-    setIsError("");
-    setPassengerDetails((prev) => {
-      return {
-        ...prev,
-        [identifier]: event.target.value,
-      };
-    });
-  };
-  const userAgeDateHandler = (value, identifier) => {
-    setIsError("");
-    setPassengerDetails((prev) => {
-      return {
-        ...prev,
-        [identifier]: value,
-      };
-    });
-  };
-  const changeGenderHandler = (value) => {
-    setIsError("");
-    setPassengerDetails((prev) => {
-      return {
-        ...prev,
-        gender: value,
-      };
-    });
-  };
-
   return (
     <div className='space-y-4 py-5 md:py-10 z-10'>
       <h6 className='font-IRANSansXMedium text-right'>{age}</h6>
-      <div className='grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'>
+      <div className='grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
         <input
           type='text'
           {...register(inputIdentifier + "_" + "age")}
@@ -107,7 +67,7 @@ const PassengerDetail = ({
           errors={errors}
         />
       </div>
-      <div className='grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'>
+      <div className='grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
         <CustomInput
           placeHolder='ملیت'
           identifier='nationality'
@@ -128,6 +88,8 @@ const PassengerDetail = ({
           watch={watch}
           errors={errors}
           icon={<TagIcon />}
+          min={10}
+          max={12}
         />
         <CustomInput
           placeHolder='شماره پاسپورت'
@@ -139,6 +101,8 @@ const PassengerDetail = ({
           watch={watch}
           errors={errors}
           icon={<DocumentCheckIcon />}
+          min={10}
+          max={20}
         />
         <CustomDateSelector
           placeHolder='تاریخ انقضا پاسپورت'

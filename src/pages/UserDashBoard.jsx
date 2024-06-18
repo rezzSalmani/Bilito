@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   AirPlane,
-  CartIcon,
   CreditCartIcon,
   EditIcon,
   LogOutIcon,
@@ -11,13 +10,13 @@ import {
 import UserInformation from "../components/dashBoard/UserInformation";
 import { useAuthContext } from "../store/AuthContext";
 import { useNavigate } from "react-router-dom";
-import LogOutModal from "../components/header/LogOutModal";
+import LogOutModal from "../components/Authentication/LogOutModal";
 import toast from "react-hot-toast";
 import { supabase } from "../supabaseClient";
 import UserTickets from "../components/dashBoard/UserTickets";
 import UserSupport from "../components/dashBoard/UserSupport";
 import UserWallet from "../components/dashBoard/UserWallet";
-const sections = [
+export const SECTIONS = [
   {
     title: "اطلاعات حساب کاربری",
     icon: <UserIcon />,
@@ -39,10 +38,7 @@ const UserDashBoard = () => {
     user_phoneNumber: currentUser?.user_metadata?.phone || "_",
   });
   const [activeSection, setActiveSection] = useState("user_information");
-
   useEffect(() => {
-    // get bilitio-user form local storage
-
     const user = localStorage.getItem("Bilito-user");
     if (!user) navigate("/");
   }, []);
@@ -79,7 +75,7 @@ const UserDashBoard = () => {
   };
   return (
     <section className='flex flex-col md:flex-row gap-4 lg:gap-6 container py-8'>
-      <div className='min-w-[30%] lg:min-w-[23%] h-fit border border-gray4 rounded-lg p-2 lg:p-4 py-6 space-y-4 shadow-md'>
+      <div className='min-w-[30%] lg:min-w-[23%] h-fit border border-gray4 rounded-lg p-2 lg:p-4 space-y-4 shadow-md'>
         <div className='flex items-center flex-col gap-4'>
           <div className='relative w-fit h-fit'>
             <img
@@ -99,8 +95,8 @@ const UserDashBoard = () => {
           </div>
         </div>
         <span className='h-0.5 block w-full bg-gray4 rounded-lg '></span>
-        <div className='space-y-4 child:flex child:items-center child:justify-between child:gap-1 text-gray8  child:cursor-pointer child-hover:bg-tint1 child-hover:text-primary last:child-hover:text-error child:transition-all child:duration-200 child:py-1 child:rounded-lg child:px-2 child:child:flex child:child:gap-2 child:w-full'>
-          {sections.map((section, index) => (
+        <div className='md:space-y-2 child:flex child:items-center child:justify-between child:gap-1 text-gray8 child:cursor-pointer child-hover:md:bg-tint1 child-hover:md:text-primary last:child-hover:text-error child:transition-all child:duration-200 child:py-2 child:rounded-lg child:px-2 child:child:flex child:child:gap-2 child:w-full font-IRANSansXMedium'>
+          {SECTIONS.map((section, index) => (
             <button
               onClick={() => handleChangeSection(section.identifier)}
               key={index}
@@ -114,9 +110,7 @@ const UserDashBoard = () => {
               </span>
               {activeSection === section.identifier && (
                 <span
-                  className={`w-3 h-3 rounded-full bg-primary ${
-                    isLoading && "animate-ping"
-                  }`}
+                  className={`w-2 h-2 rounded-full bg-primary animate-ping`}
                 ></span>
               )}
             </button>

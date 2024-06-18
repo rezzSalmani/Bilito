@@ -8,7 +8,7 @@ const ButtonPrimary = ({ text, icon, classes = "", ...props }) => {
 
   return (
     <button
-      className={`bg-primary flex items-center justify-center gap-2 text-white font-IRANSansXMedium transition-all active:shadow-2xl active:scale-95 active:translate-y-1 ${classes}`}
+      className={`bg-primary flex items-center justify-center gap-2 text-white font-IRANSansXMedium transition-all hover:shadow-xl active:scale-95 active:translate-y-1 ${classes}`}
       {...props}
     >
       {icon && icon}

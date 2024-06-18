@@ -33,14 +33,17 @@ const UserTickets = () => {
     currentUser?.user_metadata?.tickets || []
   );
   const Button = (
-    <span className='cursor-pointer relative'>
+    <button
+      className='cursor-pointer relative'
+      onClick={() => setIsMessageOpen(true)}
+    >
       <span className='absolute -top-2 right-0 w-fit h-fit p-0.5 text-xs text-errorLight font-IRANSansXBold bg-white '>
         2
       </span>
       <span>
         <ChatBubbleIcon classes='w-5 md:w-7 h-5 md:h-7' />
       </span>
-    </span>
+    </button>
   );
   return (
     <div className='w-full text-gray8 space-y-4 md:space-y-6 lg:space-y-8 '>
@@ -105,7 +108,6 @@ const UserTickets = () => {
               button={Button}
               isOpen={isMessageOpen}
               closeModal={() => setIsMessageOpen(false)}
-              openModal={() => setIsMessageOpen(true)}
             >
               <div className=' p-4 md:p-6 space-y-4 w-full xs:w-[400px] md:w-[600px] lg:w-[700px]'>
                 <div className='space-y-4 border border-tint5 rounded-lg p-4 md:p-6 text-sm'>
@@ -161,13 +163,15 @@ const UserTickets = () => {
             return (
               <div
                 key={ticket.ticketInformation?.reservationNumber}
-                className={`border border-gray3 rounded-lg shadow-md p-4 md:p-6 ${
+                className={`border border-gray3 rounded-lg shadow-md p-2 md:p-4 ${
                   isTicketOpen === ticketReservationNumber && "space-y-6"
                 }`}
               >
                 {/* first row */}
                 {isTicketOpen !== ticketReservationNumber && (
-                  <h6 className={`flex items-center gap-2 md:text-lg mb-4`}>
+                  <h6
+                    className={`flex items-center justify-center md:justify-start gap-2 md:text-lg mb-4 font-IRANSansXMedium`}
+                  >
                     <span>
                       <AirPlane />
                     </span>
@@ -179,7 +183,7 @@ const UserTickets = () => {
                     </span>
                   </h6>
                 )}
-                <div className='flex flex-col md:flex-row md:flex-wrap items-center justify-between gap-5 child:flex child:gap-2 child:items-center'>
+                <div className='flex flex-col md:flex-row md:flex-wrap items-center justify-between gap-4 child:flex child:gap-2 child:items-center'>
                   {isTicketOpen === ticketReservationNumber && (
                     <h6 className='lg:text-lg transition-all duration-200'>
                       <span>
@@ -220,9 +224,9 @@ const UserTickets = () => {
                       ).toLocaleString() || "-"}
                     </span>
                   </div>
-                  {isTicketOpen !== ticketReservationNumber && (
+                  {isTicketOpen !== ticketReservationNumber ? (
                     <button
-                      className='flex items-center flex-1 justify-end gap-1 text-sm  text-primary cursor-pointer text-nowrap'
+                      className='flex items-center flex-1 justify-end gap-1 text-sm font-IRANSansXMedium text-primary cursor-pointer text-nowrap'
                       onClick={() => setIsTicketOpen(ticketReservationNumber)}
                     >
                       جزئیات سفر
@@ -230,13 +234,25 @@ const UserTickets = () => {
                         <ChevronDownIcon classes='w-4 h-4' />
                       </span>
                     </button>
+                  ) : (
+                    <div className='flex items-end justify-end xl:w-full'>
+                      <button
+                        className='flex items-center gap-1 text-sm w-fit text-primary cursor-pointer font-IRANSansXMedium'
+                        onClick={() => setIsTicketOpen(null)}
+                      >
+                        <span>بستن</span>
+                        <span>
+                          <ChevronUpIcon classes='w-4 h-4' />
+                        </span>
+                      </button>
+                    </div>
                   )}
                 </div>
                 <div
-                  className={`flex flex-col justify-end w-full transition-all duration-200 border-t pt-4 ${
+                  className={`flex flex-col justify-end w-full transition-all space-y-6 ease-linear border-t pt-4 ${
                     isTicketOpen === ticketReservationNumber
-                      ? "h-full opacity-100 visible space-y-6"
-                      : "h-0 opacity-0 invisible"
+                      ? "h-full opacity-100 visible translate-y-0"
+                      : "h-0 opacity-0 invisible -translate-y-10"
                   }`}
                 >
                   {/* second row */}
@@ -360,18 +376,6 @@ const UserTickets = () => {
                           </tbody>
                         </table>
                       ))}
-                  </div>
-                  {/* close btn */}
-                  <div className='flex items-end justify-end w-full'>
-                    <button
-                      className='flex items-center gap-1 text-sm w-fit text-primary cursor-pointer'
-                      onClick={() => setIsTicketOpen(null)}
-                    >
-                      <span>بستن</span>
-                      <span>
-                        <ChevronUpIcon classes='w-4 h-4' />
-                      </span>
-                    </button>
                   </div>
                 </div>
               </div>

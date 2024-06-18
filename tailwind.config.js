@@ -5,7 +5,6 @@ export default {
     extend: {
       container: {
         center: true,
-
         padding: {
           DEFAULT: "1rem",
           lg: "0,625rem",
@@ -54,6 +53,9 @@ export default {
         // "YekanBakhRegular": "YekanBakh Regular",
         // "YekanBakhMedium": "YekanBakh Medium",
         // "YekanBakhBold": "YekanBakh Bold",
+      },
+      animation: {
+        marquee: "marquee 5s linear infinite",
       },
       backgroundImage: {
         // "homePageDesktop": "",
