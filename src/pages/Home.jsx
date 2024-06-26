@@ -127,7 +127,7 @@ const Home = () => {
                     >
                       {/* if not fit "animate-marquee" class */}
                       <span
-                        className={`flex items-center gap-1 cursor-pointer w-fit gap-1 whitespace-nowrap ${
+                        className={`flex items-center gap-1 cursor-pointer w-fit whitespace-nowrap ${
                           isMarquee[index] ? "animate-marquee" : ""
                         }`}
                       >
