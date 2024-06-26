@@ -48,11 +48,7 @@ export default {
       fontFamily: {
         "IRANSansXRegular": "IRANSansX Regular",
         "IRANSansXMedium": "IRANSansX Medium",
-        // "IRANSansXDemiBold": "IRANSansX DemiBold",
         "IRANSansXBold": "IRANSansX Bold",
-        // "YekanBakhRegular": "YekanBakh Regular",
-        // "YekanBakhMedium": "YekanBakh Medium",
-        // "YekanBakhBold": "YekanBakh Bold",
       },
       animation: {
         marquee: "marquee 5s linear infinite",
