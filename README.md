@@ -19,9 +19,7 @@
 <h3 align="center">Bilito</h3>
 
   <p align="center">
-      <strong>Online Air Plane Ticket Shop</strong>
-
-DESCRIPTION
+      <strong>Online Ticket Shop</strong>
 <br />
 <a href="https://github.com/rezzSalmani/Bilito"><strong>Explore the docs »</strong></a>
 <br />
@@ -64,15 +62,23 @@ DESCRIPTION
 
 [![Product Name Screen Shot](https://github.com/rezzSalmani/Bilito/blob/main/src/assets/screenShots/goldenCoffee1.png)](https://github.com/rezzSalmani/Bilito)
 
-<p>This project is a Single Page Application (SPA) web application designed for an online coffee product shop. Built with React and styled using Tailwind CSS, it offers a seamless and modern user experience.</p>
+<p>This project is an online airplane ticket reservation system developed using React, Tailwind CSS, and Supabase for database management and user authentication.</p>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Key Features
 
-- **Unique and User-Friendly Design**
+- **User-Friendly and Responsive Design**: ensures a seamless experience across all devices.
+- **Single Page Application (SPA)**: utilizes React Router DOM to provide a multi-page feel within a single-page application.
+- **State Management**: implements React Context API for efficient state management, enabling features like ticket search and purchase.
+- **Supabase Integration**: utilizes Supabase as both a custom and fake data provider for the database.
+- **Comprehensive User Authentication**: includes sign-in, sign-up, and sign-out functionalities, powered by Supabase.
+- **Role-Based Access Control**: restricts access to certain features based on user authentication status.
+- **User Dashboard**: Provides an exclusive view of purchased tickets for each user (Note: user information and wallet features are still under development).
+- **Advanced Sorting and Filtering**: allows sorting and multi-functional filtering of tickets based on criteria such as price, time, and company.
+- **Error and Loading Handling**: ensures a smoother user experience with robust error and loading state management.
+- **Optimized and Dynamic Structure**: features a dynamic and optimized application structure for improved performance.
 
-  Intuitive and aesthetically pleasing interface.
 
   <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -96,11 +102,12 @@ DESCRIPTION
 
 ## Getting Started
 
-To run this project locally, you will need to follow these steps:
+Before you begin, ensure you have met the following requirements:
 
 ### Prerequisites
 
-the project uses <strong>supabase</strong> as database, so you will need to install supabase and store your own data into it, there is a `sample coffee data` inside of data folder you can use.
+- Node.js and npm installed on your machine.
+- Supabase account and project setup for database and authentication.
 
 ### Installation
 
@@ -125,13 +132,27 @@ the project uses <strong>supabase</strong> as database, so you will need to inst
    npm run dev
    ```
 
+ <strong>there is a `ticket data` inside of data folder you can use.</strong>
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
 
 ## Usage
 
-[![Product Name Screen Shot](https://github.com/rezzSalmani/Bilito/blob/main/src/assets/screenShots/godenCoffee2.png)](https://github.com/rezzSalmani/Bilito)
+- Sign Up / Sign In:
+  - Navigate to the authentication page and create a new account or sign in with existing credentials.
+  
+- Search for Tickets:
+  - Use the search bar to find available tickets based on your criteria.
+  
+- Buy Tickets:
+  - Select a ticket from the search results and proceed to purchase.
+
+- View Dashboard:
+  - After signing in, access your user dashboard to view purchased tickets.
+
+- Filter and Sort Tickets:
+  - Use the filter and sort options to refine ticket search results based on price, time, and company.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
