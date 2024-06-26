@@ -25,7 +25,7 @@ import {
   internationalCitiesInsurance,
   travelTimes,
   passengerRange,
-} from "../data/data";
+} from "../data/localData";
 import Modal from "../components/UI/Modal.jsx";
 const servicesDetails = [
   {

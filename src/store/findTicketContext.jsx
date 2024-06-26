@@ -4,6 +4,19 @@ import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import { DateObject } from "react-multi-date-picker";
 
+const searchFlightParametersData = {
+  ticketRegion: "local",
+  ticketType: "oneWay",
+  from: "",
+  to: "",
+  sitType: "",
+  date: "",
+  passengers: { adults: 1, children: 0, baby: 0 },
+  error: "",
+  isLoading: false,
+  displayFromCity: "",
+  displayToCity: "",
+};
 const FindTicketContext = createContext({
   ticketRegion: "",
   ticketType: "",
@@ -26,19 +39,9 @@ export const useFindTicketContext = () => {
   return useContext(FindTicketContext);
 };
 const FindTicketContextProvider = ({ children }) => {
-  const [searchFlightParameters, setSearchFlightParameters] = useState({
-    ticketRegion: "local",
-    ticketType: "oneWay",
-    from: "",
-    to: "",
-    sitType: "",
-    date: "",
-    passengers: { adults: 1, children: 0, baby: 0 },
-    error: "",
-    isLoading: false,
-    displayFromCity: "",
-    displayToCity: "",
-  });
+  const [searchFlightParameters, setSearchFlightParameters] = useState(
+    searchFlightParametersData
+  );
   const [searchedTickets, setSearchedTickets] = useState([]);
   const [filteredTickets, setFilteredTickets] = useState([]);
   const [isFindBasedHistory, setIsFindBasedHistory] = useState(false);
@@ -70,6 +73,9 @@ const FindTicketContextProvider = ({ children }) => {
     //     };
     //   });
     // }
+  };
+  const resetTicketParameters = () => {
+    setSearchFlightParameters(searchFlightParametersData);
   };
   const updateSearchFlightPassengersParameters = (identifier, type) => {
     if (type == "increment") {
@@ -280,6 +286,7 @@ const FindTicketContextProvider = ({ children }) => {
     setPriceFiltered,
     handleFilter,
     resetFilters,
+    resetTicketParameters,
   };
 
   return (

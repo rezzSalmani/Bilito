@@ -125,12 +125,12 @@ const Flights = () => {
               <FilteredTicketClass />
             </div>
           </div>
-          <button
+          {/* <button
             onClick={handleFilter}
             className='bg-primary p-2 rounded-lg text-white mt-auto text-sm'
           >
             اعمال فیلتر‌ها
-          </button>
+          </button> */}
         </div>
         {/* Flights tickets */}
         <div className='container w-full space-y-6' ref={tickets}>

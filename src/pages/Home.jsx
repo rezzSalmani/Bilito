@@ -25,7 +25,7 @@ import {
   popularCitiesFlights,
   frequentQuestions,
   tempHistoryCity,
-} from "../data/data";
+} from "../data/localData";
 
 const Home = () => {
   const [popularCitySelected, setPopularCitySelected] = useState("تهران");

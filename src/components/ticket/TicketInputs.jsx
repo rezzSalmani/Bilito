@@ -21,7 +21,7 @@ import {
   ticketClasses,
   localCities,
   internationalCities,
-} from "../../data/data";
+} from "../../data/localData";
 const TicketInputs = ({ hideMenu = null }) => {
   const {
     from,

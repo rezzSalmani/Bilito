@@ -6,17 +6,22 @@ const SearchTicketBox = () => {
   // const [ticketRegion, setTicketRegion] = useState("local");
   // const [ticketType, setTicketType] = useState("oneWay");
   const [availableTickets, setAvailableTickets] = useState([]);
-  const { ticketRegion, ticketType, updateSearchFlightParameters } =
-    useFindTicketContext();
+  const {
+    ticketRegion,
+    ticketType,
+    updateSearchFlightParameters,
+    resetTicketParameters,
+  } = useFindTicketContext();
 
   return (
     <div className='container md:absolute left-0 right-0 mx-auto px-4 py-6 md:p-6 -bottom-40 my-6 rounded-lg space-y-6 shadow-md w-full bg-white h-fit'>
       <div className='flex items-center justify-center lg:justify-start gap-10 border-b border-gray5 text-sm sm:text-base md:text-lg child:flex child:items-center child:gap-2 text-gray5 child:cursor-pointer child:transition-all'>
         {/* ticket region */}
         <div
-          onClick={() =>
-            updateSearchFlightParameters("ticketRegion", "international")
-          }
+          onClick={() => {
+            updateSearchFlightParameters("ticketRegion", "international");
+            resetTicketParameters();
+          }}
           className={`${
             ticketRegion === "international"
               ? "text-primary font-IRANSansXBold border-b-2 scale-110 border-primary pb-3"
@@ -27,7 +32,10 @@ const SearchTicketBox = () => {
           <span>پرواز خارجی</span>
         </div>
         <div
-          onClick={() => updateSearchFlightParameters("ticketRegion", "local")}
+          onClick={() => {
+            updateSearchFlightParameters("ticketRegion", "local");
+            resetTicketParameters();
+          }}
           className={`${
             ticketRegion === "local"
               ? "text-primary font-IRANSansXBold border-b-2 scale-110 border-primary  pb-3"
