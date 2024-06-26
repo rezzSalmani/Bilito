@@ -19,8 +19,8 @@ const SearchTicketBox = () => {
         {/* ticket region */}
         <div
           onClick={() => {
-            updateSearchFlightParameters("ticketRegion", "international");
             resetTicketParameters();
+            updateSearchFlightParameters("ticketRegion", "international");
           }}
           className={`${
             ticketRegion === "international"
@@ -33,8 +33,8 @@ const SearchTicketBox = () => {
         </div>
         <div
           onClick={() => {
-            updateSearchFlightParameters("ticketRegion", "local");
             resetTicketParameters();
+            updateSearchFlightParameters("ticketRegion", "local");
           }}
           className={`${
             ticketRegion === "local"
