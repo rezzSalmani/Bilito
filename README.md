@@ -60,7 +60,7 @@
 
 ## About The Project
 
-[![Product Name Screen Shot](https://github.com/rezzSalmani/Bilito/blob/main/src/assets/screenShots/goldenCoffee1.png)](https://github.com/rezzSalmani/Bilito)
+[![Product Name Screen Shot](https://github.com/rezzSalmani/Bilito/blob/master/src/assets/screenShots/Bilito-min.png)](https://github.com/rezzSalmani/Bilito)
 
 <p>This project is an online airplane ticket reservation system developed using React, Tailwind CSS, and Supabase for database management and user authentication.</p>
 
@@ -72,6 +72,7 @@
 - **Single Page Application (SPA)**: utilizes React Router DOM to provide a multi-page feel within a single-page application.
 - **State Management**: implements React Context API for efficient state management, enabling features like ticket search and purchase.
 - **Supabase Integration**: utilizes Supabase as both a custom and fake data provider for the database.
+- **React hook form**: tool for handle forms and inputs.
 - **Comprehensive User Authentication**: includes sign-in, sign-up, and sign-out functionalities, powered by Supabase.
 - **Role-Based Access Control**: restricts access to certain features based on user authentication status.
 - **User Dashboard**: Provides an exclusive view of purchased tickets for each user (Note: user information and wallet features are still under development).
