@@ -29,15 +29,30 @@
     font-family: "IRANSansX Regular";
     background-color: #ffffff;
     color: #202020;
+    --sb-track-color: #fcfeff;
+    --sb-thumb-color: #1d91cc;
+    --sb-size: 14px;
   }
-  /* .custom-afterElem-desktop-submenu::after {
-    content: "";
-    display: block;
-    position: absolute;
-    width: 10px;
-    height: 4px;
-    @apply bg-primary rounded-full right-4;
-  } */
+
+  body::-webkit-scrollbar {
+    width: var(--sb-size);
+  }
+
+  body::-webkit-scrollbar-track {
+    background: var(--sb-track-color);
+    border-radius: 8px;
+  }
+
+  body::-webkit-scrollbar-thumb {
+    background: var(--sb-thumb-color);
+    border-radius: 8px;
+  }
+
+  @supports not selector(::-webkit-scrollbar) {
+    body {
+      scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+    }
+  }
   .border-b-custom::after {
     content: "";
     position: absolute;
@@ -126,18 +141,6 @@
       ),
       url("/images/services3.jfif");
   }
-  /* .float-container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    padding: 0 8px;
-    @apply border border-gray4;
-  }
-  .float-container input {
-    border: none;
-    outline: 0;
-    padding: 16px 0 10px;
-  } */
   .float-label {
     position: absolute;
     transform: translate(0, 50%) scale(1);
@@ -181,6 +184,21 @@
   }
   .cal-loader__path {
     animation: 1.4s ease-in-out infinite loader-path;
+  }
+  .custom_navLinks_elem {
+    position: relative;
+  }
+  .custom_navLinks_elem::after {
+    position: absolute;
+    content: " ";
+    width: 100%;
+    height: 2px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    bottom: -4px;
+    border-radius: 18px;
+    background-color: #1d91cc;
   }
 }
 @layer utilities {

@@ -40,22 +40,9 @@ const UserDashBoard = () => {
   const [activeSection, setActiveSection] = useState(subPath);
   useEffect(() => {
     const user = localStorage.getItem("Bilito-user");
-    if (!user) navigate("/");
+    if (!user) return navigate("/");
   }, []);
 
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleLogOut = async () => {
-    setIsLoading(true);
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.log(error);
-      toast.error("مشکلی وحود دارد!");
-    }
-    toast.success("شما با موفقیت خارج شدید.");
-    setIsLoading(false);
-    navigate("/");
-  };
   const handleChangeSection = (identifier) => {
     if (identifier !== "logOut") setActiveSection(identifier);
     // if (identifier === "logOut") {

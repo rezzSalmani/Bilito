@@ -1,16 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  CloseCircleIcon,
-  ChevronRightIcon,
-  ChevronLeftIcon,
-  AirPlaneIconPopularServices,
-  ChevronUpIcon,
-  PcIcon,
-  HeadphoneIcon,
-  InternetIcon,
-  CartIcon,
-  QuestionIcon,
-} from "../components/UI/icons";
 import { Transition, Disclosure } from "@headlessui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
@@ -26,7 +14,18 @@ import {
   frequentQuestions,
   tempHistoryCity,
 } from "../data/localData";
-
+import {
+  CloseCircleIcon,
+  ChevronRightIcon,
+  ChevronLeftIcon,
+  AirPlaneIconPopularServices,
+  ChevronUpIcon,
+  PcIcon,
+  HeadphoneIcon,
+  InternetIcon,
+  CartIcon,
+  QuestionIcon,
+} from "../components/UI/icons";
 const Home = () => {
   const [popularCitySelected, setPopularCitySelected] = useState("تهران");
   const historSwiperRef = useRef(null);
@@ -103,7 +102,12 @@ const Home = () => {
                 prevEl: ".prevElement",
                 nextEl: ".nextElement",
               }}
-              modules={[Navigation]}
+              modules={[Navigation, Autoplay]}
+              autoplay={{
+                delay: 1500,
+                disableOnInteraction: true,
+              }}
+              loop
             >
               {searchTicketHistory.map((history, index) => (
                 <SwiperSlide
