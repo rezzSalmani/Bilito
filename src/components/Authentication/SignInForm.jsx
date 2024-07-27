@@ -29,7 +29,7 @@ const SignInForm = ({
   } = useForm();
   const handleSingIn = async (values) => {
     const pureValues = removeIdentifierFromSingUpForm(values);
-    console.log(pureValues);
+
     setIsLoading(true);
     try {
       const { error } = await supabase.auth.signInWithPassword({

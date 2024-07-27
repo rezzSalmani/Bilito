@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import LandingImage from "../components/LandingImage";
+import LandingImage from "../components/UI/LandingImage";
 import { EmailIcon, MapIcon, PhoneIcon } from "../components/UI/icons";
 import CustomInput from "../components/UI/CustomInput";
 import { useForm } from "react-hook-form";
@@ -29,8 +29,6 @@ const ContactUs = () => {
   } = useForm();
 
   const handleSentMessage = (data, e) => {
-    console.log("first");
-    console.log(data);
     toast.success(`${data.user_fullName} پیام شما دریافت شد`);
     reset();
     window.scrollTo(0, 0);

@@ -59,7 +59,7 @@ const UserInformation = () => {
       getArrayForm.forEach((inputData) =>
         changeUserInformation(inputData.key, inputData.value.trim())
       );
-      console.log(getArrayForm);
+
       setIsEditing(true);
     }
   };

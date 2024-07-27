@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import LandingImage from "../components/LandingImage";
+import LandingImage from "../components/UI/LandingImage";
 import CustomInput from "../components/UI/CustomInput.jsx";
 import { useForm } from "react-hook-form";
 import { Listbox, Menu, Transition } from "@headlessui/react";

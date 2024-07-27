@@ -21,7 +21,7 @@ import SortingTickets, {
 } from "../components/ticket/SortingTickets";
 import TicketDetailItem from "../components/ticket/TicketDetailItem";
 import TicketInputs from "../components/ticket/TicketInputs";
-import LandingImage from "../components/LandingImage";
+import LandingImage from "../components/UI/LandingImage";
 import { useFindTicketContext } from "../store/FindTicketContext";
 import { useNavigate } from "react-router-dom";
 const Flights = () => {

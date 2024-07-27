@@ -58,7 +58,6 @@ const PassengerConformInformation = () => {
         buyingDate,
       });
 
-      console.log(tempSelectedTicket);
       const userResponse = await supabase.auth.getUser();
       if (userResponse.data) {
         const currentTickets =
@@ -76,7 +75,7 @@ const PassengerConformInformation = () => {
           passengersInformation: passengersInformation,
           contactInformation: contactInformation[0],
         };
-        console.log(boughtTicket);
+
         const updatedTickets = [...currentTickets, boughtTicket];
 
         const { data, error } = await supabase.auth.updateUser({

@@ -10,11 +10,9 @@ const AgeSelectInput = ({ label, setValue, valueType, ...props }) => {
 
   const handleAgeSelectorFocus = () => {
     setIsFocused(true);
-    console.log("focus");
   };
   const handleAgeSelectorBlur = () => {
     setIsFocused(false);
-    console.log("blur");
   };
 
   return (

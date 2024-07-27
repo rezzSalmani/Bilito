@@ -28,22 +28,27 @@ const Header = () => {
   useEffect(() => {
     setMobileOpenMenu(false);
   }, [currentRoute]);
-  console.log(currentRoute);
+
   return (
     <header className='sticky top-0 bg-white z-10'>
       {/* desktop menu */}
       <div className=' container hidden md:flex items-center justify-between bg-white h-[104px] '>
         <div className='flex items-center gap-8 xl:gap-14'>
-          <Link to='/'>
+          <n to='/'>
             <img
               src='/images/mainLogo.svg'
               alt='Logo'
               className='w-[100px] xl:w-[148px]'
             />
-          </Link>
+          </n>
           <ul className='flex items-center gap-4 xl:gap-8 child:py-2 w-full font-IRANSansXDemiBold lg:text-xl text-right child:min-h-full child:relative'>
             <li>
-              <NavLink to='/'>صفحه اصلی</NavLink>
+              <NavLink
+                to='/'
+                className={({ isActive }) => (isActive ? "text-primary" : "")}
+              >
+                صفحه اصلی
+              </NavLink>
               <span
                 className={`absolute left-0 right-0 mx-auto bottom-0 h-0.5 rounded-xl bg-primary transition-all ease-linear duration-200 delay-100 ${
                   currentRoute === "/"
@@ -53,7 +58,12 @@ const Header = () => {
               ></span>
             </li>
             <li>
-              <NavLink to='/insurance'>بیمه مسافرتی</NavLink>
+              <NavLink
+                className={({ isActive }) => (isActive ? "text-primary" : "")}
+                to='/insurance'
+              >
+                بیمه مسافرتی
+              </NavLink>
               <span
                 className={`absolute left-0 right-0 mx-auto bottom-0 h-0.5 rounded-xl bg-primary transition-all ease-linear duration-200 delay-100 ${
                   currentRoute === "/insurance"
@@ -64,6 +74,9 @@ const Header = () => {
             </li>
             <li>
               <NavLink
+                className={`${
+                  currentRoute.startsWith("/dashBoard") ? " text-primary" : ""
+                }`}
                 to='/dashBoard/userTickets'
                 onClick={(event) => {
                   if (!currentUser) {
@@ -86,7 +99,15 @@ const Header = () => {
             <Popover as='li' className='relative'>
               {({ open }) => (
                 <>
-                  <Popover.Button className='flex items-center gap-2 h-full outline-none'>
+                  <Popover.Button
+                    className={`flex items-center gap-2 h-full outline-none ${
+                      currentRoute === "/guide" ||
+                      currentRoute === "/about-us" ||
+                      currentRoute === "/contact-us"
+                        ? "text-primary"
+                        : ""
+                    }`}
+                  >
                     سایر موارد
                     {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
                   </Popover.Button>
@@ -95,7 +116,7 @@ const Header = () => {
                       currentRoute === "/guide" ||
                       currentRoute === "/about-us" ||
                       currentRoute === "/contact-us"
-                        ? "w-full opacity-100 visible"
+                        ? "w-full opacity-100 visible "
                         : "w-0 opacity-0 invisible"
                     }`}
                   ></span>

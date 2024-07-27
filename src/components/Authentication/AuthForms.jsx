@@ -6,12 +6,10 @@ import { motion } from "framer-motion";
 import SignUpForm from "./SignUpForm";
 import SignInForm from "./SignInForm";
 const AuthForms = () => {
-  const [isSingIn, setIsSingIn] = useState(false);
   const [isSingFormModal, setIsSingModal] = useState(false);
   const [isError, setIsError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
 
   function closeModal() {
     setIsSingModal(false);
@@ -23,7 +21,7 @@ const AuthForms = () => {
   }
   function changeForm() {
     setIsFlipped((prev) => !prev);
-    // setIsSingIn((prev) => !prev);
+
     setIsError("");
   }
 
@@ -60,7 +58,6 @@ const AuthForms = () => {
           }}
           animate={{ rotateY: isFlipped ? 180 : 360 }}
           transition={{ duration: 0.6, animationDirection: "normal" }}
-          // onAnimationComplete={() => setIsAnimating(false)}
         >
           <SignInForm
             closeModal={closeModal}

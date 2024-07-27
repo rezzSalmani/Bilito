@@ -149,10 +149,10 @@ const PriceCalender = () => {
 
             return (
               <SwiperSlide
-                className='flex w-fit h-full justify-evenly bg-white items-center py-3 child:inline-block flex-col hover:border-b-2 border-b-primary duration-75 transition-all  cursor-pointer font-IRANSansXMedium text-gray7 overflow-hidden'
+                className='flex w-fit h-full justify-evenly bg-white items-center py-3 child:inline-block flex-col text-gray7 hover:text-primary duration-75 transition-all  cursor-pointer font-IRANSansXMedium  overflow-hidden'
                 key={ticket.id}
               >
-                <div className=' text-gray7'>
+                <div className=' '>
                   <span>{date.add(index, "days").format("D MMMM YYYY")}</span>
                 </div>
                 <span>{enDate.add(index, "days").format("D MMMM")}</span>

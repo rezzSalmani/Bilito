@@ -1,5 +1,5 @@
 import React from "react";
-import LandingImage from "../components/LandingImage";
+import LandingImage from "../components/UI/LandingImage";
 
 const AboutUs = () => {
   return (

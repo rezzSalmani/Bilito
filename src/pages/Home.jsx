@@ -5,7 +5,7 @@ import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import SearchTicketBox from "../components/ticket/SearchTicketBox";
-import LandingImage from "../components/LandingImage";
+import LandingImage from "../components/UI/LandingImage";
 import { useFindTicketContext } from "../store/FindTicketContext";
 import { useNavigate } from "react-router-dom";
 import {
